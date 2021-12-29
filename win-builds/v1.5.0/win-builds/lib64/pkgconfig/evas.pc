@@ -1,0 +1,16 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+eoincludedir=${datarootdir}/eolian/include
+eolian_flags=-I${eoincludedir}/evas-1
+
+Name: evas
+Description: Evas canvas display library
+Requires.private: lua >= 5.1.0 libpng >= 1.2.10 harfbuzz >= 0.9.0 fribidi >= 0.19.2 fontconfig >= 2.5.0 freetype2 >= 9.3.0 eina >= 1.11.2 eet >= 1.11.2 eo >= 1.11.2 evil >= 1.11.2 lua >= 5.1.0  
+Version: 1.11.2
+Libs: -L${libdir} -levas
+Libs.private: -ljpeg  lib/evil/libdl.la -lm 
+Cflags: -I${includedir}/efl-1 -I${includedir}/evas-1

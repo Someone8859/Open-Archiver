@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=/opt/windows_64
+libdir=/opt/windows_64/lib64
+includedir=/opt/windows_64/include/freetype2
+
+Name: FreeType 2
+URL: http://freetype.org
+Description: A free, high-quality, and portable font engine.
+Version: 17.4.11
+Requires:
+Requires.private: zlib
+Libs: -L${libdir} -lfreetype
+Libs.private: -L/opt/windows_64/lib64 -lpng14
+Cflags: -I${includedir}

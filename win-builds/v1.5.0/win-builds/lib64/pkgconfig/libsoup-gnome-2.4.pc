@@ -1,0 +1,11 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libsoup
+Description: a glib-based HTTP library
+Version: 2.42.3
+Requires: libsoup-2.4
+Libs: -L${libdir} -lsoup-gnome-2.4
+Cflags: -I${includedir}/libsoup-gnome-2.4

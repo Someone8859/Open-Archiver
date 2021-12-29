@@ -1,0 +1,5 @@
+#ifndef _EVAS_SMART_CLIPPED_EO_LEGACY_H_
+#define _EVAS_SMART_CLIPPED_EO_LEGACY_H_
+
+
+#endif

@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# Slackware build script for json-c
+
+# Written by crocket (crockabiscuit@gmail.com)
+# Maintained by Benjamin Trigona-Harany (slackbuilds@jaxartes.net)
+
+PRGNAM=json-c
+VERSION=${VERSION:-0.12}
+BUILD=${BUILD:-1}
+TAG=${TAG:-_SBo}
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+cd $PRGNAM-$VERSION
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \;
+
+#! PATCH
+# Json-c builds with -Werror and there's an unused variable. Patch is from
+# upstream git and to be removed for > 0.12.
+patch -p1 --verbose -i ${CWD}/remove-unused-variable-size.patch || exit 1
+
+#! PATCH
+# Json-c builds with -Werror and there's an MSVC pragma which GCC warns about.
+sed -i '/#pragma comment(lib, "advapi32.lib")/ d' random_seed.c
+
+# !PATCH
+# AC_FUNC_MALLOC and AC_FUNC_REALLOC test whether malloc(0) and realloc(0, 0)
+# are handled like in GNU and if not, they set this "#define malloc rpl_malloc"
+# and "#define realloc rpl_realloc" which stands for "replacement
+# malloc/realloc".
+# I can't tell if they're needed here (both because I don't know if
+# MS/mingw-w64 functions behave like in GNU and because I can't tell if json-c
+# requires such a behaviour. In any case, currently the replacement functions
+# are not provided which indicates they're probably not needed.
+# The way to avoid these defines is to remove the tests from configure.ac and
+# the defines from config.h.in but in order to avoid a lengthy autoreconf, this
+# only removes changes config.h.in.
+sed -i \
+  -e '/rpl_malloc/ d' \
+  -e '/rpl_realloc/ d' \
+  -e '/^#undef malloc/ d' \
+  -e '/^#undef realloc/ d' \
+  config.h.in
+
+CFLAGS="-O2" \
+CXXFLAGS="-O2" \
+./configure \
+  --prefix=/${PREFIX} \
+  --libdir=/${PREFIX}/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/${PREFIX}/etc \
+  --localstatedir=/${PREFIX}/var \
+  --disable-static \
+  --mandir=/${PREFIX}/man \
+  --docdir=/${PREFIX}/doc/$PRGNAM-$VERSION \
+  --build=${BUILD_TRIPLET} \
+  --host=${HOST_TRIPLET}
+
+make -j1
+make install-strip DESTDIR=$PKG
+
+mkdir -p $PKG/${PREFIX}/doc/$PRGNAM-$VERSION
+cp -a \
+  AUTHORS COPYING ChangeLog INSTALL NEWS README* doc/html \
+  $PKG/${PREFIX}/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/${PREFIX}/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+cat ${CWD}/${PRGNAM}.yypkg.script | sed \
+  -e "s/%{PKG}/${PRGNAM}/" \
+  -e "s/%{HST}/${HOST_TRIPLET}/" \
+  -e "s/%{TGT}//" \
+  -e "s/%{VER}/${VERSION}/" \
+  -e "s/%{BUILD}/${BUILD}/" \
+  -e "s/%{DESCR}/${DESCR:-"No description"}/" \
+  | yypkg --makepkg --output ${YYOUTPUT} --script - --directory "${PKG}/${PREFIX}"
+

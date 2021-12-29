@@ -1,0 +1,12 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: sndfile
+Description: A library for reading and writing audio files
+Requires: 
+Version: 1.0.25
+Libs: -L${libdir} -lsndfile
+Libs.private: -L/opt/windows_64/lib64 -lFLAC   -L/opt/windows_64/lib64 -lvorbisenc   -L/opt/windows_64/lib64 -lvorbis   -L/opt/windows_64/lib64 -logg   
+Cflags: -I${includedir} 

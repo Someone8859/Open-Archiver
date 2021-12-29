@@ -1,0 +1,12 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+
+Name: libexslt
+Version: 0.8.17
+Description: EXSLT Extension library
+Requires: libxml-2.0
+Libs: -L${libdir} -lexslt -lxslt  -L/opt/windows_64/lib64 -lxml2 -lz -liconv  
+Cflags: -I${includedir}

@@ -1,0 +1,13 @@
+# fribidi.pc.  Generated from fribidi.pc.in by configure.
+
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: GNU FriBidi
+Description: Unicode Bidirectional Algorithm Library
+Requires: 
+Version: 0.19.6
+Libs: -L${libdir} -lfribidi
+Cflags: -I${includedir}/fribidi

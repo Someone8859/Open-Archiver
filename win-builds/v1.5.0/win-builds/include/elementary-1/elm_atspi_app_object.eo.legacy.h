@@ -1,0 +1,5 @@
+#ifndef _ELM_ATSPI_APP_OBJECT_EO_LEGACY_H_
+#define _ELM_ATSPI_APP_OBJECT_EO_LEGACY_H_
+
+
+#endif

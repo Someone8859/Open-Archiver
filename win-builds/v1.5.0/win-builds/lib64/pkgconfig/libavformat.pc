@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 55.33.100
+Requires: 
+Requires.private: libavcodec = 55.52.102
+Conflicts:
+Libs: -L${libdir}  -lavformat 
+Libs.private: -lavicap32 -lpsapi -lole32 -lstrmiids -luuid -lws2_32 -liconv -lnettle -lhogweed -lgmp -lx264 -lvorbisenc -lvorbis -logg -ltheoraenc -ltheoradec -logg -L/opt/windows_64/lib64 -lopus -lmp3lame -L/opt/windows_64/lib64 -lgnutls -lm -lz -pthread -lpsapi -ladvapi32 -lshell32
+Cflags: -I${includedir}

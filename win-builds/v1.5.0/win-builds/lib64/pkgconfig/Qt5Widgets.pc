@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include/qt5
+
+
+Name: Qt5 Widgets
+Description: Qt Widgets module
+Version: 5.3.1
+Libs: -L${libdir} -lQt5Widgetsd 
+Libs.private: -lcomdlg32 -loleaut32 -limm32 -lwinmm -lws2_32 -lole32 -luuid -ladvapi32 -lglu32 -lopengl32 -lgdi32 -luser32 -L/opt/windows_64/lib64 -lQt5Guid -lQt5Cored -lshell32  
+Cflags: -I${includedir}/QtWidgets -I${includedir}
+Requires: Qt5Core Qt5Gui
+

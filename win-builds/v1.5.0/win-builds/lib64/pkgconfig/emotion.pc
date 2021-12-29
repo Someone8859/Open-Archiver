@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+modules=/opt/windows_64/lib64/emotion/modules
+generic_players=/opt/windows_64/lib64/emotion/generic_players
+module_arch=v-1.11
+
+Name: emotion
+Description: Emotion evas based multimedia library
+Version: 1.11.2
+Requires.private: eio >= 1.11.2 evas >= 1.11.2 eet >= 1.11.2 ecore >= 1.11.2 eo >= 1.11.2 eina >= 1.11.2 evil >= 1.11.2  
+Libs: -L${libdir} -lemotion
+Cflags: -I${includedir}/efl-1 -I${includedir}/emotion-1

@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include/qt5
+
+
+Name: Qt5 AxBase
+Description: Qt AxBase module
+Version: 5.3.1
+Libs: -L${libdir} -lQt5AxBased 
+Libs.private: -lglu32 -lopengl32 -lgdi32 -luser32 -L/opt/windows_64/lib64 -lQt5Guid -lQt5Cored -lole32 -loleaut32 -luser32 -lgdi32 -ladvapi32 -luuid  
+Cflags: -I${includedir}/ActiveQt -I${includedir}
+Requires: Qt5Core Qt5Gui
+

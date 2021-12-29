@@ -1,0 +1,18 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+sysconfdir=/opt/windows_64/etc
+localstatedir=/opt/windows_64/var
+PACKAGE=fontconfig
+confdir=/opt/windows_64/etc/fonts
+cachedir=LOCAL_APPDATA_FONTCONFIG_CACHE
+
+Name: Fontconfig
+Description: Font configuration and customization library
+Version: 2.11.1
+Requires:  freetype2
+Requires.private:  expat
+Libs: -L${libdir} -lfontconfig
+Libs.private: -L/opt/windows_64/lib64 -lexpat   -L/opt/windows_64/lib64 -lfreetype    
+Cflags: -I${includedir} -I/opt/windows_64/include   -I/opt/windows_64/include/freetype2 -I/opt/windows_64/include    

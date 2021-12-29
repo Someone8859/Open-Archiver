@@ -1,0 +1,11 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: x264
+Description: H.264 (MPEG4 AVC) encoder library
+Version: 0.138.x
+Libs: -L/opt/windows_64/lib64 -lx264
+Libs.private:   
+Cflags: -I${prefix}/include

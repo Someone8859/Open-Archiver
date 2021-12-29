@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+eoincludedir=${datarootdir}/eolian/include
+
+Name: eolian
+Description: EFL's .eo parser and code generator.
+Version: 1.11.2
+Libs: -L${libdir} -leolian
+Libs.private: 
+Cflags: -I${includedir}/efl-1 -I${includedir}/eolian-1

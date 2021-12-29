@@ -1,0 +1,12 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: Eina
+Description: A Library that implements fast data types and miscellaneous tools
+Requires.private: evil >= 1.11.2 evil >= 1.11.2  
+Version: 1.11.2
+Libs: -L${libdir} -leina  -lpthread
+Libs.private:  -lm lib/evil/libdl.la lib/evil/libdl.la -liconv 
+Cflags: -I${includedir}/efl-1 -I${includedir}/eina-1 -I${includedir}/eina-1/eina

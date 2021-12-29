@@ -1,0 +1,10 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libdvdcss
+Description: DVD access and decryption library.
+Version: 1.3.0
+Libs: -L${libdir} -ldvdcss
+Cflags: -I${includedir} -I${includedir}/dvdcss

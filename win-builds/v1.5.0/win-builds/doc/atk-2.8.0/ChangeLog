@@ -1,0 +1,1000 @@
+=== ChangeLog discontinued ===
+
+	With the move to git, atk is switching from a ChangeLog file
+	to relying on commit messages to provide change history. Please
+	see README.commits for guidance on the expected message format.
+
+2009-03-19  Li Yuan  <liyuan@goaltender>
+
+	Patch from Yue Wang. Bug #575794.
+	* atk/atkcomponent.c:
+	* atk/atkdocument.c:
+	* atk/atkhyperlink.c:
+	* atk/atkhyperlinkimpl.c:
+	* atk/atkmisc.c:
+	* atk/atkobject.c:
+	* atk/atkobject.h:
+	* atk/atkrelation.c:
+	* atk/atkrelationset.c:
+	* atk/atkstreamablecontent.c:
+	* atk/atktext.c:
+	* atk/atkutil.c:
+	* atk/atkvalue.c:
+	Change "ATK 1.x" to "1.x". Avoid build error.
+
+2009-03-16  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.26.0 for GNOME 2.26.0.
+
+2009-03-06  Sven Herzberg  <herzi@lanedo.com>
+
+	Improve the documentation
+
+	* docs/atk-sections.txt: added AtkStateSet; this will enable a link to
+	the right page, as well as display the inheritance relation to GObject
+	(so people can see that g_object_unref is the right function - instead
+	of implying this by the absence of any free function)
+	* docs/tmpl/atkstateset.sgml: updated auto-built file
+
+2008-12-01  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	 Revved to 1.25.2 for GNOME 2.25.2.
+
+2008-11-27  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in:
+	Bug #562204. Remove dependency of gmodule.
+
+2008-11-27  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkobject.c: (atk_role_get_name),
+	(atk_role_get_localized_name), (atk_role_for_name):
+	* atk/atktext.c: (atk_text_attribute_get_value):
+	Bug #505445. Patch from Christian Persch. Removed unnecessary
+	memory relocations.
+
+2008-11-14  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkobject.c:
+	Bug #361757. Add ATK_ROLE_LINK and ATK_ROLE_INPUT_METHOD_WINDOW
+	to role_items so their name can be got.
+	* atk/atkrelation.c: (atk_relation_set_property):
+	Bug #478620. Fix memory when atk_relation_set_property.
+
+2008-11-11  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkgobjectaccessible.c:
+	Bug #560156. Fix parameter type description.
+
+2008-11-10  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkobject.c: (atk_object_remove_relationship):
+	Bug #477708. Only remove the target, not the relation if
+	there are still are targets.
+	* atk/atkrelation.c: (atk_relation_remove_target):
+	* atk/atkrelation.h: New API.
+	* atk/atkrelationset.c: (atk_relation_set_add),
+	(atk_relation_set_remove): 
+	Add/remove the new relation's targets to/from the existed 
+	relation if there has been a relation with the same type.
+	* atk/atkstateset.c: (atk_state_set_or_sets):
+	Bug #478595. Return NULL if sets are empty.
+
+2008-11-10  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkrelationset.c: (atk_relation_set_add):
+	Don't ref the relation if it is not added.
+
+2008-11-07  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkrelationset.c: (atk_relation_set_add):
+	Bug #478583. Do not add the relation if it is already
+	in the relationset.
+
+2008-11-07  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkutil.c: (atk_add_global_event_listener),
+	(atk_add_key_event_listener):
+	Bug #480126.
+	Change the return value to 0 if failure accroding to doc.
+
+2008-09-22  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.24.0 for GNOME 2.24.0.
+
+2008-09-19  Tor Lillqvist  <tml@novell.com>
+
+	* atk-zip.sh.in: Message catalogs are in share/locale, not
+	lib/locale.
+
+2008-09-13  Tor Lillqvist  <tml@novell.com>
+
+	* atk/atkobject.c: Don't use the deprectated
+	g_win32_get_package_installation_subdirectory(). Use
+	g_win32_get_package_installation_directory_of_module()
+	instead. Also, don't use the deprecated silly
+	G_WIN32_DLLMAIN_FOR_DLL_NAME() macro, but an explicit minimal
+	DllMain() that just saves the DLL handle.
+
+2008-09-09  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in:
+	Bug #551474. add LINGUAS file to pass make dist.
+
+2008-08-06  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: On Windows set LIB_EXE_MACHINE_FLAG to X86 or X64
+	depending on host architecture.
+
+	* atk/Makefile.am: Use it if/when running lib.exe.
+
+2008-07-28  Tor Lillqvist  <tml@novell.com>
+
+	* atk/Makefile.am (libatk_1_0_la_DEPENDENCIES): Depend on atk.def
+	on Windows so that we build it before trying to use it.
+
+2008-07-21  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.23.5 for GNOME 2.23.5.
+	* atk/Makefile.am:
+	generate atk.def from atk.symbols.
+
+
+2008-07-11  Runa Bhattacharjee <runabh@gmail.com>
+
+	* configure.in: Added Pashto (ps) to ALL_LINGUAS
+
+2008-06-19  Li Yuan  <li.yuan@sun.com>
+
+	* atk/Makefile.am:
+	* atk/atk.def:
+	* atk/atk.symbols:
+	* atk/atkhyperlink.h:
+	* atk/atkobject.h:
+	* docs/tmpl/atkhyperlink.sgml:
+	* docs/tmpl/atkobject.sgml:
+	Patch from Mike Gorse <mgorse@novell.com>. Bug #526752.
+	Mark deprecated symbols with ATK_DISABLE_DEPRECATED.
+
+2008-06-05  Michael Natterer  <mitch@imendio.com>
+
+	Bug #535704:
+
+	* configure.in: add G_DISABLE_SINGLE_INCLUDES and
+	ATK_DISABLE_SINGLE_INCLUDES to CPPFLAGS.
+
+	* atk/atk.h: define __ATK_H_INSIDE__ around including all other
+	headers.
+
+	* atk/atk*.h: add single-include guards that #error out if
+	ATK_DISABLE_SINGLE_INCLUDES is defined and any of these files is
+	included individually. Use G_BEGIN_DECLS/G_END_DECLS in all files.
+
+	* atk/Makefile.am: define ATK_COMPILATION while building ATK.
+	Add single-include guards to the generated atk-enum-types.h too.
+
+2008-03-10  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.22.0 for GNOME 2.22.0.
+
+2008-02-25  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.21.92 for GNOME 2.21.92.
+
+2008-01-31  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atktext.c: (atk_text_get_character_at_offset),
+	(atk_text_get_text_at_offset):
+	Bug #508846. Extend allowed indexes of 
+	ATK_TEXT_GET_TEXT_AT_OFFSET and
+	ATK_TEXT_GET_CHARACTER_AT_OFFSET to allow values -1 and -2.
+
+2008-01-14  Li Yuan  <li.yuan@sun.com>
+
+	* NEWS:
+	* configure.in:
+	Revved to 1.21.5 for GNOME 2.21.5.
+
+2008-01-04  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkutil.h:
+	Bug #502840. Derived type definition convenience macros
+	* tests/Makefile.am:
+	Bug #500978. Fixes the building of the test modules 
+	as dynamic on Cygwin and MinGW.
+
+2007-09-24  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkhyperlink.c: (atk_hyperlink_class_init):
+	Fix bug #477763. Correct registration of the 
+	"start-index" property for AtkHyperlink.
+
+2007-09-17  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.20.0 for GNOME 2.20.0.
+
+2007-08-03  Danishka Navin  <danishka@gmail.com>
+
+	* configure.in: added "si" (Sinhala) to ALL_LINGUAS.
+
+2007-07-30  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.19.6 for GNOME 2.19.6.
+
+2007-07-27  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkutil.c: (atk_get_version):
+	* atk/atkutil.h:
+	Bug #460851. A new API to get the current version of ATK.
+
+2007-06-04  Li Yuan <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.19.3 for GNOME 2.19.3.
+	Remove gnome-doc-utils dependence.
+
+2007-05-11  Brian Cameron  <brian.cameron@sun.com>
+
+	* Use $(GLIB_MKENUMS) instead of calling glib-mkenums directly.
+	  This works better when you build with glib via an
+	  uninstalled.pc file.
+
+2007-04-25  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* configure.in: added "oc" (Occitan) to ALL_LINGUAS.
+
+2007-04-23  Li Yuan <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.19.1 for GNOME 2.19.1.
+
+2007-04-11  Li Yuan <li.yuan@sun.com>
+
+	* autogen.sh, configure.in: use gnome-autogen.sh to simplify
+	autogen.sh.
+
+2007-03-22  Christian Persch <chpe@gnome.org>
+
+	Fix for #418194.
+	* atk/Makefile.am: use -DATK_LOCALEDIR.
+	* configure.in: remove AM_GLIB_DEFINE_LOCALEDIR.
+
+2007-03-22  Christian Persch <chpe@gnome.org>
+
+	Fix for #382328.
+	* atk/atkrelation.c: (atk_relation_type_get_name): add missing const.
+	* atk/atkstate.c: (atk_state_type_get_name): ditto.
+	* atk/atktext.c: (atk_text_attribute_get_name): ditto.
+
+2007-03-12  Li Yuan <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.18.0 for GNOME 2.18.0.
+
+2007-03-02  Li Yuan <li.yuan@sun.com>
+
+	* atk/atkobject.c: 
+	(atk_object_notify_state_change):
+	Fix #408527. Add a check.
+
+2007-02-25  Tor Lillqvist  <tml@novell.com>
+
+	* atk/atkmisc.h: Fix typo: declare atk_misc_get_type(), not
+	atk_util_get_type().
+
+	* atk/atk.def: Add atkmisc entry points.
+
+2007-02-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* Makefile.am: Dist MAINTAINERS.
+
+2007-02-13  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkstate.h: Clarified documentation for
+	ATK_STATE enumerations.  See bug #398038.
+
+	* atk/atkrelation.c: Point to atk_object_add_relationship, 
+	to clarify and simplify use of AtkRelation.  See bug #367627.
+	
+2007-02-12  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.17.0.
+
+2007-02-12  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkmisc.c:
+	(atk_misc_threads_enter), (atk_misc_threads_leave):
+	Bug #404592. Don't do anything if misc is NULL.
+
+2007-01-22  Li Yuan  <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Revved to 1.13.2.
+
+2007-01-19  Li Yuan  <li.yuan@sun.com>
+
+	* atk/atkmisc.c:
+	(atk_misc_threads_enter), (atk_misc_threads_leave):
+	Bug #329454. Use ATK_MISC_GET_CLASS to get AtkMiscClass
+	to use the overloaded functions. 
+
+2007-01-13  Hans Breuer  <hans@breuer.org>
+
+	* atk/makefile.msc : adapt lib name to "auto-standard", add atkmisc
+
+2007-01-10  Li Yuan <li.yuan@sun.com>
+
+	* configure.in:
+	* atk/atkmisc.h:
+	Revved to 1.13.1.
+
+2007-01-08  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkaction.c:
+	(atk_action_get_name): Clarified what is expected 
+	in an action name, and numerated some commonly-used names.
+	(atk_action_get_keybinding): Improve the documentation
+	for the string returned by this API.
+
+2007-01-08  Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in: Revved to 1.13.0, since new API
+	has been added for gnome 2.17.5.  (ATK is
+	now API frozen for gnome 2.18.)
+
+	* atk/atkmisc.[ch]: New class which provides
+	miscellaneous utilities including
+	(atk_misc_threads_enter, atk_misc_thread_leave): New, 
+	see bug #329454.
+
+	* docs/tmpl/atkmisc.sgml:
+	Docs for AtkMisc.
+	
+	* docs/tmpl/atkhyperlinkimpl.sgml: Added minimal
+	doc for AtkHyperlinkImpl struct.
+	
+2006-12-05  Li Yuan <li.yuan@sun.com>
+
+	* configure.in, NEWS:
+	Bump to 1.12.4, for gnome 2.17.4.
+
+2006-12-04  Bill Haneman <bill.haneman@sun.com>
+	
+	* Added Li Yuan <li.yuan@sun.com> to MAINTAINERS.
+
+2006-10-01  Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in, NEWS:
+	Bump to 1.12.3, for gnome 2.16.1.
+	
+2006-09-26  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atktext.c:
+	(atk_text_attribute_get_value): Allow 
+	the wrap value to be 3 (bug #357847).
+
+2006-09-14  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/docs/atkdocument.sgml:
+	Update docs to include signals, and revise description.
+	
+	Following code changes from Neo Liu <nian.lui@sun.com>
+
+	* atkdocument.c:
+	(atk_document_base_init): New, add signals
+	"load_complete", "load_stopped", "reload".
+
+	* atknoopobject;c:
+	(atk_no_op_object_get_type): Add 'AtkDocument'
+	interface type to this test AtkObject class.
+	
+2006-09-19  Sunil Mohan Adapa  <sunil@atc.tcs.co.in>
+
+	* configure.in: Added "te" to ALL_LINGUAS
+
+2006-09-14  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atk.def: Added some missing symbols for win32 build.
+	Patch from Cedric Gustin, bug #355912.
+	
+	* atk/atkhyperlink.c:
+	(atk_hyperlink_is_selected_link): Mark deprecated, since
+	ATK_STATE_SELECTED gives the same information for hyperlinks.
+	Bug #340553.
+	
+	* atk/atktext.c:
+	(atk_text_attribute_get_value): Allow value of
+	PANGO_UNDERLINE_ERROR, since this is not an error condition, but
+	denotes the underline style used to indicate spelling errors.
+	Bug #346464.
+	
+2006-09-08  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkhyperlinkimpl.c:
+	(atk_hyperlink_impl_get_hyperlink): Add missing
+	return statement - thanks to Neo Liu for finding this.
+	Bug #352227.
+
+2006-09-01  Abel Cheung  <abel@oaka.org>
+
+	* configure.in: Added 'dz' 'ku' to ALL_LINGUAS.
+
+2006-08-21 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in: Revved to 1.12.2.
+	
+2006-08-17 Bill Haneman <bill.haneman@sun.com>
+
+	* docs/atk-docs.sgml: Added entity for AtkHyperlinkImpl.
+
+	* docs/atk-sections.txt: Added entries for newly added API.
+
+	* atk/atkvalue.c:
+	(atk_value_get_minimum_increment): Added the right number of
+	asterisks to make gtk-doc happy (!) so that inline docs are exposed.
+	
+	Fixes bug #351580.
+	
+2006-08-01 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkobject.h:
+	Improved docs for ATK_ROLE_APPLICATION, ATK_ROLE_ALERT.
+	
+2006-07-03 Runa Bhattacharjee <runabh@gmail.com>
+
+	* configure.in: Added Bengali India (bn_IN) to ALL_LINGUAS.
+
+2006-06-29 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkhyperlinkimpl.h:
+	* atk/atkhyperlinkimpl.c:
+	(atk_hyperlink_impl_get_hyperlink): New method and 
+	interface, allows a client to obtain the 
+	AtkHyperlink instance associated with an AtkObject.
+	See RFE #344284.
+
+	* configure.in: Bumped to 1.12.1.
+
+2006-06-23 Bill Haneman <bill.haneman@sun.com>
+
+	* docs/atk-docs.sgml: Add index sections.
+	* atk/*.c: Fix 'Since' and 'Deprecated' tags so that
+	index xsl parser can find them.  Bug #313183.
+
+	* atk/atkobject.h:
+	Added ATK_ROLE_LINK and ATK_ROLE_INPUT_METHOD_WINDOW, 
+	bug #345367 and #140635.
+	
+2006-06-21 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkstateset.c:
+	(ATK_STATE): Patch from Ginn Chen, bug #345407.
+	Fix ATK_STATE macro for state values > 32.
+	
+2006-06-15 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkstreamablecontent.h, atkstreamablecontent.c:
+	Fix nasty typo.  Bug #344915.
+	
+2006-06-14 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkstreamablecontent.h, atkstreamablecontent.c:
+	(atk_streamable_content_get_uri): New method, returns a string
+	representing a URI from which content may be streamed.
+	See RFE #344885.
+	
+2006-06-08 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/Makefile.am: Added $(srcfile) to win32
+	libatk_1_0_la_LDFLAGS,
+	bug #336802.  Hope that works, as I don't have a win32 build env
+	to test on.
+	
+2006-06-08 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in: Revved to 1.12.0 after tagging the repository with
+	gnome-2-14 (if we need to create/work on the old branch).
+	
+	* atk/atkobject.h, atkobject.c: Added ATK_ROLE_FORM (bug #344142).
+	
+	* atk/atkrelationtype.h: Added ATK_RELATION_DESCRIPTION_FOR, 
+	ATK_RELATION_DESCRIBED_BY (bug #344144).
+
+	* atk/atkstate.h: Added ATK_STATE_DEFAULT (bug #344281) and
+	ATK_STATE_VISITED (bug #344384), also ATK_STATE_ANIMATED which
+	is in AT-SPI but was not yet in ATK.
+
+	* atk/atkvalue.h, atkvalue.c: Add atk_value_get_minimum_increment
+	(missing despite being in AT-SPI's IDL for Value: bug #341875)
+	
+2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Remove obsolete no.po referrals
+	* po/no.po: Same.
+
+2006-03-28 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in, NEWS: Revved to 1.11.4, to include docs improvements.
+	
+2006-03-24  Gora Mohanty  <gmohanty@cvs.gnome.org>
+
+        * configure.in: Added 'or' (Oriya) to ALL_LINGUAS.
+
+2006-03-21 Bill Haneman <bill.haneman@sun.com>
+
+	gtk-doc documentation fixes: ATK now has 100% API coverage
+	with no incomplete function/struct descriptions.
+	
+	* atk/atkdocument.c: Edited docs to make gtk-doc happier.
+	* atk/atkimage.c: Ditto.
+	* atk/atkobject.c: Moved 'Deprecated' tag relative to 'Returns',
+	to make gtk-doc happier.
+	* atk/atkobject.h: Documented AtkPropertyValues.
+	* atk/atkrelationtypes: Documented the unused/invalid types
+	ATK_RELATION_TYPE_NULL and ATK_RELATION_TYPE_LAST_DEFINED.
+	* atk/atktext.h: Documented AtkTextBoundaryType.
+	* atk/atkutil.h: Documented AtkKeyEventStruct.
+	* docs/atksections.txt: Added missing function entries.
+	* docs/tmpl/atkhypertext.sgml: Added long description.
+	* docs/tmpl/atkregistry.sgml: Added long description.
+	* docs/tmpl/atkrelationset.sgml: Added long description.
+	* docs/tmpl/atkstreamablecontent.sgml: Added long description.
+	
+2006-03-21  Tor Lillqvist  <tml@novell.com>
+
+	* atk/atkobject.c (get_atk_locale_dir): Fix fatal typo.
+
+	* atk/atk.def: Add some missing functions.
+
+2006-03-20  Vladimer Sichinava  <vlsichinava@gmail.com>
+
+        * configure.in: Added "ka" (Georgian) to ALL_LINGUAS
+
+2006-03-20 Bill Haneman <bill.haneman@sun.com>
+	
+	* atk/atkutil.h: Added missing info on AtkEventListener,
+	AtkEventListenerInit, and AtkKeySnoopFunc. bug #320911.
+
+	* atk/atkimage.h: Moved information about '-1' return values
+	to the corresponding parameters.  bug #320916.
+	
+	* atk/atkobject.c: Fixed some docs issues in comment blocks.
+
+	* docs/tmpl/atkobject.sgml: Clarify children-changed signal
+	params. bug #162410.
+	
+2006-03-20 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkimage.c: Bug detected by Behdad Esfahbod
+	(atk_image_get_position): Allow for NULL-in params.
+	(atk_image_get_size): Allow for NULL in-params.
+	
+2006-03-13 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in, NEWS: Revved to 1.11.3.
+	This is the GNOME 2.14.0 version of ATK.
+	
+2006-02-24 Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkobject.c:
+	(get_atk_locale_dir): Make sure to convert from UTF-8 to
+	correct filename encoding; bug #317458 from Kazuzi IWAMOTO.
+
+	* atk/atkobject.c:
+	* atk/atktext.c:
+	Const patch from Arjan Van de Van; adds 'const' to 
+	internal atk structures and methods where appropriate.
+
+2006-01-17 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in: Revved to 1.11.1.
+	Re-dist using a working gtk-doc, so that docs are included.
+	
+2006-01-16 Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in: Revved to 1.11.0.
+	
+2005-12-27  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "zh_HK" to ALL_LINGUAS.
+
+2005-11-17  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkobject.h:
+	(AtkRoleType): Added ATK_ROLE_ENTRY, ATK_ROLE_CHART,
+	ATK_ROLE_CAPTION, ATK_ROLE_DOCUMENT_FRAME, ATK_ROLE_HEADING,
+	ATK_ROLE_PAGE, ATK_ROLE_SECTION, ATK_ROLE_REDUNDANT_OBJECT.
+	(AtkAttributeSet): Moved here from AtkText.
+	(AtkObjectClass): Added get_attributes vfunc pointer.
+
+	(atk_object_get_attributes): New public method.
+	
+	* atk/atkobject.c:
+	(atk_object_get_attributes): New method implementation, 
+	uses AtkObjectClass->get_attributes.   This method allows
+	the assignment of weakly-type attributes to any AtkObject
+	instance, as name-value pairs.
+	(AtkRoleItem): Added names for the new roles.
+	
+	* atk/atkstate.h:
+	(AtkStateType): Added ATK_STATE_INVALID_ENTRY, 
+	ATK_STATE_SUPPORTS_AUTOCOMPLETION, ATK_STATE_SELECTABLE_TEXT.
+	Tweaked docs for other states.
+	
+	* atk/atkimage.h:
+	(AtkImageClass): Added get_image_locale vfunc.
+	(atk_image_get_image_locale): New method.
+
+	* atk/atkimage.c:
+	(atk_image_get_image_locale): New method.
+
+	* atk/atkcomponent.h:
+	(AtkComponentClass): Added get_alpha vfunc.
+	(atk_component_get_alpha): New method.
+	
+	* atk/atkcomponent.c:
+	(atk_component_get_alpha): New method.
+
+	* atk/atkdocument.h:
+	(AtkDocument): Added vfuncs for document locale and
+	document attributes.
+	(atk_document_get_locale): New.
+	(atk_document_get_attributes): New.
+	(atk_document_get_attribute_value): New.
+	(atk_document_set_attribute_value): New.
+
+	* atk/atkdocument.c: 
+	(atk_document_get_locale): New.
+	(atk_document_get_attributes): New.
+	(atk_document_get_attribute_value): New.
+	(atk_document_set_attribute_value): New.	
+	
+2005-11-16  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkimage.c:
+	* atk/atkhypertext.c:
+	* atk/atkobjectfactory.c:
+	* atk/atktable.c: Moved error return code
+	description to 'Returns' section.
+	* docs/tmpl/atkutil.sgml:
+	Committed a docs patch from Bill Abt.
+	
+2005-11-01  Simos Xenitellis  <simos@gnome.org>
+
+	* configure.in: Added tt (Tatar) to ALL_LINGUAS.
+
+2005-09-05  Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in, NEWS: Release 1.10.3, 
+	with a working libtool (1.10.2 was a bad release, don't use).
+
+2005-08-29  Bill Haneman <bill.haneman@sun.com>
+
+	* configure.in, NEWS: Release 1.10.2.
+
+2005-08-19  Tor Lillqvist  <tml@novell.com>
+
+	* atk-zip.sh.in: Drop the timestamp from the zip file
+	names. Include the .def file.
+
+	* atk/Makefile.am (install-def-file): Fix typo.
+
+2005-08-04  Tor Lillqvist  <tml@novell.com>
+
+	* configure.in: Look for windres on Win32.
+
+	* atk/Makefile.am: Don't use the script in GLib's build/win32 to
+	compile the rc file into a resource object file. (This means we
+	lose the build number increment magic, but I doubt it was that
+	useful anyway.) Instead use windres directly. To pass a normal .o
+	file produced by windres through libtool, which wants .lo files,
+	pass it directly to the linker using a -Wl option.
+
+	* atk/atk.rc.in: Correspondingly, replace BUILDNUMBER with 0.
+
+2005-07-18  Abduxukur Abdurixit <abdurixit@gmail.com>      
+
+	* configure.in: Added 'ug' to ALL_LINGUAS.
+
+2005-06-08  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* configure.in: Added 'gl' to ALL_LINGUAS.
+
+2005-04-28  Bill Haneman <billh@gnome.org>
+
+	* configure.in: Patch from Michael Meeks to
+	make atk 1.9's dependency on gtk+ 2.6 soft, i.e. 
+	don't require gmodule-no-export-2.0.
+	Restores compatibility of atk 1.9 series with gtK 2.4.X.
+
+	Revved to 1.10.1.
+
+2005-04-22  Tor Lillqvist  <tml@novell.com>
+
+	* atk/atkobject.c: Initialize gettext before use. Calling
+	bindtextdomain() and bind_textdomain_codeset() in
+	atk_role_get_localized_name() was too late. Put the calls in new
+	function gettext_initialization() and call that from
+	atk_object_class_init() and atk_role_get_localized_name(). Move
+	the Win32-specific DllMain() and get_atk_locale_dir() functions
+	and the redefinition of ATK_LOCALEDIR before
+	gettext_initialization() as it uses ATK_LOCALEDIR. Fixes #170948
+	for atk's part. Thanks to Robert Ögren, Daniel Atallah and Kevin
+	Stange.
+
+2005-04-09  Hans Breuer  <hans@breuer.org>
+
+	* atk/makefile.msc : updated $(LIBINTL_LIBS)
+	atkrelationtype.h to atk_headers, PKG_VER
+
+2005-04-05  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkstate.h: Added ATK_STATE_REQUIRED, to
+	indicate that explicit user interaction with a UI control is
+	required, i.e. for web forms elements with the 'required' tag.
+	See bug #172663.
+	
+2005-04-04  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkrelation.c: Update doc to note that atk_relation_add_target
+	was added for version 1.9.
+
+	* atk/atkrelationset.c: Update doc to note that 
+	atk_relation_set_add_relation_by_type was added for version 1.9.
+
+2005-03-30  Steve Murphy  <murf@e-tools.com>
+
+	* configure.in: Added "rw" to ALL_LINGUAS.
+
+2005-03-08  Bill Haneman <bill.haneman@sun.com>
+
+	* ===== Released 1.9.1=====
+
+	* configure.in, NEWS, README: Released 1.9.1.
+
+2005-02-23  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk.spec.in:  Corrected FTP directory. (bug #168218)
+	Corrected spelling
+
+2005-02-08  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "xh" to ALL_LINGUAS.
+
+2005-01-26  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atk.def: Add atk_text_clip_type_get_type. Bug #165288.
+
+2004-12-29  Tor Lillqvist  <tml@iki.fi>
+
+	* atk/atk.def: Add new functions.
+
+2004-12-20  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkrelationtype.h: Add description for ATK_RELATION_SUBWINDOW_OF.
+	Fixes bug #161562.
+
+2004-11-29  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released 1.9.0=====
+
+	* configure.in: Version 1.9.0, interface age 0, binary age 900
+
+	* NEWS: Updated.
+
+Thu Nov 25 14:11:41 2004  Manish Singh  <yosh@gimp.org>
+
+	* autogen.sh: rm autom4te.cache, since it might interfere with
+	differing autoconf versions.
+
+2004-11-22  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkobject.c: Replace DEPRECATED by @Deprecated in comments
+	to fix warning when documentation is generated.
+
+	* atk/atkrelation.[ch]: 
+	* docs/tmpl/atkrelation.sgml: Add atk_relation_add_target.
+
+	* atk/atkrelationset.[ch]:
+	* atk/tmpl/atkrelationset.sgml: 
+	Add atk_relation_set_add_relation_by_type.
+
+	* docs/atk-sections.txt: Add atk_relation_add_target and
+	atk_relation_set_add_relation_by_type.
+
+	Fixes bug #158722.
+
+2004-11-17  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* configure.in: Use gmodule-no-export.pc, requires glib 2.5.7.
+	Patch from Matthias Clasen for bug #158531. 
+	Incremented version to 1.9.0. 
+	Branch for gnome-2-8 has been created.
+	
+2004-11-11  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "as" to ALL_LINGUAS.
+
+2004-10-28  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* docs/atk-docs.sgml: Add a more descriptive title in the docs.
+	Patch from Diego Gonzalez. (bug #156296)
+
+	* atk/text.c (Clarify meaning of end_offset for 
+	atk_text_get_text_at_offset().
+	Patch from Bill Haneman. (bug #156574)
+
+2004-09-14  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "ar" to ALL_LINGUAS.
+
+2004-09-10  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* configure.in: Added "th" to ALL_LINGUAS.
+
+2004-09-07  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released 1.8.0=====
+
+	* configure.in: Version 1.8.0, interface age 0, binary age 800
+
+	* NEWS: Updated.
+
+2004-08-16  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "bs" to ALL_LINGUAS.
+
+2004-08-13  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* *atk/atkdocument.c atk/atkeditabletext.c atk/atkhypertext.c
+	atk/atkimage.c atk/atknoopobjectfactory.c atkobject.c 
+	atk/atkstreamablecontent.c atk/atktext.c attk/atkvalue.c:
+	Fix for bug #149990; patch from Kjartan Maraas.
+
+2004-08-12  Kjartan Maraas  <kmaraas@gnome.org>
+ 
+	* configure.in: Added nb to ALL_LINGUAS.
+
+2004-08-09  Ankit Patel <ankit@redhat.com>
+
+	* configure.in: Added "gu" to ALL_LINGUAS.
+
+2004-07-28  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* configure.in: Increment version to 1.7.3 and interface age to 3.
+
+	* ===== Released Version 1.7.3, interface age 3, binary age 703 ====
+
+	* NEWS: Updated.
+	
+2004-07-20  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* docs/atk-sections.txt: Add entries to fix warning when generating
+	documentation.
+
+	* docs/tmpl/atkcomponent.sgml docs/tmpl/atkhyperlink.sgml 
+	docs/tmpl/atkhypertext.sgml docs/tmpl/atkobject.sgml 
+	docs/tmpl/atkrelation.sgml docs/tmpl/atkselection.sgml 
+	docs/tmpl/atktable.sgml docs/tmpl/atktext.sgml: Changes to generated
+	files.
+
+2004-07-20  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released Version 1.7.2, interface age 2, binary age 702 ====
+
+	* NEWS: Updated.
+	
+2004-07-20  Bill Haneman <bill.haneman@sun.com>
+
+	* atk/atkobject.h, atkobject.c, atk-object-enum.c:
+	Added ATK_ROLE_EMBEDDED, "embedded component", which is a 
+	context hint for assistive technologies that the contained
+	children share a context which differs from the embedding
+	container.  Fixes bug #147989.
+
+	* configure.in: Revved to 1.7.2.
+	
+2004-06-10  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkcomponent.h: Add definition for atk_rectangle_get_type
+	and ATK_TYPE_RECTANGLE.
+	* atk/atkcomponent.c (atk_component_base_init): Correct definition
+	of "bounds-changed" signal.
+	(atk_rectangle_copy): New function.
+	(atk_rectangle_get_type): New function.
+
+2004-06-08  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* configure.in: Increment version to 1.7.2 and interface age to 2.
+
+2004-06-08  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released Version 1.7.1, interface age 1, binary age 701 ====
+
+	* NEWS: Updated.
+	
+2004-06-04  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* docs/atk-sections.txt: Add AtkRectangle.
+
+	* docs/tmpl/atkcomponent.sgml: Add description for bounds-changed
+	signal.
+
+2004-05-29  Christian Rose  <menthos@menthos.com>
+
+	* configure.in: Added "tk" to ALL_LINGUAS.
+
+2004-05-18  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkobject.c: Allow locale dir not to be harcoded into binary.
+	Fixes bug #128906.
+
+2004-05-11  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* atk/atkobject.c: Make extra_roles static.
+
+	* atk/atkrelation.c: Make extra_names static.
+
+	Fixes bug #142234.
+
+	* atk/atkstate.h: Add clarification of state ATK_STATE_ENABLED to
+	documentation.
+
+2004-04-22  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* configure.in: Increment version to 1.7.1 and interface age to 1.
+
+2004-04-22  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released Version 1.7.0, interface age 0, binary age 700 ====
+
+	* NEWS: Updated.
+
+2004-04-20  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* configure.in: Increment version to 1.7.0.
+
+	* atk/atkcomponent.[ch]: Add new signal "bounds_changed". 
+	* docs/tmpl/atkcomponent.sgml: Add new signal "bounds_changed".
+
+	Fixes bug #140476.
+
+	* atk/atkrelationtype.h: Add new relation ATK_RELATION_PARENT_WINDOW_OF.
+	* atk/atkstate.h: Add new state ATK_STATE_TRUNCATED.
+	* docs/tmpl/atkrelation.sgml: Add new relation 
+	* docs/tmpl/atkstate.sgml: Add new state ATK_STATE_TRUNCATED 
+	 
+	Fixes bug #133375.
+
+	* atk/atktext.c: Make extra_attributes static.
+
+2004-04-19  Padraig O'Briain  <padraig.obriain@sun.com>
+
+	* ===== Released 1.6.1=====
+
+	* configure.in: Version 1.6.1, interface age 1, binary age 601
+
+	* NEWS: Updated.
+
+	* README: Fix typo.
+
+2004-04-08  Guntupalli Karunakar  <karunakar@freedomink.org>
+
+        * configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
+
+2004.04.02  IÃ±aki LarraÃ±aga  <dooteo@euskalgnu.org>

@@ -1,0 +1,12 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: ecore-win32
+Description: E core library, Win32 module
+Requires.private: eina >= 1.11.2 eo >= 1.11.2 ecore >= 1.11.2 ecore-input >= 1.11.2 evil >= 1.11.2  
+Version: 1.11.2
+Libs: -L${libdir} -lecore_win32
+Libs.private:  -lole32 -lgdi32
+Cflags: -I${includedir}/efl-1 -I${includedir}/ecore-win32-1

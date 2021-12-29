@@ -1,0 +1,12 @@
+# Package Information for pkg-config
+
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libpcre16
+Description: PCRE - Perl compatible regular expressions C library with 16 bit character support
+Version: 8.36
+Libs: -L${libdir} -lpcre16
+Cflags: -I${includedir} 

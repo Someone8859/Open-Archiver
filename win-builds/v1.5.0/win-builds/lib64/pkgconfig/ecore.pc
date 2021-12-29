@@ -1,0 +1,18 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+modules=/opt/windows_64/lib64/ecore
+module_arch=v-1.11
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+eoincludedir=${datarootdir}/eolian/include
+eolian_flags=-I${eoincludedir}/ecore-1
+
+Name: ecore
+Description: Ecore event abstraction library
+Requires.private: eina >= 1.11.2 eo >= 1.11.2 evil >= 1.11.2  
+Version: 1.11.2
+Libs: -L${libdir} -lecore
+Libs.private:  -lm -L/opt/windows_64/lib64 -lintl -R/opt/windows_64/lib64
+Cflags: -I${includedir}/efl-1 -I${includedir}/ecore-1

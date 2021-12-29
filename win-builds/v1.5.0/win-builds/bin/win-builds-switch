@@ -1,0 +1,91 @@
+#!/bin/awk /^#_/ { print gensub("^#_", "", "1") } END { exit 1 }
+# The shebang above will display the message below for people who run the
+# script in a new shell instead of sourcing it in their current shell.
+
+#_!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#_
+#_  ERROR!
+#_
+#_  This script is being executed in a separate shell while it has to execute
+#_  in an already existing one.
+#_
+#_  This means you have started this script as "win-builds-switch 64" (or 32)
+#_  while you need to prepend ". " in front of that command for it to be
+#_  effective:
+#_    source win-builds-switch 64
+#_
+#_  (and before you ask, while your mistake has been noticed automatically, it
+#_  cannot be corrected automatically)
+#_
+#_!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+if [ -n "${ZSH_VERSION}" ]; then
+  EMULATE="$(emulate)"
+  emulate sh
+fi
+
+replace_in_path() {
+  local GLOB="${1}"
+  local RE="${2}"
+  local REPLACEMENT="${3}"
+
+  case ":${PATH}:" in
+    *:${GLOB}:*) PATH="$(echo "${PATH}" | sed "s;${RE};${REPLACEMENT};g")" ;;
+    *)           PATH="${REPLACEMENT}:${PATH}" ;;
+  esac
+  export PATH
+  echo 'Set ${PATH}='"${PATH}"'.' 1>&2
+}
+
+put_toolchain_in_path() {
+  local BASE="${1}"
+  local BITS="${2}"
+
+  local GLOB RE REPLACEMENT
+  if [ -n "${BITS}" ]; then
+    GLOB="${BASE}_??"
+    RE="${BASE}_.."
+    REPLACEMENT="${BASE}_${BITS}"
+  else
+    GLOB="${BASE}"
+    RE="${BASE}"
+    REPLACEMENT="${BASE}"
+  fi
+
+  replace_in_path \
+    "/opt/${GLOB}/bin" \
+    "/opt/${RE}/bin" \
+    "/opt/${REPLACEMENT}/bin"
+}
+
+unset PKG_CONFIG_PATH
+echo 'Unset ${PKG_CONFIG_LIBDIR}.' 1>&2
+
+if [ x"$1" = x"clean" ]; then
+  unset PKG_CONFIG_LIBDIR
+  echo 'Unset ${PKG_CONFIG_LIBDIR}.' 1>&2
+  export PATH="$(echo "${PATH}" | sed -e 's;/opt/windows_../bin;;g' -e 's/::/:/g')"
+  echo 'Set ${PATH}='"${PATH}"'.' 1>&2
+else
+  if ! grep '^\(CYGWIN\|Linux\)' /proc/version >/dev/null 2>/dev/null; then
+    # MSYS
+    PKG_CONFIG_LIBDIR="C:/win-builds/lib64/pkgconfig"
+    put_toolchain_in_path "windows" "64"
+  else
+    # Cygwin, Linux, possibly any other
+    PKG_CONFIG_LIBDIR="/opt/windows_64/lib64/pkgconfig"
+    put_toolchain_in_path "cross_toolchain" "64"
+    put_toolchain_in_path "native_toolchain" ""
+    export QMAKEPATH="/opt/windows_64"
+    echo 'Set ${QMAKEPATH}='"${QMAKEPATH}"'.' 1>&2
+    export QMAKESPEC="win32-g++"
+    echo 'Set ${QMAKESPEC}='"${QMAKESPEC}"'.' 1>&2
+  fi
+
+  export PKG_CONFIG_LIBDIR
+  echo 'Set ${PKG_CONFIG_LIBDIR}='"${PKG_CONFIG_LIBDIR}"'.' 1>&2
+fi
+
+if [ -n "${EMULATE}" ]; then
+  emulate "${EMULATE}"
+fi

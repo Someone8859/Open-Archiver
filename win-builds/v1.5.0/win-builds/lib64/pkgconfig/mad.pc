@@ -1,0 +1,12 @@
+PACKAGE_TARNAME=libmad
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: MAD
+Description: libmad library
+Version: 0.15.1b
+Libs: -L${libdir} -lmad
+Libs.private:
+Cflags: -I${includedir}

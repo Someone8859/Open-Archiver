@@ -1,0 +1,36 @@
+
+Libpng 1.4.14 - November 20, 2014
+
+This is a public release of libpng, intended for use in production codes.
+
+Files available for download:
+
+Source files with LF line endings (for Unix/Linux) and with a
+"configure" script
+
+   libpng-1.4.14.tar.xz (LZMA-compressed, recommended)
+   libpng-1.4.14.tar.gz
+   libpng-1.4.14.tar.bz2
+
+Source files with CRLF line endings (for Windows), without the
+"configure" script
+
+   lpng1414.7z (LZMA-compressed, recommended)
+   lpng1414.zip
+
+Other information:
+
+   libpng-1.4.14-README.txt
+   libpng-1.4.14-LICENSE.txt
+   libpng-1.4.14-*.asc (armored detached GPG signatures)
+
+Changes since the last public release (1.4.13):
+  Avoid out-of-bounds memory access in png_user_version_check().
+  Simplified and future-proofed png_user_version_check().
+  Added "-D_CRT_SECURE_NO_WARNINGS" to CFLAGS in scripts/makefile.vcwin32.
+
+Send comments/corrections/commendations to glennrp at users.sourceforge.net
+or to png-mng-implement at lists.sf.net (subscription required; visit
+https://lists.sourceforge.net/lists/listinfo/png-mng-implement).
+
+Glenn R-P

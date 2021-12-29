@@ -1,0 +1,17 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+pkgdatadir=${datarootdir}/elementary
+themes=${pkgdatadir}/themes
+eoincludedir=${datarootdir}/eolian/include
+eolian_flags=-I${eoincludedir}/elementary-1
+
+Name: elementary
+Description: Mobile device touchscreen widget library
+Requires.private: ecore-win32 >= 1.11.2     eina >= 1.11.2     eet >= 1.11.2     evas >= 1.11.2     ecore >= 1.11.2     ecore-evas >= 1.11.2     ecore-file >= 1.11.2     ecore-input >= 1.11.2     edje >= 1.11.2     eo >= 1.11.2     ethumb_client >= 1.11.2     emotion >= 1.11.2     ecore-imf >= 1.11.2     ecore-con >= 1.11.2     eio >= 1.11.2     eldbus >= 1.11.2     efreet >= 1.11.2     efreet-mime >= 1.11.2     efreet-trash >= 1.11.2     eio >= 1.11.2     
+Version: 1.11.2
+Libs: -L${libdir} -lelementary -lm -L/opt/windows_64/lib64 -leina -lpthread -leet -levas -lecore -lecore_evas -lecore_file -lecore_input -ledje -leo -lethumb_client -lemotion -lecore_imf -lecore_con -leldbus -lefreet -lefreet_mime -lefreet_trash -leio   -L/opt/windows_64/lib64 -levil    
+Cflags: -I${includedir}/elementary-1

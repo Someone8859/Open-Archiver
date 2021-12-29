@@ -1,0 +1,11 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libarchive
+Description: library that can create and read several streaming archive formats
+Version: 3.1.2
+Cflags: -I${includedir} -D__MINGW_USE_VC2005_COMPAT
+Libs: -L${libdir} -larchive
+Libs.private: -lnettle -llzma -lz  -L/opt/windows_64/lib64 -lxml2 -lz -liconv

@@ -1,0 +1,161 @@
+#!/bin/sh
+
+# Slackware build script for efl
+
+# Written by Aleksandar Samardzic <asamardzic@gmail.com>
+
+PRGNAM=efl
+VERSION=${VERSION:-1.9.2}
+BUILD=${BUILD:-2}
+TAG=${TAG:-_SBo}
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/SBo}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+set -e
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+tar xvf $CWD/$PRGNAM-$VERSION.tar.xz
+cd $PRGNAM-$VERSION
+chown -R root:root .
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} + -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} +
+
+if [ x"${HOST_TRIPLET}" != x"${BUILD_TRIPLET}" ]; then
+  WITH_EDJE_CC="--with-edje-cc=${YYPREFIX_NATIVE}/bin/edje_cc"
+  WITH_EOLIAN_GEN="--with-eolian-gen=${YYPREFIX_NATIVE}/bin/eolian_gen"
+  WITH_EOLIAN_CXX="--with-eolian-cxx=${YYPREFIX_NATIVE}/bin/eolian_cxx"
+else
+  WITH_EDJE_CC=""
+  WITH_EOLIAN_GEN=""
+  WITH_EOLIAN_CXX=""
+fi
+
+unset TERM
+
+case "${HOST_TRIPLET}" in
+  *-*-mingw*) LDFLAGS_WIN="-lws2_32" ;;
+  *)          LDFLAGS_WIN="" ;;
+esac
+
+case "${VERSION}" in
+  1.11.*)
+    #! PATCH (upstream)
+    patch -p1 \
+      < ${CWD}/0001-Ecore_Win32-Fix-string-for-the-BackSpace-key-on-Wind.patch
+    ;;
+esac
+
+#!PATCH
+patch -p1 --verbose \
+  < ${CWD}/allow_oleinitialize_to_return_S_FALSE.patch
+
+#!PATCH
+sed -i \
+  '/\/..\/lib\/ecore_evas\/engines/ s/lib/lib'"${LIBDIRSUFFIX}"'/g' \
+  src/lib/ecore_evas/ecore_evas_module.c
+
+#! PATCH: at first I was using the code below but it turns out that debian's
+#         autotools generate something that doesn't work so instead I'm
+#         changing the .in directly.
+# sed -i '/bin_PROGRAMS += / d' src/Makefile_Evil.am
+sed -i '/@HAVE_WINDOWS_TRUE@am__append_2 = bin.evil.evil_suite bin.evil.test_evil/ d' src/Makefile.in
+
+if [ "${DO_STATIC:-no}" = "yes" ] && echo "${HOST_TRIPLET}" | grep "mingw"; then
+  sed -i \
+    -e '/want_cares="yes"/ s/yes/no/' \
+    -e '/want_ecore_con_local_sockets="yes"/ s/yes/no/' \
+    configure.ac
+
+  sed -i \
+    -e '/#include <sys\/socket.h>/ d' \
+    -e '/#include <netinet\/in.h>/ d' \
+    -e '/#include <arpa\/inet.h>/ d' \
+    -e '/#include <arpa\/nameser.h>/ d' \
+    -e 's/fork()/-1/' \
+    src/lib/ecore_con/ecore_con_info.c
+
+  sed -i "/eina_module_symbol_path_get/ s;/\.\./lib/;/../lib${LIBDIRSUFFIX}/;" \
+    src/lib/ecore_evas/ecore_evas_module.c
+
+  sed -i 's/\<dbus_shutdown\>/efreetd_&/' \
+    src/bin/efreet/efreetd{.c,_dbus.c,_dbus.h}
+
+  find . -name "*.h" -exec sed -i '/dllimport/ s/.*/\#define EAPI /' {} +
+fi
+
+sed -i -e 's/immintrin.h/immintrin-disabled.h/' configure.ac
+
+patch -p1 --verbose < ${CWD}/0001-win32-rely-on-a-pthreads-library-instead-of-the-win3.patch
+
+autoreconf -fiv
+
+CFLAGS="-O2" \
+CXXFLAGS="-O2" \
+LDFLAGS="${LDFLAGS_WIN} -L/${PREFIX}/lib${LIBDIRSUFFIX}" \
+./configure \
+  --prefix=/${PREFIX} \
+  --libdir=/${PREFIX}/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/${PREFIX}/etc \
+  --localstatedir=/${PREFIX}/var \
+  --mandir=/${PREFIX}/man \
+  --docdir=/${PREFIX}/doc/$PRGNAM-$VERSION \
+  --build=${BUILD_TRIPLET} \
+  --host=${HOST_TRIPLET} \
+  --disable-pulseaudio \
+  --disable-physics \
+  --disable-gstreamer \
+  --disable-gstreamer1 \
+  --enable-lua-old \
+  ${WITH_FRIBIDI} \
+  ${WITH_HARFBUZZ} \
+  ${WITH_FONTCONFIG} \
+  ${WITH_CSERVE} \
+  ${WITH_AUDIO} \
+  ${WITH_AVAHI} \
+  ${WITH_V4L2} \
+  ${WITH_DOC} \
+  ${WITH_IMAGE_LOADERS} \
+  --with-crypto=none \
+  --with-glib=no \
+  --without-x \
+  --with-x11=none \
+  --with-tests=none \
+  --disable-libmount \
+  --enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba \
+  --disable-cxx-bindings \
+  ${WITH_EDJE_CC} \
+  ${WITH_EOLIAN_GEN} \
+  ${WITH_EOLIAN_CXX} \
+  ${DISABLE_STATIC}
+
+make -j4 || make V=1
+make install DESTDIR=$PKG
+
+find $PKG | xargs file | egrep -e "executable|shared object" \
+  | grep ${HOST_EXE_FORMAT} | cut -f 1 -d : \
+  | xargs ${HOST_STRIP} --strip-unneeded 2> /dev/null || true
+
+mkdir -p $PKG/${PREFIX}/doc/$PRGNAM-$VERSION
+cp -a \
+  AUTHORS COPYING ChangeLog INSTALL NEWS README \
+  $PKG/${PREFIX}/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/${PREFIX}/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+cat ${CWD}/${PRGNAM}.yypkg.script | sed \
+  -e "s/%{PKG}/${PRGNAM}/" \
+  -e "s/%{HST}/${HOST_TRIPLET}/" \
+  -e "s/%{TGT}//" \
+  -e "s/%{VER}/${VERSION}/" \
+  -e "s/%{BUILD}/${BUILD}/" \
+  -e "s/%{DESCR}/${DESCR:-"No description"}/" \
+  | yypkg --makepkg --output ${YYOUTPUT} --script - --directory "${PKG}/${PREFIX}"
+

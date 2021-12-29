@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libavdevice
+Description: FFmpeg device handling library
+Version: 55.10.100
+Requires: 
+Requires.private: libavfilter = 4.2.100, libavformat = 55.33.100
+Conflicts:
+Libs: -L${libdir}  -lavdevice 
+Libs.private: -lavicap32 -lpsapi -lole32 -lstrmiids -luuid -lws2_32 -liconv -lnettle -lhogweed -lgmp -lx264 -lvorbisenc -lvorbis -logg -ltheoraenc -ltheoradec -logg -L/opt/windows_64/lib64 -lopus -lmp3lame -L/opt/windows_64/lib64 -lgnutls -lm -lz -pthread -lpsapi -ladvapi32 -lshell32
+Cflags: -I${includedir}

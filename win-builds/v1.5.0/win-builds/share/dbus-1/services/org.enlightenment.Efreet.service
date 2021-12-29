@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.enlightenment.Efreet
+Exec=/opt/windows_64/bin/efreetd
+# SystemdService=efreet.service

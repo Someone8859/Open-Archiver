@@ -1,0 +1,146 @@
+#ifndef _ELM_PHOTOCAM_PAN_EO_H_
+#define _ELM_PHOTOCAM_PAN_EO_H_
+
+#ifndef _ELM_PHOTOCAM_PAN_EO_TYPES
+#define _ELM_PHOTOCAM_PAN_EO_TYPES
+
+
+#endif
+#define ELM_PHOTOCAM_PAN_CLASS elm_photocam_pan_class_get()
+
+const Eo_Class *elm_photocam_pan_class_get(void) EINA_CONST;
+
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_CLICKED;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_PRESS;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_LONGPRESSED;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_CLICKED_DOUBLE;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_LOAD;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_LOADED;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_LOAD_DETAIL;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_LOADED_DETAIL;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_ZOOM_START;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_ZOOM_STOP;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_ZOOM_CHANGE;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_SCROLL;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_START;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_STOP;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_START;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_STOP;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_START;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_PROGRESS;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_DONE;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_ERROR;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_FOCUSED;
+EOAPI extern const Eo_Event_Description _ELM_PHOTOCAM_PAN_EVENT_UNFOCUSED;
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_CLICKED (&(_ELM_PHOTOCAM_PAN_EVENT_CLICKED))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_PRESS (&(_ELM_PHOTOCAM_PAN_EVENT_PRESS))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_LONGPRESSED (&(_ELM_PHOTOCAM_PAN_EVENT_LONGPRESSED))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_CLICKED_DOUBLE (&(_ELM_PHOTOCAM_PAN_EVENT_CLICKED_DOUBLE))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_LOAD (&(_ELM_PHOTOCAM_PAN_EVENT_LOAD))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_LOADED (&(_ELM_PHOTOCAM_PAN_EVENT_LOADED))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_LOAD_DETAIL (&(_ELM_PHOTOCAM_PAN_EVENT_LOAD_DETAIL))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_LOADED_DETAIL (&(_ELM_PHOTOCAM_PAN_EVENT_LOADED_DETAIL))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_ZOOM_START (&(_ELM_PHOTOCAM_PAN_EVENT_ZOOM_START))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_ZOOM_STOP (&(_ELM_PHOTOCAM_PAN_EVENT_ZOOM_STOP))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_ZOOM_CHANGE (&(_ELM_PHOTOCAM_PAN_EVENT_ZOOM_CHANGE))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_SCROLL (&(_ELM_PHOTOCAM_PAN_EVENT_SCROLL))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_START (&(_ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_START))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_STOP (&(_ELM_PHOTOCAM_PAN_EVENT_SCROLL_ANIM_STOP))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_START (&(_ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_START))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_STOP (&(_ELM_PHOTOCAM_PAN_EVENT_SCROLL_DRAG_STOP))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_START (&(_ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_START))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_PROGRESS (&(_ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_PROGRESS))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_DONE (&(_ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_DONE))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_ERROR (&(_ELM_PHOTOCAM_PAN_EVENT_DOWNLOAD_ERROR))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_FOCUSED (&(_ELM_PHOTOCAM_PAN_EVENT_FOCUSED))
+
+/**
+ * No description
+ */
+#define ELM_PHOTOCAM_PAN_EVENT_UNFOCUSED (&(_ELM_PHOTOCAM_PAN_EVENT_UNFOCUSED))
+
+#endif

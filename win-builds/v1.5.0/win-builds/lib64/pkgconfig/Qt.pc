@@ -1,0 +1,15 @@
+prefix=/opt/windows_64
+bindir=${prefix}/bin
+datadir=${prefix}
+docdir=${prefix}/doc
+headerdir=${prefix}/include
+importdir=${prefix}/imports
+libdir=${prefix}/lib64
+moc=${bindir}/moc.exe
+plugindir=${prefix}/plugins
+qmake=${bindir}/qmake.exe
+translationdir=${prefix}/translations
+
+Name: Qt
+Description: Qt Configuration
+Version: 5.3.1

@@ -1,0 +1,1000 @@
+2015-02-27  Werner Koch  <wk@gnupg.org>
+
+	Release 1.6.3.
+
+	doc: Update yat2m to current upstream version (GnuPG).
+	(cherry picked from commit dd5df198727ea5d8f6b04288e14fd732051453c8)
+
+	w32: Use -static-libgcc to avoid linking to libgcc_s_sjlj-1.dll.
+	* src/Makefile.am (extra_ltoptions): New.
+	(libgcrypt_la_LDFLAGS): Use it.
+
+	build: Update build-aux files.
+
+	build: Require automake 1.14.
+	* configure.ac (AM_INIT_AUTOMAKE): Add serial-tests and dist-bzip2.
+	* Makefile.am (AUTOMAKE_OPTIONS): Remove.
+
+2015-02-26  NIIBE Yutaka  <gniibe@fsij.org>
+
+	mpi: Avoid data-dependent timing variations in mpi_powm.
+	* mpi/mpi-pow.c (mpi_powm): Access all data in the table by
+	mpi_set_cond.
+
+	mpi: Revise mpi_powm.
+	* mpi/mpi-pow.c (_gcry_mpi_powm): Rename the table to PRECOMP.
+
+	mpi: Add mpi_set_cond.
+	* mpi/mpiutil.c (_gcry_mpi_set_cond): New.
+	* src/mpi.h (mpi_set_cond): New.
+
+2015-02-23  Werner Koch  <wk@gnupg.org>
+
+	cipher: Use ciphertext blinding for Elgamal decryption.
+	* cipher/elgamal.c (USE_BLINDING): New.
+	(decrypt): Rewrite to use ciphertext blinding.
+
+2014-10-08  Werner Koch  <wk@gnupg.org>
+
+	Fix prime test for 2 and lower and add check command to mpicalc.
+	* cipher/primegen.c (check_prime): Return true for the small primes.
+	(_gcry_prime_check): Return correct values for 2 and lower numbers.
+
+	* src/mpicalc.c (do_primecheck): New.
+	(main): Add command 'P'.
+	(main): Allow for larger input data.
+
+2014-09-30  Werner Koch  <wk@gnupg.org>
+
+	mac: Fix gcry_mac_close to allow for a NULL handle.
+	* cipher/mac.c (_gcry_mac_close): Check for NULL.
+
+2014-09-02  Werner Koch  <wk@gnupg.org>
+
+	asm: Allow building x86 and amd64 using old compilers.
+	* src/hwf-x86.c (get_xgetbv): Build only if AVX support is enabled.
+
+2014-08-21  Werner Koch  <wk@gnupg.org>
+
+	Release 1.6.2.
+	* configure.ac: Set LT version to C20/A0/R2.
+
+	build: Fix typo in help string.
+	* configure.ac: Fix.
+
+	sexp: Check args of gcry_sexp_build.
+	* src/sexp.c (do_vsexp_sscan): Return error for invalid args.
+
+	cipher: Fix a segv in case of calling with wrong parameters.
+	* cipher/md.c (_gcry_md_info): Fix arg testing.
+
+	cipher: Fix possible NULL deref in call to prime generator.
+	* cipher/primegen.c (_gcry_generate_elg_prime): Change to return an
+	error code.
+	* cipher/dsa.c (generate): Take care of new return code.
+	* cipher/elgamal.c (generate): Change to return an error code.  Take
+	care of _gcry_generate_elg_prime return code.
+	(generate_using_x): Take care of _gcry_generate_elg_prime return code.
+	(elg_generate): Propagate return code from generate.
+
+2014-08-20  Werner Koch  <wk@gnupg.org>
+
+	ecc: Support the non-standard 0x40 compression flag for EdDSA.
+	* cipher/ecc.c (ecc_generate): Check the "comp" flag for EdDSA.
+	* cipher/ecc-eddsa.c (eddsa_encode_x_y): Add arg WITH_PREFIX.
+	(_gcry_ecc_eddsa_encodepoint): Ditto.
+	(_gcry_ecc_eddsa_ensure_compact): Handle the 0x40 compression prefix.
+	(_gcry_ecc_eddsa_decodepoint): Ditto.
+	* tests/keygrip.c: Check an compresssed with prefix Ed25519 key.
+	* tests/t-ed25519.inp: Ditto.
+
+	mpi: Extend the internal mpi_get_buffer.
+	* mpi/mpicoder.c (do_get_buffer): Add arg EXTRAALLOC.
+	(_gcry_mpi_get_buffer_extra): New.
+
+2014-08-05  Werner Koch  <wk@gnupg.org>
+
+	mpi: Fix regression for powerpc-apple-darwin detection.
+	* mpi/config.links: Add separate entry for powerpc-apple-darwin.
+
+	Fix bug inhibiting the use of the sentinel attribute.
+	* src/gcrypt.h.in: Fix typo in macro.
+
+	mpi: Use BSD syntax for x86_64-apple-darwin.
+	* mpi/config.links: Add case for x86_64-apple-darwin.
+
+2014-08-05  Kristian Fiskerstrand  <kf@sumptuouscapital.com>
+
+	Fix building for the x32 target without asm modules.
+	* mpi/generic/mpi-asm-defs.h: Use a fixed value for the x32 ABI.
+
+2014-05-20  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Fix ARM assembly when building __PIC__
+	* cipher/camellia-arm.S (GET_DATA_POINTER): New.
+	(_gcry_camellia_arm_encrypt_block): Use GET_DATA_POINTER.
+	(_gcry_camellia_arm_decrypt_block): Ditto.
+	* cipher/cast5-arm.S (GET_DATA_POINTER): New.
+	(_gcry_cast5_arm_encrypt_block, _gcry_cast5_arm_decrypt_block)
+	(_gcry_cast5_arm_enc_blk2, _gcry_cast5_arm_dec_blk2): Use
+	GET_DATA_POINTER.
+	* cipher/rijndael-arm.S (GET_DATA_POINTER): New.
+	(_gcry_aes_arm_encrypt_block, _gcry_aes_arm_decrypt_block): Use
+	GET_DATA_POINTER.
+
+2014-05-09  Werner Koch  <wk@gnupg.org>
+
+	mpi: Fix a subtle bug setting spurious bits with in mpi_set_bit.
+	* mpi/mpi-bit.c (_gcry_mpi_set_bit, _gcry_mpi_set_highbit): Clear
+	allocated but not used bits before resizing.
+	* tests/t-mpi-bits.c (set_bit_with_resize): New.
+
+2014-04-24  Werner Koch  <wk@gnupg.org>
+
+	Support building using the latest mingw-w64 toolchain.
+	* acinclude.m4 (GNUPG_SYS_SYMBOL_UNDERSCORE): Change mingw detection.
+
+	Use internal malloc function in fips.c.
+	* src/fips.c (check_binary_integrity): s/gcry_malloc/xtrymalloc/.
+
+2014-04-22  Werner Koch  <wk@gnupg.org>
+
+	random: Small patch for consistency and really burn the stack.
+	* random/rndlinux.c (_gcry_rndlinux_gather_random): s/int/size_t/.
+	(_gcry_rndlinux_gather_random): Replace memset by wipememory.
+
+2014-04-16  Werner Koch  <wk@gnupg.org>
+
+	pubkey: Re-map all deprecated RSA algo numbers.
+	* cipher/pubkey.c (map_algo): Mape RSA_E and RSA_S.
+
+	cipher: Fix possible NULL dereference.
+	* cipher/md.c (_gcry_md_selftest): Check for spec being NULL.
+
+2014-02-20  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Fix ARMv6 detection when CFLAGS modify target CPU architecture.
+	* configure.ac (gcry_cv_cc_arm_arch_is_v6): Use compiler test instead
+	of preprocessor test.
+
+2014-01-31  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Parse /proc/cpuinfo for ARM HW features.
+	* src/hwf-arm.c [__linux__] (HAS_PROC_CPUINFO)
+	(detect_arm_proc_cpuinfo): New.
+	(_gcry_hwf_detect_arm) [HAS_PROC_CPUINFO]: Check '/proc/cpuinfo' for
+	HW features.
+
+2014-01-29  Werner Koch  <wk@gnupg.org>
+
+	cipher: Take care of ENABLE_NEON_SUPPORT.
+	* cipher/salsa20.c (USE_ARM_NEON_ASM): Define only if
+	ENABLE_NEON_SUPPORT is defined.
+	* cipher/serpent.c (USE_NEON): Ditto.
+	* cipher/sha512.c (USE_ARM_NEON_ASM): Ditto.
+
+	Release 1.6.1.
+	* configure.ac: Set LT version to C20/A0/R1.
+
+	Reserve control code for FIPS extensions.
+	* src/gcrypt.h.in (GCRYCTL_INACTIVATE_FIPS_FLAG): New.
+	(GCRYCTL_REACTIVATE_FIPS_FLAG): New.
+	* src/global.c (_gcry_vcontrol): Add them but return not_implemented.
+
+	(cherry picked from commit aea96a64fbc58a0b6f9f435e97e93294c6eb1052)
+
+	Support non weak symbol pthread platforms.
+	* m4/lock.m4, m4/threadlib.m4: New.  From libgpg-error master.
+	* m4/Makefile.am (EXTRA_DIST): Add them.
+	* configure.ac (HAVE_PTHREAD): Remove test and ac_define.
+	(gl_LOCK): Do not use under Windows.
+	(LIBGCRYPT_CONFIG_LIBS): Add LIBTHREAD to support non-ELF pthread
+	systems.
+	* src/Makefile.am (dumpsexp_LDADD, mpicalc_LDADD, hmac256_LDADD)
+	(gcryptrnd_LDADD): Add LIBTHREAD.
+	* src/ath.c: Include pthread for any pthread version.
+	(ath_init, ath_install, ath_mutex_init, ath_mutex_destroy)
+	(ath_mutex_lock, ath_mutex_unlock): Support non-weak symbol pthread
+	systems.
+	* tests/Makefile.am (LDADD): Add LIBTHREAD.
+	* tests/t-lock.c: Replace HAVE_PTHREAD by USE_POSIX_THREADS
+	(run_test): Run only under W32 or pthread.
+
+	tests: Remove non-portable format specifiers.
+	* tests/basic.c: Replace "%zi" by "%d" and casts.
+
+2014-01-29  NIIBE Yutaka  <gniibe@fsij.org>
+
+	Fix RSA Blinding.
+	* cipher/rsa.c (rsa_decrypt): Loop to get multiplicative inverse.
+
+	(cherry picked from commit 121a90d8931944974054f7d94f63b7f89df87fa5)
+
+2014-01-28  Werner Koch  <wk@gnupg.org>
+
+	sexp: Fix broken gcry_sexp_nth.
+	* src/sexp.c (_gcry_sexp_nth): Return a valid S-expression for a data
+	element.
+	(NODE): Remove unused typedef.
+	(ST_HINT): Comment unused macro.
+
+	* tests/tsexp.c (bug_1594): New.
+	(main): Run new test.
+
+2014-01-27  Werner Koch  <wk@gnupg.org>
+
+	mpi: Minor fix for Atari-mint.
+	* mpi/config.links [m68k-atari-mint]: Do not assume 68020.  Suggested
+	by Alan Hourihane.
+
+2014-01-27  Dmitry Eremin-Solenikov  <dbaryshkov@gmail.com>
+
+	tests: Pass -no-install to libtool.
+	* tests/Makefile.am: add AM_LDFLAGS = -no-install
+
+	Fix most of memory leaks in tests code.
+	* tests/basic.c (check_ccm_cipher): Close cipher after use.
+	* tests/basic.c (check_one_cipher): Correct length of used buffer.
+	* tests/benchmark.c (cipher_bench): Use xcalloc to make buffer
+	  initialized.
+	* tests/keygen.c (check_ecc_keys): Release generated key.
+	* tests/t-mpi-point.c (context_param): Release mpi Q.
+	* tests/t-sexp.c (check_extract_param): Release extracted number.
+
+	Fix memory leaks in ecc code.
+	* cipher/ecc-curves.c (_gcry_ecc_update_curve_param): Release passed mpi
+	  values.
+	* cipher/ecc.c (compute_keygrip): Fix potential memory leak in error
+	  path.
+	* cipher/ecc.c (_gcry_ecc_get_curve): Release temporary mpi.
+
+2014-01-24  Werner Koch  <wk@gnupg.org>
+
+	Check compiler features only for the relevant platform.
+	* mpi/config.links (mpi_cpu_arch): Always set for ARM.  Set for HPPA.
+	Set to "undefined" for unknown platforms.
+	(try_asm_modules): Act upon only after having detected the CPU.
+	* configure.ac: Move the call to config.links before the platform
+	specific compiler checks.  Check platform specific features only if
+	the platform is targeted.
+
+2014-01-24  Dmitry Eremin-Solenikov  <dbaryshkov@gmail.com>
+
+	Truncate hash values for ECDSA signature scheme.
+	* cipher/dsa-common (_gcry_dsa_normalize_hash): New. Truncate opaque
+	  mpis as required for DSA and ECDSA signature schemas.
+	* cipher/dsa.c (verify): Return gpg_err_code_t value from verify() to
+	  behave like the rest of internal sign/verify functions.
+	* cipher/dsa.c (sign, verify, dsa_verify): Factor out hash truncation.
+	* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Factor out hash truncation.
+	* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_verify):
+	  as required by ECDSA scheme, truncate hash values to bitlength of
+	  used curve.
+	* tests/pubkey.c (check_ecc_sample_key): add a testcase for hash
+	  truncation.
+
+	(cherry picked from commit 9edcf1090e0485f9f383b6c54b18ea8ca3d4a225)
+
+2014-01-24  Werner Koch  <wk@gnupg.org>
+
+	Support locking under Windows.
+	* src/ath.c: Add support for Windows.
+	* src/global.c (external_lock_test): New.
+	(_gcry_vcontrol): Call new function with formerly reserved code 61.
+
+	* tests/t-common.h: New. Taken from current libgpg-error.
+	* tests/t-lock.c: New.  Based on t-lock.c from libgpg-error.
+	* configure.ac (HAVE_PTHREAD): Set macro to 1 if defined.
+	(AC_CHECK_FUNCS): Check for flockfile.
+	* tests/Makefile.am (tests_bin): Add t-lock.
+	(noinst_HEADERS): Add t-common.h
+	(LDADD): Move value to ...
+	(default_ldadd): new.
+	(t_lock_LDADD): New.
+
+2014-01-20  Werner Koch  <wk@gnupg.org>
+
+	cipher: Fix commit 77f28793.
+	* cipher/tiger.c (tiger_init): Add arg FLAGS.
+	(tiger1_init, tiger2_init): Ditto.
+
+	(cherry picked from commit dad06e4d1b835bac778b87090b1d3894b7535b14)
+
+	md: Add Whirlpool bug emulation feature.
+	* src/gcrypt.h.in (GCRY_MD_FLAG_BUGEMU1): New.
+	* src/cipher-proto.h (gcry_md_init_t): Add arg FLAGS.  Change all code
+	to implement that flag.
+	* cipher/md.c (gcry_md_context):  Replace SECURE and FINALIZED by bit
+	field FLAGS.  Add flag BUGEMU1.  Change all users.
+	(md_open): Replace args SECURE and HMAC by FLAGS.  Init flags.bugemu1.
+	(_gcry_md_open): Add for GCRY_MD_FLAG_BUGEMU1.
+	(md_enable): Pass bugemu1 flag to the hash init function.
+	(_gcry_md_reset): Ditto.
+
+2014-01-14  Milan Broz  <gmazyland@gmail.com>
+
+	PBKDF2: Use gcry_md_reset to speed up calculation.
+	* cipher/kdf.c (_gcry_kdf_pkdf2): Use gcry_md_reset
+	to speed up calculation.
+
+2014-01-13  Werner Koch  <wk@gnupg.org>
+
+	Fix macro conflict in NetBSD.
+	* cipher/bithelp.h (bswap32): Rename to _gcry_bswap32.
+	(bswap64): Rename to _gcry_bswap64.
+
+2014-01-13  Dmitry Eremin-Solenikov  <dbaryshkov@gmail.com>
+
+	Fix typo in search_oid.
+	* cipher/md.c (search_oid): Invert condition on oid comparison.
+
+	Correct formatting of gcry_mac_get_algo_keylen documentation.
+	* doc/gcrypt.texi: add braces near gcry_mac_get_algo_keylen
+	  documentation.
+
+	Use braces around unsigned int in gcry_mac_get_algo_keylen
+	documentation, otherwise texinfo breaks that and uses 'int' as a
+	function definition.
+
+2014-01-12  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	* cipher/Makefile.am: Add 'blowfish-arm.S' and 'serpent-armv7-neon.S'. --
+	Fix for bug https://bugs.g10code.com/gnupg/issue1584
+
+	(cherry picked from commit 7fef7f481c0a1542be34d1dc831f58d41846ac29)
+
+	Fix buggy/incomplete detection of AVX/AVX2 support.
+	* configure.ac: Also check for 'xgetbv' instruction in AVX and AVX2
+	inline assembly checks.
+	* src/hwf-x86.c [__i386__] (get_xgetbv): New function.
+	[__x86_64__] (get_xgetbv): New function.
+	[HAS_X86_CPUID] (detect_x86_gnuc): Check for OSXSAVE and OS support for
+	XMM&YMM registers and enable AVX/AVX2 only if XMM&YMM registers are
+	supported by OS.
+
+2014-01-10  Werner Koch  <wk@gnupg.org>
+
+	Use the generic autogen.sh script.
+	* autogen.rc: New.
+	* Makefile.am (EXTRA_DIST): Add it.
+	* autogen.sh: Update from current GnuPG.
+
+	(cherry picked from commit b0ac1f9b143aa15855914ba93fef900288d45c9c)
+
+	Move all helper scripts to build-aux/
+	* scripts/: Rename to build-aux/.
+	* compile, config.guess, config.rpath, config.sub
+	* depcomp, doc/mdate-sh, doc/texinfo.tex
+	* install-sh, ltmain.sh, missing: Move to build-aux/.
+	* Makefile.am (EXTRA_DIST): Adjust.
+	* configure.ac (AC_CONFIG_AUX_DIR): New.
+	(AM_SILENT_RULES): New.
+
+	(cherry picked from commit df9b4eabf52faee6f289a4bc62219684442ae383)
+
+2013-12-16  Werner Koch  <wk@gnupg.org>
+
+	Release 1.6.0.
+
+	doc: Change yat2m to allow arbitrary condition names.
+	* doc/yat2m.c (MAX_CONDITION_NESTING): New.
+	(gpgone_defined): Remove.
+	(condition_s, condition_stack, condition_stack_idx): New.
+	(cond_is_active, cond_in_verbatim): New.
+	(add_predefined_macro, set_macro, macro_set_p): New.
+	(evaluate_conditions, push_condition, pop_condition): New.
+	(parse_file): Rewrite to use the condition stack.
+	(top_parse_file): Set prefined macros.
+	(main): Change -D to define arbitrary macros.
+
+	tests: Add SHA-512 to the long hash test.
+	* tests/hashtest.c (testvectors): Add vectors for 256GiB SHA-512.
+	* tests/hashtest-256g.in (algos): Add test for SHA-512.
+
+	Add configure option --enable-large-data-tests.
+	* configure.ac: Add option --enable-large-data-tests.
+	* tests/hashtest-256g.in: New.
+	* tests/Makefile.am (EXTRA_DIST): Add hashtest-256g.in.
+	(TESTS): Split up into tests_bin, tests_bin_last, tests_sh, and
+	tests_sh_last.
+	(tests_sh_last): Add hashtest-256g
+	(noinst_PROGRAMS): Add only tests_bin and tests_bin_last.
+	(bench-slope.log, hashtest-256g.log): New rules to enforce serial run.
+
+	random: Call random progress handler more often.
+	* random/rndlinux.c (_gcry_rndlinux_gather_random): Update progress
+	indicator earlier.
+
+	cipher: Normalize the MPIs used as input to secret key functions.
+	* cipher/dsa.c (sign): Normalize INPUT.
+	* cipher/elgamal.c (decrypt): Normalize A and B.
+	* cipher/rsa.c (secret): Normalize the INPUT.
+	(rsa_decrypt): Reduce DATA before passing to secret.
+
+2013-12-16  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Change dummy variable in mpih-div.c to mpi_limb_t type.
+	* mpi/mpih-div.c (_gcry_mpih_mod_1, _gcry_mpih_divmod_1): Change dummy
+	variable to 'mpi_limb_t' type from 'int'.
+
+	Remove duplicate gcry_mac_hd_t typedef.
+	* cipher/mac-internal.h (gcry_mac_hd_t): Remove.
+
+2013-12-15  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Use u64 for CCM data lengths.
+	* cipher/cipher-ccm.c: Move code inside [HAVE_U64_TYPEDEF].
+	[HAVE_U64_TYPEDEF] (_gcry_cipher_ccm_set_lengths): Use 'u64' for
+	data lengths.
+	[!HAVE_U64_TYPEDEF] (_gcry_cipher_ccm_encrypt)
+	(_gcry_cipher_ccm_decrypt, _gcry_cipher_ccm_set_nonce)
+	(_gcry_cipher_ccm_authenticate, _gcry_cipher_ccm_get_tag)
+	(_gcry_cipher_ccm_check_tag): Dummy functions returning
+	GPG_ERROR_NOT_SUPPORTED.
+	* cipher/cipher-internal.h (gcry_cipher_handle.u_mode.ccm)
+	(_gcry_cipher_ccm_set_lengths): Move inside [HAVE_U64_TYPEDEF] and use
+	u64 instead of size_t for CCM data lengths.
+	* cipher/cipher.c (_gcry_cipher_open_internal, cipher_reset)
+	(_gcry_cipher_ctl) [!HAVE_U64_TYPEDEF]: Return GPG_ERR_NOT_SUPPORTED
+	for CCM.
+	(_gcry_cipher_ctl) [HAVE_U64_TYPEDEF]: Use u64 for
+	GCRYCTL_SET_CCM_LENGTHS length parameters.
+	* tests/basic.c: Do not use CCM if !HAVE_U64_TYPEDEF.
+	* tests/bench-slope.c: Ditto.
+	* tests/benchmark.c: Ditto.
+
+2013-12-14  Werner Koch  <wk@gnupg.org>
+
+	tests: Prevent rare failure of gcry_pk_decrypt test.
+	* tests/basic.c (check_pubkey_crypt): Add special mode 1.
+	(main): Add option --loop.
+
+2013-12-14  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Minor fixes to SHA assembly implementations.
+	* cipher/Makefile.am: Correct 'sha256-avx*.S' to 'sha512-avx*.S'.
+	* cipher/sha1-ssse3-amd64.S: First line, correct filename.
+	* cipher/sha256-ssse3-amd64.S: Return correct stack burn depth.
+	* cipher/sha512-avx-amd64.S: Use 'vzeroall' to clear registers.
+	* cipher/sha512-avx2-bmi2-amd64.S: Ditto and return correct stack burn
+	depth.
+
+	SHA-1/SSSE3: Do not check for Intel syntax assembly support.
+	* cipher/sha1-ssse3-amd64.S: Remove check for
+	HAVE_INTEL_SYNTAX_PLATFORM_AS.
+	* cipher/sha1.c [USE_SSSE3]: Ditto.
+
+2013-12-13  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Convert SHA-1 SSSE3 implementation from mixed asm&C to pure asm.
+	* cipher/Makefile.am: Change 'sha1-ssse3-amd64.c' to
+	'sha1-ssse3-amd64.S'.
+	* cipher/sha1-ssse3-amd64.c: Remove.
+	* cipher/sha1-ssse3-amd64.S: New.
+
+	SHA-1: Add SSSE3 implementation.
+	* cipher/Makefile.am: Add 'sha1-ssse3-amd64.c'.
+	* cipher/sha1-ssse3-amd64.c: New.
+	* cipher/sha1.c (USE_SSSE3): New.
+	(SHA1_CONTEXT) [USE_SSSE3]: Add 'use_ssse3'.
+	(sha1_init) [USE_SSSE3]: Initialize 'use_ssse3'.
+	(transform): Rename to...
+	(_transform): this.
+	(transform): New.
+	* configure.ac [host=x86_64]: Add 'sha1-ssse3-amd64.lo'.
+
+	Add missing register clearing in to SHA-256 and SHA-512 assembly.
+	* cipher/sha256-ssse3-amd64.S: Clear used XMM/YMM registers at return.
+	* cipher/sha512-avx-amd64.S: Ditto.
+	* cipher/sha512-avx2-bmi2-amd64.S: Ditto.
+	* cipher/sha512-ssse3-amd64.S: Ditto.
+
+2013-12-13  Werner Koch  <wk@gnupg.org>
+
+	Update license information.
+	* LICENSES: New.
+	* Makefile.am (EXTRA_DIST): Add LICENSES.
+	* AUTHORS: Add list of copyright holders.
+	* README: Reference AUTHORS.
+
+2013-12-13  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Fix empty clobber in AVX2 assembly check.
+	* configure.ac (gcry_cv_gcc_inline_asm_avx2): Add "cc" as assembly
+	globber.
+
+	Fix W32 build.
+	* random/rndw32.c (register_poll, slow_gatherer): Change gcry_xmalloc to
+	xmalloc, and gcry_xrealloc to xrealloc.
+
+2013-12-12  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	SHA-512: Add AVX and AVX2 implementations for x86-64.
+	* cipher/Makefile.am: Add 'sha512-avx-amd64.S' and
+	'sha512-avx2-bmi2-amd64.S'.
+	* cipher/sha512-avx-amd64.S: New.
+	* cipher/sha512-avx2-bmi2-amd64.S: New.
+	* cipher/sha512.c (USE_AVX, USE_AVX2): New.
+	(SHA512_CONTEXT) [USE_AVX]: Add 'use_avx'.
+	(SHA512_CONTEXT) [USE_AVX2]: Add 'use_avx2'.
+	(sha512_init, sha384_init) [USE_AVX]: Initialize 'use_avx'.
+	(sha512_init, sha384_init) [USE_AVX2]: Initialize 'use_avx2'.
+	[USE_AVX] (_gcry_sha512_transform_amd64_avx): New.
+	[USE_AVX2] (_gcry_sha512_transform_amd64_avx2): New.
+	(transform) [USE_AVX2]: Add call for AVX2 implementation.
+	(transform) [USE_AVX]: Add call for AVX implementation.
+	* configure.ac (HAVE_GCC_INLINE_ASM_BMI2): New check.
+	(sha512): Add 'sha512-avx-amd64.lo' and 'sha512-avx2-bmi2-amd64.lo'.
+	* doc/gcrypt.texi: Document 'intel-cpu' and 'intel-bmi2'.
+	* src/g10lib.h (HWF_INTEL_CPU, HWF_INTEL_BMI2): New.
+	* src/hwfeatures.c (hwflist): Add "intel-cpu" and "intel-bmi2".
+	* src/hwf-x86.c (detect_x86_gnuc): Check for HWF_INTEL_CPU and
+	HWF_INTEL_BMI2.
+
+	SHA-512: Add SSSE3 implementation for x86-64.
+	* cipher/Makefile.am: Add 'sha512-ssse3-amd64.S'.
+	* cipher/sha512-ssse3-amd64.S: New.
+	* cipher/sha512.c (USE_SSSE3): New.
+	(SHA512_CONTEXT) [USE_SSSE3]: Add 'use_ssse3'.
+	(sha512_init, sha384_init) [USE_SSSE3]: Initialize 'use_ssse3'.
+	[USE_SSSE3] (_gcry_sha512_transform_amd64_ssse3): New.
+	(transform) [USE_SSSE3]: Call SSSE3 implementation.
+	* configure.ac (sha512): Add 'sha512-ssse3-amd64.lo'.
+
+	SHA-256: Add SSSE3 implementation for x86-64.
+	* cipher/Makefile.am: Add 'sha256-ssse3-amd64.S'.
+	* cipher/sha256-ssse3-amd64.S: New.
+	* cipher/sha256.c (USE_SSSE3): New.
+	(SHA256_CONTEXT) [USE_SSSE3]: Add 'use_ssse3'.
+	(sha256_init, sha224_init) [USE_SSSE3]: Initialize 'use_ssse3'.
+	(transform): Rename to...
+	(_transform): This.
+	[USE_SSSE3] (_gcry_sha256_transform_amd64_ssse3): New.
+	(transform): New.
+	* configure.ac (HAVE_INTEL_SYNTAX_PLATFORM_AS): New check.
+	(sha256): Add 'sha256-ssse3-amd64.lo'.
+	* doc/gcrypt.texi: Document 'intel-ssse3'.
+	* src/g10lib.h (HWF_INTEL_SSSE3): New.
+	* src/hwfeatures.c (hwflist): Add "intel-ssse3".
+	* src/hwf-x86.c (detect_x86_gnuc): Test for SSSE3.
+
+2013-12-12  Werner Koch  <wk@gnupg.org>
+
+	Add a configuration file to disable hardware features.
+	* src/hwfeatures.c: Inclyde syslog.h and ctype.h.
+	(HWF_DENY_FILE): New.
+	(my_isascii): New.
+	(parse_hwf_deny_file): New.
+	(_gcry_detect_hw_features): Call it.
+
+	* src/mpicalc.c (main): Correctly initialize Libgcrypt.  Add options
+	"--print-config" and "--disable-hwf".
+
+	Move list of hardware features to hwfeatures.c.
+	* src/global.c (hwflist, disabled_hw_features): Move to ..
+	* src/hwfeatures.c: here.
+	(_gcry_disable_hw_feature): New.
+	(_gcry_enum_hw_features): New.
+	(_gcry_detect_hw_features): Remove arg DISABLED_FEATURES.
+	* src/global.c (print_config, _gcry_vcontrol, global_init): Adjust
+	accordingly.
+
+	Remove macro hacks for internal vs. external functions.  Part 2 and last.
+	* src/visibility.h: Remove remaining define/undef hacks for symbol
+	visibility.  Add macros to detect the use of the public functions.
+	Change all affected functions by replacing them by the x-macros.
+	* src/g10lib.h: Add internal prototypes.
+	(xtrymalloc, xtrycalloc, xtrymalloc_secure, xtrycalloc_secure)
+	(xtryrealloc, xtrystrdup, xmalloc, xcalloc, xmalloc_secure)
+	(xcalloc_secure, xrealloc, xstrdup, xfree): New macros.
+
+2013-12-11  Werner Koch  <wk@gnupg.org>
+
+	random: Add a feature to close device file descriptors.
+	* src/gcrypt.h.in (GCRYCTL_CLOSE_RANDOM_DEVICE): New.
+	* src/global.c (_gcry_vcontrol): Call _gcry_random_close_fds.
+	* random/random.c (_gcry_random_close_fds): New.
+	* random/random-csprng.c (_gcry_rngcsprng_close_fds): New.
+	* random/random-fips.c (_gcry_rngfips_close_fds): New.
+	* random/random-system.c (_gcry_rngsystem_close_fds): New.
+	* random/rndlinux.c (open_device): Add arg retry.
+	(_gcry_rndlinux_gather_random): Add mode to close open fds.
+
+	* tests/random.c (check_close_random_device): New.
+	(main): Call new test.
+
+2013-12-10  Werner Koch  <wk@gnupg.org>
+
+	Fix last commit (9a37470c)
+	* src/secmem.c (lock_pool): Remove remaining line.  Reported by Ian
+	Goldberg.
+
+2013-12-09  Werner Koch  <wk@gnupg.org>
+
+	Fix one-off memory leak when build with Linux capability support.
+	* src/secmem.c (lock_pool, secmem_init): Use cap_free.  Reported by
+	Mike Crowe <mac@mcrowe.com>.
+
+2013-12-09  David 'Digit' Turner  <digit@google.com>
+
+	Update libtool to support Android.
+	* m4/libtool.m4: Add "linux*android*" case.  Taken from the libtool
+	repository.
+
+2013-12-09  Werner Koch  <wk@gnupg.org>
+
+	tests: Speed up benchmarks in regression test mode.
+	* tests/tsexp.c (check_extract_param): Fix compiler warning.
+	* tests/Makefile.am (TESTS_ENVIRONMENT): Set GCRYPT_IN_REGRESSION_TEST.
+	* tests/bench-slope.c (main): Speed up if in regression test mode.
+	* tests/benchmark.c (main): Ditto.
+
+	tests: Add --csv option to bench-slope.
+	* tests/bench-slope.c (STR, STR2): New.
+	(cvs_mode): New.
+	(num_measurement_repetitions): New.  Replace use of
+	NUM_MEASUREMENT_REPETITIONS by this.
+	(current_section_name, current_algo_name, current_mode_name): New.
+	(bench_print_result_csv): New.
+	(bench_print_result_std): Rename from bench_print_result.
+	(bench_print_result): New. Divert depending on CSV_MODE.
+	(bench_print_header, bench_print_footer): take care of CSV_MODE.
+	(bench_print_algo, bench_print_mode): New.  Use them instead of
+	explicit printfs.
+	(main): Add options --csv and --repetitions.
+
+2013-12-07  Werner Koch  <wk@gnupg.org>
+
+	sexp: Allow long names and white space in gcry_sexp_extract_param.
+	* src/sexp.c (_gcry_sexp_vextract_param): Skip white space.  Support
+	long parameter names.
+	* tests/tsexp.c (check_extract_param): Add test cases for long parameter
+	names and white space.
+
+2013-12-06  Werner Koch  <wk@gnupg.org>
+
+	ecc: Merge partly duplicated code.
+	* cipher/ecc-eddsa.c (_gcry_ecc_eddsa_sign): Factor A hashing out to ...
+	(_gcry_ecc_eddsa_compute_h_d): new function.
+	* cipher/ecc-misc.c (_gcry_ecc_compute_public): Use new function.
+	(reverse_buffer): Remove.
+
+	ecc: Remove unused internal function.
+	* src/cipher-proto.h (gcry_pk_spec): Remove get_param.
+	* cipher/ecc-curves.c (_gcry_ecc_get_param_sexp): Merge in code from
+	_gcry_ecc_get_param.
+	(_gcry_ecc_get_param): Remove.
+	* cipher/ecc.c (_gcry_pubkey_spec_ecc): Remove _gcry_ecc_get_param.
+
+2013-12-06  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Fix building on mingw32.
+	* src/gcrypt-int.h: Include <types.h>.
+
+2013-12-05  Werner Koch  <wk@gnupg.org>
+
+	ecc: Change OID for Ed25519.
+	* cipher/ecc-curves.c (curve_aliased): Add more suitable OID for
+	Ed25519.
+
+	Remove macro hacks for internal vs. external functions.  Part 1.
+	* src/visibility.h: Remove almost all define/undef hacks for symbol
+	visibility.  Add macros to detect the use of the public functions.
+	Change all affected functions by prefixing them explicitly with an
+	underscore and change all internal callers to call the underscore
+	prefixed versions.  Provide convenience macros from sexp and mpi
+	functions.
+	* src/visibility.c: Change all functions to use only gpg_err_code_t
+	and translate to gpg_error_t only in visibility.c.
+
+2013-12-04  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	mpi: add inline assembly for x86-64.
+	* mpi/longlong.h [__x86_64] (add_ssaaaa, sub_ddmmss, umul_ppmm)
+	(udiv_qrnnd, count_leading_zeros, count_trailing_zeros): New.
+
+2013-12-04  NIIBE Yutaka  <gniibe@fsij.org>
+
+	mpi: fix gcry_mpi_powm for negative base.
+	* mpi/mpi-pow.c (gcry_mpi_powm) [USE_ALGORITHM_SIMPLE_EXPONENTIATION]:
+	Fix for the case where BASE is negative.
+	* tests/mpitests.c (test_powm): Add a test case of (-17)^6 mod 19.
+
+2013-12-03  Werner Koch  <wk@gnupg.org>
+
+	Add build support for ppc64le.
+	* config.guess, config.sub: Update to latest version (2013-11-29).
+	* m4/libtool.m4: Add patches for ppc64le.
+
+2013-12-03  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	rijndael: fix compiler warning on aarch64.
+	* cipher/rijndael.c (do_setkey): Use braces for empty if statement
+	instead of semicolon.
+
+	Add aarch64 (arm64) mpi assembly.
+	* mpi/aarch64/mpi-asm-defs.h: New.
+	* mpi/aarch64/mpih-add1.S: New.
+	* mpi/aarch64/mpih-mul1.S: New.
+	* mpi/aarch64/mpih-mul2.S: New.
+	* mpi/aarch64/mpih-mul3.S: New.
+	* mpi/aarch64/mpih-sub1.S: New.
+	* mpi/config.links [host=aarch64-*-*]: Add configguration for aarch64
+	assembly.
+	* mpi/longlong.h [__aarch64__] (add_ssaaaa, sub_ddmmss, umul_ppmm)
+	(count_leading_zeros): New.
+
+2013-12-02  Werner Koch  <wk@gnupg.org>
+
+	ecc: Use constant time point operation for Twisted Edwards.
+	* mpi/ec.c (_gcry_mpi_ec_mul_point): Try to do a constant time
+	operation if needed.
+	* tests/benchmark.c (main): Add option --use-secmem.
+
+	ecc: Make gcry_pk_testkey work for Ed25519.
+	* cipher/ecc-misc.c (_gcry_ecc_compute_public): Add optional args G
+	and d.  Change all callers.
+	* cipher/ecc.c (gen_y_2): Remove.
+	(check_secret_key): Use generic public key compute function.  Adjust
+	for use with Ed25519 and EdDSA.
+	(nist_generate_key): Do not use the compliant key thingy for Ed25519.
+	(ecc_check_secret_key): Make parameter parsing similar to the other
+	functions.
+	* cipher/ecc-curves.c (domain_parms): Zero prefix some parameters so
+	that _gcry_ecc_update_curve_param works correctly.
+	* tests/keygen.c (check_ecc_keys): Add "param" flag.  Check all
+	Ed25519 keys.
+
+	ecc: Fix eddsa point decompression.
+	* cipher/ecc-eddsa.c (_gcry_ecc_eddsa_recover_x): Fix the negative
+	case.
+
+	ecc: Fix gcry_mpi_ec_curve_point for Weierstrass.
+	* mpi/ec.c (_gcry_mpi_ec_curve_point): Use correct equation.
+	(ec_pow3): New.
+	(ec_p_init): Always copy B.
+
+	mpi: Introduce 4 user flags for gcry_mpi_t.
+	* src/gcrypt.h.in (GCRYMPI_FLAG_USER1, GCRYMPI_FLAG_USER2)
+	(GCRYMPI_FLAG_USER3, GCRYMPI_FLAG_USER4): New.
+	* mpi/mpiutil.c (gcry_mpi_set_flag, gcry_mpi_clear_flag)
+	(gcry_mpi_get_flag, _gcry_mpi_free): Implement them.
+	(gcry_mpi_set_opaque): Keep user flags.
+
+2013-11-29  Vladimir 'φ-coder/phcoder' Serbinenko  <phcoder@gmail.com>
+
+	Fix armv3 compile error.
+	* mpi/longlong.h [__arm__ && __ARM_ARCH < 4] (umul_ppmm): Use
+	__AND_CLOBBER_CC instead of __CLOBBER_CC.
+
+	longlong.h on mips with clang.
+	* mpi/longlong.h [__mips__]: Use C-language version with clang.
+
+2013-11-24  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Camellia: Tweaks for AES-NI implementations.
+	* cipher/camellia-aesni-avx-amd64.S: Align stack to 16 bytes; tweak
+	key-setup for small speed up.
+	* cipher/camellia-aesni-avx2-amd64.S: Use vmovdqu even with aligned
+	stack; reorder vinsert128 instructions; use rbp for stack frame.
+
+2013-11-21  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Add GMAC to MAC API.
+	* cipher/Makefile.am: Add 'mac-gmac.c'.
+	* cipher/mac-gmac.c: New.
+	* cipher/mac-internal.h (gcry_mac_handle): Add 'u.gcm'.
+	(_gcry_mac_type_spec_gmac_aes, _gcry_mac_type_spec_gmac_twofish)
+	(_gcry_mac_type_spec_gmac_serpent, _gcry_mac_type_spec_gmac_seed)
+	(_gcry_mac_type_spec_gmac_camellia): New externs.
+	* cipher/mac.c (mac_list): Add GMAC specifications.
+	* doc/gcrypt.texi: Add mention of GMAC.
+	* src/gcrypt.h.in (gcry_mac_algos): Add GCM algorithms.
+	* tests/basic.c (check_one_mac): Add support for MAC IVs.
+	(check_mac): Add support for MAC IVs and add GMAC test vectors.
+	* tests/bench-slope.c (mac_bench): Iterate algorithm numbers to 499.
+	* tests/benchmark.c (mac_bench): Iterate algorithm numbers to 499.
+
+	GCM: Move gcm_table initialization to setkey.
+	* cipher/cipher-gcm.c: Change all 'c->u_iv.iv' to
+	'c->u_mode.gcm.u_ghash_key.key'.
+	(_gcry_cipher_gcm_setkey): New.
+	(_gcry_cipher_gcm_initiv): Move ghash initialization to function above.
+	* cipher/cipher-internal.h (gcry_cipher_handle): Add
+	'u_mode.gcm.u_ghash_key'; Reorder 'u_mode.gcm' members for partial
+	clearing in gcry_cipher_reset.
+	(_gcry_cipher_gcm_setkey): New prototype.
+	* cipher/cipher.c (cipher_setkey): Add GCM setkey.
+	(cipher_reset): Clear 'u_mode' only partially for GCM.
+
+2013-11-20  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	GCM: Add support for split data buffers and online operation.
+	* cipher/cipher-gcm.c (do_ghash_buf): Add buffering for less than
+	blocksize length input and padding handling.
+	(_gcry_cipher_gcm_encrypt, _gcry_cipher_gcm_decrypt): Add handling
+	for AAD padding and check if data has already being padded.
+	(_gcry_cipher_gcm_authenticate): Check that AAD or data has not being
+	padded yet.
+	(_gcry_cipher_gcm_initiv): Clear padding marks.
+	(_gcry_cipher_gcm_tag): Add finalization and padding; Clear sensitive
+	data from cipher handle, since they are not used after generating tag.
+	* cipher/cipher-internal.h (gcry_cipher_handle): Add 'u_mode.gcm.macbuf',
+	'u_mode.gcm.mac_unused', 'u_mode.gcm.ghash_data_finalized' and
+	'u_mode.gcm.ghash_aad_finalized'.
+	* tests/basic.c (check_gcm_cipher): Rename to...
+	(_check_gcm_cipher): ...this and add handling for different buffer step
+	lengths; Enable per byte buffer testing.
+	(check_gcm_cipher): Call _check_gcm_cipher with different buffer step
+	sizes.
+
+	GCM: Use size_t for buffer sizes.
+	* cipher/cipher-gcm.c (ghash, gcm_bytecounter_add, do_ghash_buf)
+	(_gcry_cipher_gcm_encrypt, _gcry_cipher_gcm_decrypt)
+	(_gcry_cipher_gcm_authenticate, _gcry_cipher_gcm_geniv)
+	(_gcry_cipher_gcm_tag): Use size_t for buffer lengths.
+	* cipher/cipher-internal.h (_gcry_cipher_gcm_encrypt)
+	(_gcry_cipher_gcm_decrypt, _gcry_cipher_gcm_authenticate): Use size_t
+	for buffer lengths.
+
+	GCM: add FIPS mode restrictions.
+	* cipher/cipher-gcm.c (_gcry_cipher_gcm_encrypt)
+	(_gcry_cipher_gcm_get_tag): Do not allow using in FIPS mode is setiv
+	was invocated directly.
+	(_gcry_cipher_gcm_setiv): Rename to...
+	(_gcry_cipher_gcm_initiv): ...this.
+	(_gcry_cipher_gcm_setiv): New setiv function with check for FIPS mode.
+	[TODO] (_gcry_cipher_gcm_getiv): New.
+	* cipher/cipher-internal.h (gcry_cipher_handle): Add
+	'u_mode.gcm.disallow_encryption_because_of_setiv_in_fips_mode'.
+
+	GCM: Add clearing and checking of marks.tag.
+	* cipher/cipher-gcm.c (_gcry_cipher_gcm_encrypt)
+	(_gcry_cipher_gcm_decrypt, _gcry_cipher_gcm_authenticate): Make sure
+	that tag has not been finalized yet.
+	(_gcry_cipher_gcm_setiv): Clear 'marks.tag'.
+
+	GCM: Add stack burning.
+	* cipher/cipher-gcm.c (do_ghash, ghash): Return stack burn depth.
+	(setupM): Wipe 'tmp' buffer.
+	(do_ghash_buf): Wipe 'tmp' buffer and add stack burning.
+
+	Add aggregated bulk processing for GCM on x86-64.
+	* cipher/cipher-gcm.c [__x86_64__] (gfmul_pclmul_aggr4): New.
+	(ghash) [GCM_USE_INTEL_PCLMUL]: Add aggregated bulk processing
+	for __x86_64__.
+	(setupM) [__x86_64__]: Add initialization for aggregated bulk
+	processing.
+
+	GCM: Tweak Intel PCLMUL ghash loop for small speed-up.
+	* cipher/cipher-gcm.c (do_ghash): Mark 'inline'.
+	[GCM_USE_INTEL_PCLMUL] (do_ghash_pclmul): Rename to...
+	[GCM_USE_INTEL_PCLMUL] (gfmul_pclmul): ..this and make inline function.
+	(ghash) [GCM_USE_INTEL_PCLMUL]: Preload data before ghash-pclmul loop.
+
+	GCM: Use counter mode code for speed-up.
+	* cipher/cipher-gcm.c (ghash): Add process for multiple blocks.
+	(gcm_bytecounter_add, gcm_add32_be128, gcm_check_datalen)
+	(gcm_check_aadlen_or_ivlen, do_ghash_buf): New functions.
+	(_gcry_cipher_gcm_encrypt, _gcry_cipher_gcm_decrypt)
+	(_gcry_cipher_gcm_authenticate, _gcry_cipher_gcm_set_iv)
+	(_gcry_cipher_gcm_tag): Adjust to use above new functions and
+	counter mode functions for encryption/decryption.
+	* cipher/cipher-internal.h (gcry_cipher_handle): Remove 'length'; Add
+	'u_mode.gcm.(addlen|datalen|tagiv|datalen_over_limits)'.
+	(_gcry_cipher_gcm_setiv): Return gcry_err_code_t.
+	* cipher/cipher.c (cipher_setiv): Return error code.
+	(_gcry_cipher_setiv): Handle error code from 'cipher_setiv'.
+
+	Add Intel PCLMUL acceleration for GCM.
+	* cipher/cipher-gcm.c (fillM): Rename...
+	(do_fillM): ...to this.
+	(ghash): Remove.
+	(fillM): New macro.
+	(GHASH): Use 'do_ghash' instead of 'ghash'.
+	[GCM_USE_INTEL_PCLMUL] (do_ghash_pclmul): New.
+	(ghash): New.
+	(setupM): New.
+	(_gcry_cipher_gcm_encrypt, _gcry_cipher_gcm_decrypt)
+	(_gcry_cipher_gcm_authenticate, _gcry_cipher_gcm_setiv)
+	(_gcry_cipher_gcm_tag): Use 'ghash' instead of 'GHASH' and
+	'c->u_mode.gcm.u_tag.tag' instead of 'c->u_tag.tag'.
+	* cipher/cipher-internal.h (GCM_USE_INTEL_PCLMUL): New.
+	(gcry_cipher_handle): Move 'u_tag' and 'gcm_table' under
+	'u_mode.gcm'.
+	* configure.ac (pclmulsupport, gcry_cv_gcc_inline_asm_pclmul): New.
+	* src/g10lib.h (HWF_INTEL_PCLMUL): New.
+	* src/global.c: Add "intel-pclmul".
+	* src/hwf-x86.c (detect_x86_gnuc): Add check for Intel PCLMUL.
+
+	GCM: GHASH optimizations.
+	* cipher/cipher-gcm.c [GCM_USE_TABLES] (gcmR, ghash): Replace with new.
+	[GCM_USE_TABLES] [GCM_TABLES_USE_U64] (bshift, fillM, do_ghash): New.
+	[GCM_USE_TABLES] [!GCM_TABLES_USE_U64] (bshift, fillM): Replace with
+	new.
+	[GCM_USE_TABLES] [!GCM_TABLES_USE_U64] (do_ghash): New.
+	(_gcry_cipher_gcm_tag): Remove extra memcpy to outbuf and use
+	buf_eq_const for comparing authentication tag.
+	* cipher/cipher-internal.h (gcry_cipher_handle): Different 'gcm_table'
+	for 32-bit and 64-bit platforms.
+
+	Add some documentation for GCM mode.
+	* doc/gcrypt.texi: Add mention of GCM mode.
+
+2013-11-19  Dmitry Eremin-Solenikov  <dbaryshkov@gmail.com>
+
+	Initial implementation of GCM.
+	* cipher/Makefile.am: Add 'cipher-gcm.c'.
+	* cipher/cipher-ccm.c (_gcry_ciphert_ccm_set_lengths)
+	(_gcry_cipher_ccm_authenticate, _gcry_cipher_ccm_tag)
+	(_gcry_cipher_ccm_encrypt, _gcry_cipher_ccm_decrypt): Change
+	'c->u_mode.ccm.tag' to 'c->marks.tag'.
+	* cipher/cipher-gcm.c: New.
+	* cipher/cipher-internal.h (GCM_USE_TABLES): New.
+	(gcry_cipher_handle): Add 'marks.tag', 'u_tag', 'length' and
+	'gcm_table'; Remove 'u_mode.ccm.tag'.
+	(_gcry_cipher_gcm_encrypt, _gcry_cipher_gcm_decrypt)
+	(_gcry_cipher_gcm_setiv, _gcry_cipher_gcm_authenticate)
+	(_gcry_cipher_gcm_get_tag, _gcry_cipher_gcm_check_tag): New.
+	* cipher/cipher.c (_gcry_cipher_open_internal, cipher_setkey)
+	(cipher_encrypt, cipher_decrypt, _gcry_cipher_authenticate)
+	(_gcry_cipher_gettag, _gcry_cipher_checktag): Add GCM mode handling.
+	* src/gcrypt.h.in (gcry_cipher_modes): Add GCRY_CIPHER_MODE_GCM.
+	(GCRY_GCM_BLOCK_LEN): New.
+	* tests/basic.c (check_gcm_cipher): New.
+	(check_ciphers): Add GCM check.
+	(check_cipher_modes): Call 'check_gcm_cipher'.
+	* tests/bench-slope.c (bench_gcm_encrypt_do_bench)
+	(bench_gcm_decrypt_do_bench, bench_gcm_authenticate_do_bench)
+	(gcm_encrypt_ops, gcm_decrypt_ops, gcm_authenticate_ops): New.
+	(cipher_modes): Add GCM enc/dec/auth.
+	(cipher_bench_one): Limit GCM to block ciphers with 16 byte block-size.
+	* tests/benchmark.c (cipher_bench): Add GCM.
+
+2013-11-19  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Camellia: fix compiler warning.
+	* cipher/camellia-glue.c (camellia_setkey): Use braces around empty if
+	statement.
+
+	Tweak Camellia-AVX key-setup for small speed-up.
+	* cipher/camellia-aesni-avx-amd64.S (camellia_f): Merge S-function output
+	rotation with P-function.
+
+	Add CMAC (Cipher-based MAC) to MAC API.
+	* cipher/Makefile.am: Add 'cipher-cmac.c' and 'mac-cmac.c'.
+	* cipher/cipher-cmac.c: New.
+	* cipher/cipher-internal.h (gcry_cipher_handle.u_mode): Add 'cmac'.
+	* cipher/cipher.c (gcry_cipher_open): Rename to...
+	(_gcry_cipher_open_internal): ...this and add CMAC.
+	(gcry_cipher_open): New wrapper that disallows use of internal
+	modes (CMAC) from outside.
+	(cipher_setkey, cipher_encrypt, cipher_decrypt)
+	(_gcry_cipher_authenticate, _gcry_cipher_gettag)
+	(_gcry_cipher_checktag): Add handling for CMAC mode.
+	(cipher_reset): Do not reset 'marks.key' and do not clear subkeys in
+	'u_mode' in CMAC mode.
+	* cipher/mac-cmac.c: New.
+	* cipher/mac-internal.h: Add CMAC support and algorithms.
+	* cipher/mac.c: Add CMAC algorithms.
+	* doc/gcrypt.texi: Add documentation for CMAC.
+	* src/cipher.h (gcry_cipher_internal_modes): New.
+	(_gcry_cipher_open_internal, _gcry_cipher_cmac_authenticate)
+	(_gcry_cipher_cmac_get_tag, _gcry_cipher_cmac_check_tag)
+	(_gcry_cipher_cmac_set_subkeys): New prototypes.
+	* src/gcrypt.h.in (gcry_mac_algos): Add CMAC algorithms.
+	* tests/basic.c (check_mac): Add CMAC test vectors.
+
+2013-11-16  Jussi Kivilinna  <jussi.kivilinna@iki.fi>
+
+	Add new MAC API, initially with HMAC.
+	* cipher/Makefile.am: Add 'mac.c', 'mac-internal.h' and 'mac-hmac.c'.
+	* cipher/bufhelp.h (buf_eq_const): New.
+	* cipher/cipher-ccm.c (_gcry_cipher_ccm_tag): Use 'buf_eq_const' for
+	constant-time compare.
+	* cipher/mac-hmac.c: New.
+	* cipher/mac-internal.h: New.
+	* cipher/mac.c: New.
+	* doc/gcrypt.texi: Add documentation for MAC API.
+	* src/gcrypt-int.h [GPG_ERROR_VERSION_NUMBER < 1.13]
+	(GPG_ERR_MAC_ALGO): New.

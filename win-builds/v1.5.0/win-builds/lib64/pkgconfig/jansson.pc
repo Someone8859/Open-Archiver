@@ -1,0 +1,10 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: Jansson
+Description: Library for encoding, decoding and manipulating JSON data
+Version: 2.6
+Libs: -L${libdir} -ljansson
+Cflags: -I${includedir}

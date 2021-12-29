@@ -1,0 +1,1000 @@
+2014-12-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: released 3.2.21
+
+2014-12-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* configure.ac, m4/hooks.m4: bumped version
+
+2014-12-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-12-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/ocsp.c: utilize the gnutls 3.2 functions
+
+2014-11-21  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/ocsp.c: deinitialize the OCSP response der data That also makes sure that reinitialization of ASN1 structures are
+	done when it is required only.
+
+2014-11-14  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/ocsp.c: use the original DER/BER data when verifying an
+	OCSP response Conflicts: 	lib/x509/ocsp.c
+
+2014-12-05  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/dn.c: _gnutls_x509_get_dn() always return a null
+	terminated string
+
+2014-11-24  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_x509.c: corrected memleak in read_key_mem() Patch by Georg Richter.
+
+2014-11-22  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_handshake.c, lib/gnutls_record.c,
+	tests/mini-rehandshake-2.c: restore only the documented behavior
+
+2014-11-21  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-11-21  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* tests/Makefile.am, tests/mini-rehandshake-2.c: tests: added test
+	for GNUTLS_E_GOT_APPLICATION_DATA on rehandshake Conflicts: 	tests/Makefile.am
+
+2014-11-21  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_handshake.c, lib/gnutls_record.c: treat
+	GNUTLS_E_GOT_APPLICATION_DATA as non-fatal if initial negotiation is
+	complete This corrects a regression introduced in
+	b5a0de2e6da98866cafb770c3141b7353d030ab2 Reported by Dan Winship.
+	https://savannah.gnu.org/support/?108690
+
+2014-11-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* tests/suite/testcompat-common, tests/suite/testcompat-main: 
+	testcompat: updated
+
+2014-11-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS, configure.ac, m4/hooks.m4: bumped version
+
+2014-11-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-11-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_ecc.c: when exporting curve coordinates to X9.63
+	format, perform additional sanity checks on input Reported by Sean Burford.
+
+2014-11-02  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-10-28  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_state.c: do not explicitly refresh rnd state on session
+	deinit It is already being refreshed during the session lifetime.
+
+2014-10-14  Ludovic Courtès <ludo@gnu.org>
+
+	* guile/src/core.c: guile: Remove trailing zero in
+	'gnutls_server_name_set' call.  In GnuTLS 3.2.19 (and possibly 3.3.9 and 3.1.17),
+	'set-session-server-name!' would pass a trailing nul character on
+	the wire after the server name, which would thus be rejected by
+	servers.
+
+2014-10-14  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/libopts/Makefile.am: corrected libopt's Makefile.am reported by Marius Schamschula.
+
+2014-10-14  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/accelerated/x86/sha-x86-ssse3.c: corrected the SSSE3 optimized
+	SHA224
+
+2014-10-14  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/nettle/rnd.c: simplified getrusage code; the failure check
+	code wasn't needed
+
+2014-10-13  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS, configure.ac, m4/hooks.m4: bumped version
+
+2014-10-13  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-10-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/libopts/Makefile.am, src/libopts/ag-char-map.h,
+	src/libopts/ao-strs.c, src/libopts/ao-strs.h,
+	src/libopts/autoopts.h, src/libopts/autoopts/options.h,
+	src/libopts/autoopts/usage-txt.h, src/libopts/compat/_Noreturn.h,
+	src/libopts/genshell.c, src/libopts/genshell.h,
+	src/libopts/intprops.h, src/libopts/m4/libopts.m4,
+	src/libopts/m4/stdnoreturn.m4, src/libopts/option-value-type.c,
+	src/libopts/option-value-type.h,
+	src/libopts/option-xat-attribute.c,
+	src/libopts/option-xat-attribute.h, src/libopts/parse-duration.c,
+	src/libopts/proto.h, src/libopts/stdnoreturn.in.h,
+	src/libopts/version.c: updated to libopts 5.18.4
+
+2014-10-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/nettle/rnd.c: placed all rusage variables into HAVE_GETRUSAGE
+	block
+
+2014-10-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-10-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/nettle/rnd.c: rnd: if RUSAGE_THREAD fails try RUSAGE_SELF
+
+2014-10-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-10-10  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-10-02  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/ext/session_ticket.c: use wait and retransmit when receiving
+	session tickets
+
+2014-09-30  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-09-26  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_buffers.c, lib/gnutls_handshake.c: do not allow
+	GNUTLS_E_LARGE_PACKET to be returned from non-DTLS sessions Conflicts: 	lib/gnutls_handshake.c
+
+2014-09-25  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_handshake.c, lib/gnutls_int.h, lib/gnutls_state.c: 
+	protect DTLS clients that don't handle GNUTLS_E_LARGE_PACKET from an
+	infinite loop on handshake
+
+2014-09-25  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_handshake.c, lib/gnutls_record.c, lib/gnutls_record.h: 
+	restrict the number of non-fatal errors gnutls_handshake() can
+	return
+
+2014-09-22  Ludovic Courtès <ludo@gnu.org>
+
+	* guile/src/core.c: guile: Restore cross-reference in
+	'set-session-priorities!' docstring.  This had been destroyed in 32d90395.
+
+2014-09-22  Ludovic Courtès <ludo@gnu.org>
+
+	* guile/modules/gnutls.in, guile/modules/gnutls/build/enums.scm,
+	guile/src/core.c, guile/tests/anonymous-auth.scm: guile: Add
+	bindings for 'gnutls_server_name_set'.  This adds the 'set-session-server-name!' procedure and the
+	'server-name-type' enum type.
+
+2014-09-19  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-09-19  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/gnutls_x509.c: cleaned up memory deallocation in
+	read_cert_url() That caused unexpected results when loading PKCS #11 URLs.  Reported
+	by Joseph Peruski.
+
+2014-09-18  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS, configure.ac, m4/hooks.m4: bumped version
+
+2014-09-18  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-09-18  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-09-13  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/verify.c: gnutls_x509_crl_verify: do not always set the
+	invalid status Reported by Armin Burgmeier.
+
+2014-09-13  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/verify.c: Revert "gnutls_x509_crl_verify: do not always
+	set the invalid status" This reverts commit d29a0027fd554ee1aa92c186c6040f53f15cdab7.
+
+2014-09-13  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/verify.c: gnutls_x509_crl_verify: do not always set the
+	invalid status Reported by Armin Burgmeier.
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/x509_dn.c: optimized escaped comma handling
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/x509_dn.c: when setting a DN properly handle spaces and
+	escaped commas
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* configure.ac, lib/vasprintf.c: steal openconnect's vasprintf()
+	implementation
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/vasprintf.c: corrected bundled vasprintf(); reported by Jeff
+	Lee
+
+2014-08-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/common.c, lib/x509/crl.c, lib/x509/x509.c: avoid new
+	allocations and keep a pointer to the DER data for DN Conflicts: 	lib/x509/crl.c 	lib/x509/x509.c
+
+2014-08-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/crl.c, lib/x509/verify.c, lib/x509/x509_int.h: when
+	importing a CRL keep the DER data
+
+2014-08-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/common.c, lib/x509/common.h, lib/x509/crq.c,
+	lib/x509/verify.c, lib/x509/x509.c, lib/x509/x509_int.h: when
+	importing a certificate, keep the DER data Conflicts: 	lib/x509/verify.c
+
+2014-09-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/minitasn1/decoding.c, lib/minitasn1/libtasn1.h: updated
+	included libtasn1
+
+2014-08-29  Tristan Matthews <le.businessman@gmail.com>
+
+	* lib/ext/alpn.c: alpn: fix version documentation Signed-off-by: Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+2014-08-25  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/libopts/autoopts.h: check for stdnoreturn.h presence
+
+2014-08-24  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* doc/manpages/tpmtool.1: auto-generated file update
+
+2014-08-24  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS, configure.ac, m4/hooks.m4: released 3.2.17
+
+2014-08-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_record.c: record: tolerate a finished packet with
+	errors in DTLS
+
+2014-08-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-08-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_record.c: record: in DTLS discard only messages that
+	cause unexpected packet errors
+
+2014-08-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/minitasn1/coding.c, lib/minitasn1/decoding.c,
+	lib/minitasn1/element.c, lib/minitasn1/element.h,
+	lib/minitasn1/int.h, lib/minitasn1/libtasn1.h,
+	lib/minitasn1/parser_aux.c, lib/minitasn1/parser_aux.h,
+	lib/minitasn1/structure.c: updated minitasn1
+
+2014-08-21  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/system.c: use the windows API in windows even if iconv is
+	available
+
+2014-08-20  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* m4/hooks.m4: configure: print error message when nettle is 3.0 or
+	later
+
+2014-08-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-08-12  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* tests/hostname-check.c: tests: check that
+	gnutls_x509_crt_check_hostname() will correctly use the last CN when
+	multiple
+
+2014-08-12  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/rfc2818_hostname.c: when checking the hostname of a
+	certificate with multiple CNs use the "most specific" CN In our case we use the last CN present in the DN. Reported by David
+	Woodhouse.  https://bugzilla.mozilla.org/show_bug.cgi?id=307234#c2
+
+2014-08-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-08-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* tests/pkcs12-decode/Makefile.am, tests/pkcs12-decode/pkcs12: 
+	tests: test the decoding of a PKCS #12 structure with SHA256 MAC Conflicts: 	tests/pkcs12-decode/pkcs12
+
+2014-08-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/libgnutls.map, tests/pkcs12_s2k.c: tests: updated string to
+	keys tests for new internal API
+
+2014-08-10  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/algorithms.h, lib/x509/pkcs12.c, lib/x509/pkcs12_encr.c,
+	lib/x509/privkey_pkcs8.c, lib/x509/x509_int.h: pkcs12: Allow
+	verification with structures that support other than HMAC-SHA1 MACs.  Conflicts: 	lib/x509/pkcs12_encr.c
+
+2014-08-06  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-08-04  Wolfgang Meyer zu Bergsten <w.bergsten@sirrix.com>
+
+	* lib/pkcs11_privkey.c: improve compatibility in pkcs11 key
+	generation * explicitly set public exponent in template Signed-off-by: Wolfgang Meyer zu Bergsten <w.bergsten@sirrix.com>
+
+2014-08-06  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/cli-debug.c, src/tests.c: gnutls-cli-debug: added AES and
+	CAMELLIA to the list of default ciphers
+
+2014-08-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-08-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/privkey_pkcs8.c: pkcs8: initialize parameters on
+	decryption
+
+2014-07-29  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/libopts/COPYING.gplv3, src/libopts/COPYING.lgplv3,
+	src/libopts/README, src/libopts/ag-char-map.h, src/libopts/alias.c,
+	src/libopts/ao-strs.c, src/libopts/ao-strs.h,
+	src/libopts/autoopts.c, src/libopts/autoopts.h,
+	src/libopts/autoopts/options.h, src/libopts/autoopts/project.h,
+	src/libopts/autoopts/usage-txt.h, src/libopts/boolean.c,
+	src/libopts/check.c, src/libopts/compat/compat.h,
+	src/libopts/compat/windows-config.h, src/libopts/configfile.c,
+	src/libopts/cook.c, src/libopts/enum.c, src/libopts/env.c,
+	src/libopts/file.c, src/libopts/find.c, src/libopts/genshell.c,
+	src/libopts/genshell.h, src/libopts/gettext.h, src/libopts/init.c,
+	src/libopts/load.c, src/libopts/m4/libopts.m4,
+	src/libopts/m4/liboptschk.m4, src/libopts/makeshell.c,
+	src/libopts/nested.c, src/libopts/numeric.c,
+	src/libopts/option-value-type.c, src/libopts/option-value-type.h,
+	src/libopts/option-xat-attribute.c,
+	src/libopts/option-xat-attribute.h, src/libopts/parse-duration.c,
+	src/libopts/parse-duration.h, src/libopts/pgusage.c,
+	src/libopts/proto.h, src/libopts/putshell.c, src/libopts/reset.c,
+	src/libopts/restore.c, src/libopts/save.c, src/libopts/sort.c,
+	src/libopts/stack.c, src/libopts/streqvcmp.c,
+	src/libopts/text_mmap.c, src/libopts/time.c,
+	src/libopts/tokenize.c, src/libopts/usage.c, src/libopts/version.c: 
+	updated to libopts 5.18.3
+
+2014-07-29  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* build-aux/config.rpath, build-aux/gendocs.sh, gl/m4/dup2.m4,
+	gl/m4/gnulib-common.m4, gl/m4/intl.m4, gl/m4/po.m4,
+	gl/m4/printf.m4, gl/m4/valgrind-tests.m4, gl/select.c,
+	gl/tests/fcntl.in.h, maint.mk, src/gl/Makefile.am,
+	src/gl/alloca.in.h, src/gl/c-ctype.c, src/gl/c-ctype.h,
+	src/gl/errno.in.h, src/gl/error.c, src/gl/error.h,
+	src/gl/exitfail.c, src/gl/exitfail.h, src/gl/gettext.h,
+	src/gl/gettime.c, src/gl/gettimeofday.c, src/gl/intprops.h,
+	src/gl/m4/00gnulib.m4, src/gl/m4/absolute-header.m4,
+	src/gl/m4/alloca.m4, src/gl/m4/bison.m4, src/gl/m4/clock_time.m4,
+	src/gl/m4/eealloc.m4, src/gl/m4/environ.m4, src/gl/m4/errno_h.m4,
+	src/gl/m4/error.m4, src/gl/m4/extensions.m4,
+	src/gl/m4/extern-inline.m4, src/gl/m4/gettime.m4,
+	src/gl/m4/gettimeofday.m4, src/gl/m4/gnulib-cache.m4,
+	src/gl/m4/gnulib-common.m4, src/gl/m4/gnulib-comp.m4,
+	src/gl/m4/gnulib-tool.m4, src/gl/m4/include_next.m4,
+	src/gl/m4/longlong.m4, src/gl/m4/malloca.m4, src/gl/m4/mktime.m4,
+	src/gl/m4/msvc-inval.m4, src/gl/m4/msvc-nothrow.m4,
+	src/gl/m4/multiarch.m4, src/gl/m4/off_t.m4,
+	src/gl/m4/parse-datetime.m4, src/gl/m4/setenv.m4,
+	src/gl/m4/ssize_t.m4, src/gl/m4/stdbool.m4, src/gl/m4/stddef_h.m4,
+	src/gl/m4/stdint.m4, src/gl/m4/stdio_h.m4, src/gl/m4/stdlib_h.m4,
+	src/gl/m4/strerror.m4, src/gl/m4/string_h.m4,
+	src/gl/m4/sys_socket_h.m4, src/gl/m4/sys_time_h.m4,
+	src/gl/m4/sys_types_h.m4, src/gl/m4/time_h.m4, src/gl/m4/time_r.m4,
+	src/gl/m4/timespec.m4, src/gl/m4/tm_gmtoff.m4,
+	src/gl/m4/unistd_h.m4, src/gl/m4/warn-on-use.m4,
+	src/gl/m4/wchar_t.m4, src/gl/m4/xalloc.m4, src/gl/malloca.c,
+	src/gl/malloca.h, src/gl/mktime.c, src/gl/msvc-inval.c,
+	src/gl/msvc-inval.h, src/gl/msvc-nothrow.c, src/gl/msvc-nothrow.h,
+	src/gl/parse-datetime.h, src/gl/parse-datetime.y,
+	src/gl/progname.c, src/gl/progname.h, src/gl/setenv.c,
+	src/gl/stdbool.in.h, src/gl/stddef.in.h, src/gl/stdint.in.h,
+	src/gl/stdio.in.h, src/gl/stdlib.in.h, src/gl/strerror-override.c,
+	src/gl/strerror-override.h, src/gl/strerror.c, src/gl/string.in.h,
+	src/gl/sys_time.in.h, src/gl/sys_types.in.h, src/gl/time.in.h,
+	src/gl/time_r.c, src/gl/timespec.h, src/gl/unistd.in.h,
+	src/gl/unsetenv.c, src/gl/verify.h, src/gl/xalloc-die.c,
+	src/gl/xalloc-oversized.h, src/gl/xalloc.h, src/gl/xmalloc.c: 
+	updated gnulib
+
+2014-07-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/Makefile.am, lib/inet_pton.c, lib/system.h,
+	lib/x509/rfc2818_hostname.c: Added replacements of inet_aton and
+	inet_pton on systems they are not present gnulib is avoided due to keep the gnulib network replacements out of
+	the library
+
+2014-07-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: released 3.2.16
+
+2014-07-22  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/output.c: use const return value in ip_to_string
+
+2014-07-22  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* configure.ac, m4/hooks.m4: bumped version
+
+2014-07-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/algorithms/ciphersuites.c: minimum version was changed to TLS
+	1.0 for ciphersuites with SHA2 These ciphersuites could not be used with SSL 3.0 that only defines
+	usage of MD5 or SHA1 MACs. Reported by Manuel Pegourie-Gonnard.
+
+2014-07-21  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/pkcs11.c: ignore CKR_CRYPTOKI_ALREADY_INITIALIZED when
+	returned on reinitialization
+
+2014-07-07  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-07-07  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/gnutls_pubkey.c, lib/pkcs11.c, lib/pkcs11_privkey.c,
+	lib/pkcs11_write.c, lib/x509/key_encode.c, lib/x509/x509_int.h: set
+	CKA_EC_PARAMS when generating an ECDSA key Conflicts: 	lib/pkcs11.c
+
+2014-07-06  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* libdane/dane.c: dane: Skip DANE entries that may contain unknown
+	info That would allow skipping any future entries without failing.
+	Reported by Simon Arlott.
+
+2014-07-06  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* libdane/dane.c: dane: Added sanity check in dane_verify_crt_raw() That allows calling the function will an empty chain.  Reported by
+	Simon Arlott.
+
+2014-07-06  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-07-06  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/pkcs11.c: p11tool: don't outsmart user and override login type Unfortunately tokens vary on their requirements for writing trusted
+	and private objects, and there is no one-size fits all policy. Thus
+	allow a proper failure and warn the user that so-login may be
+	required.
+
+2014-07-04  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/pkcs11_privkey.c: pkcs11: Removed length check of attribute as
+	a sanity check for valid keys.  There can be keys where the id or label is empty and thus with zero
+	length.
+
+2014-07-01  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-07-01  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/pkcs11.c, lib/pkcs11_int.h, lib/pkcs11_privkey.c: 
+	gnutls_pkcs11_privkey_generate2(): corrected public key extraction
+	(for ECDSA keys)
+
+2014-07-01  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/common.c: p11tool/certtool: use GNUTLS_SO_PIN for reading
+	security officer's PIN
+
+2014-06-30  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/rfc2818_hostname.c: mention that IPv4 and IPv6 address
+	comparison is since 3.2.16.
+
+2014-06-30  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/rfc2818_hostname.c: Added explicit documentation on IPv4
+	and IPv6 address matching.
+
+2014-06-30  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-06-27  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* tests/hostname-check.c: tests: Added test cases for IPv4/6
+	matching.
+
+2014-06-30  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* configure.ac, lib/x509/rfc2818_hostname.c: 
+	gnutls_x509_crt_check_hostname() checks text ip addresses as well.  That aligns the documentation with the implementation.
+
+2014-06-28  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-06-27  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* configure.ac, lib/x509/output.c: Use inet_ntop() for printing IP
+	addresses.  The old dumb code is used in systems that don't have that function.
+
+2014-06-27  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_str.c: initialize str to NULL
+
+2014-06-25  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/common.c: p11tool: Do not allow a newline as PIN.
+
+2014-06-25  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/pkcs11.c: pkcs11: avoid callig _gnutls_bin2hex() when length
+	is zero.
+
+2014-06-15  Attila Molnar <attilamolnar@hush.com>
+
+	* lib/gnutls_state.c: doc: Corrections for
+	gnutls_handshake_set_hook_function()
+
+2014-06-09  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-06-09  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/gnutls_handshake.c: Do not call the user_hello_func multiple
+	times when performing ticket resumption.
+
+2014-06-06  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-06-06  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/common.c: When decoding of a DN string fails, treat it as
+	unknown string and print its hex value.
+
+2014-06-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/accelerated/x86/x86-common.h: define NN_HASH unconditionally
+
+2014-06-03  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* m4/hooks.m4: m4/hooks.m4: use enableval rather than fixed values.  That should resolve issue #108592 at
+	http://savannah.gnu.org/support/?108592
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* tests/slow/cipher-test.c: include config.h
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* configure.ac, m4/hooks.m4: bumped version
+
+2014-05-25  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/minitasn1/coding.c, lib/minitasn1/decoding.c,
+	lib/minitasn1/element.c, lib/minitasn1/gstr.h,
+	lib/minitasn1/libtasn1.h, lib/minitasn1/parser_aux.c,
+	lib/minitasn1/parser_aux.h: updated libtasn1
+
+2014-05-23  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_handshake.c: Prevent memory corruption due to server
+	hello parsing.  Issue discovered by Joonas Kuorilehto of Codenomicon.
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/x509.c: Fix capitalisation of ia5String
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/pkcs11.c: increased the maximum certificate size buffer in the
+	PKCS #11 subsystem.
+
+2014-05-29  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/system.c: check the return code of getpwuid_r() Reported by Viktor Dukhovni.
+
+2014-05-26  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/ocsptool-common.c: ocsptool: Include path in ocsp request.  This resolves #108582 (https://savannah.gnu.org/support/?108582),
+	reported by Matt McCutchen.
+
+2014-05-23  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/common.c: Do not allow null strings to be read from ASN.1
+	structures.  This corrects a null pointer dereference when parsing some specially
+	crafted certificates. Issue discovered using the Codenomicon TLS
+	test suite.
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/x509.c: gnutls_x509_crt_get_extension_data: will return
+	zero if data is NULL and memory buffer size is not sufficient.
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/x509/output.c: check for correct error codes in
+	print_extensions().
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/gnutls_handshake.c, lib/gnutls_int.h, lib/gnutls_priority.c: 
+	When assigning the TLS version, double check that it is valid.
+
+2014-05-22  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/algorithms/ciphersuites.c: Prevent a crash by ensuring that
+	there is a valid negotiated version.  Issue discovered by Joonas Kuorilehto of Codenomicon.
+
+2014-05-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/common.c, lib/x509/x509.c: backported signature checks
+
+2014-05-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-05-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* doc/examples/ex-client-x509.c, lib/gnutls_priority.c: use
+	gnutls_set_default_priority() in examples.
+
+2014-05-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/x509.c: gnutls_x509_crt_get_signature() will return the
+	correct signature size rather than the max.
+
+2014-05-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/openpgp/output.c: Print the openpgp DN only when
+	gnutls_openpgp_crt_get_name() failed appropriately.
+
+2014-05-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/x509/x509.c: corrected error checking in
+	gnutls_x509_crt_get_extension_data()
+
+2014-05-16  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_ui.c: Allow null list_size argument in
+	gnutls_certificate_get_peers()
+
+2014-05-15  Michał Górny <mgorny@gentoo.org>
+
+	* tests/slow/Makefile.am: tests/slow: add -I flags necessary for
+	out-of-source builds.  Signed-off-by: Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+2014-05-15  Michał Górny <mgorny@gentoo.org>
+
+	* tests/Makefile.am: tests: pass PKCS12PATH to fix tests in
+	out-of-source builds.  The set_pkcs12_cred used to default to looking for input files in a
+	subdirectory of the current working directory. When an out-of-source
+	build is performed, the files reside in a subdirectory of source
+	directory instead. Set PKCS12PATH to that directory in order to fix
+	the build.  Signed-off-by: Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+2014-05-09  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/ext/status_request.c: Addressed memory leak in status request
+	extension handling during rehandshake.  The memory leak was uncovered by the Codenomicon TLS suite.
+
+2014-05-08  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/ext/safe_renegotiation.c: Avoid memory leak in safe
+	renegotiation extension handling.  The memory leak was uncovered by the Codenomicon TLS suite.
+
+2014-05-08  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/gnutls_buffers.c, lib/gnutls_buffers.h, lib/gnutls_record.c: 
+	Small cleanups in packet receive as well as a memory leak error.  The memory leak was uncovered by the Codenomicon TLS suite.
+
+2014-05-11  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/auth/ecdhe.c: cleanup in the initialization of ECDH
+	parameters.
+
+2014-05-14  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/nettle/pk.c: Eliminated memory leak on failed curve
+	assignment.  The memory leak was uncovered by the Codenomicon TLS suite.
+
+2014-05-13  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/cli.c: gnutls-cli: if dane verification is used but not PKIX
+	only check the end certificate.
+
+2014-05-14  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/certtool-common.c: certtool: check for null prior to checking
+	for empty passwd
+
+2014-05-15  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/certtool-args.def: Do not use autogen's file option for input
+	parameters.  Instead use a string. We check the file for validity and autogen's
+	check was imposing rules such as normal file (as opposed to a
+	device), that were not needed.
+
+2014-05-06  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS, configure.ac, m4/hooks.m4: bumped version
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/certtool-common.c, src/certtool.c: When generating ECDSA keys,
+	generate 256-bit keys by default.  Curves with less than 256 bits (i.e., SECP192R1 and SECP224R1) are
+	not widely supported.  Conflicts: 	src/certtool-common.c
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/minitasn1/decoding.c: Corrected an off-by-one error.  The issue was discovered using the codenomicon TLS suite.
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* NEWS: doc update
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/ext/srp.c: initialize to null the SRP extension data on
+	allocation.  Issue identified using valgrind and the Codenomicon TLS test suite.
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/algorithms/sign.c: Better check for null signature method.  Issue identified using valgrind and the Codenomicon TLS test suite.
+
+2014-05-04  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/ext/ecc.c, lib/ext/safe_renegotiation.c, lib/ext/signature.c: 
+	More precise packet length checking.  Issue discovered using valgrind and the Codenomicon TLS test suite.
+
+2014-05-02  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-05-02  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/nettle/gnettle.h, lib/nettle/mpi.c, lib/nettle/pk.c: simplify
+	casting to mpz_t using __mpz_struct and cleaned up mpz_t access.  Conflicts: 	lib/nettle/mpi.c 	lib/nettle/pk.c
+
+2014-05-02  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/nettle/gnettle.h, lib/nettle/mpi.c, lib/nettle/pk.c: simplify
+	casting to mpz_t using __mpz_struct.
+
+2014-05-01  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/minitasn1/coding.c, lib/minitasn1/decoding.c,
+	lib/minitasn1/element.c, lib/minitasn1/element.h,
+	lib/minitasn1/errors.c, lib/minitasn1/gstr.c, lib/minitasn1/gstr.h,
+	lib/minitasn1/int.h, lib/minitasn1/libtasn1.h,
+	lib/minitasn1/parser_aux.c, lib/minitasn1/parser_aux.h,
+	lib/minitasn1/structure.c, lib/minitasn1/structure.h,
+	lib/minitasn1/version.c: updated included libtasn1.
+
+2014-03-09  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* configure.ac, lib/nettle/mpi.c, m4/hooks.m4: Added option to
+	enable linking with nettle-mini
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/ext/safe_renegotiation.c: removed redundant code. Reported by
+	David Binderman.
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* libdane/dane.c: increased MAX_DATA_ENTRIES to 100.
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/cli.c: only fail DANE verification if status is non-zero
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* libdane/dane.c, libdane/includes/gnutls/dane.h: Accept a
+	certificate using DANE if there is at least one entry that matches
+	the certificate.  This corrects the previous behavior that was rejecting the
+	certificate if there were multiple entries and one couldn't be
+	validated. New flag DANE_VERIFY_UNKNOWN_DANE_INFO is synonymous to
+	DANE_VERIFY_NO_DANE_INFO. Patch by simon@arlott.org.  Signed-off-by: Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+2014-04-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/cli.c: Do not print certificates twice.  That will improve the visibility of messages of the various
+	verification methods.
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* src/cli.c: DANE verification is advisory when tofu is being used.
+
+2014-04-17  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/cli.c: documentation update.
+
+2014-04-28  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/gnutls_global.c: initialize the asn1 pointers.
+
+2014-04-18  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-04-27  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* lib/accelerated/accelerated.c, lib/accelerated/x86/Makefile.am,
+	lib/accelerated/x86/aes-cbc-x86-aesni.c,
+	lib/accelerated/x86/aes-cbc-x86-ssse3.c,
+	lib/accelerated/x86/aes-gcm-padlock.c,
+	lib/accelerated/x86/aes-gcm-x86-aesni.c,
+	lib/accelerated/x86/aes-gcm-x86-pclmul.c,
+	lib/accelerated/x86/aes-gcm-x86-ssse3.c,
+	lib/accelerated/x86/aes-padlock.c,
+	lib/accelerated/x86/sha-padlock.c,
+	lib/accelerated/x86/sha-x86-ssse3.c,
+	lib/accelerated/x86/x86-common.c, lib/accelerated/x86/x86-common.h,
+	lib/accelerated/x86/x86.h: x86.h was renamed to x86-common.h to
+	avoid clashes with system headers.
+
+2014-04-19  Nikos Mavrogiannopoulos <nmav@gnutls.org>
+
+	* src/cli.c: gnutls-cli will no longer allow the session to proceed
+	if DANE verification fails.
+
+2014-04-18  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* NEWS: doc update
+
+2014-04-18  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* lib/auth/psk.c, lib/auth/psk.h: Avoid dual generation of key.
+
+2014-04-18  Nikos Mavrogiannopoulos <nmav@redhat.com>
+
+	* GNUmakefile, build-aux/config.rpath, build-aux/gendocs.sh,
+	build-aux/pmccabe2html, build-aux/snippet/arg-nonnull.h,
+	build-aux/snippet/c++defs.h, build-aux/snippet/warn-on-use.h,
+	build-aux/useless-if-before-free, build-aux/vc-list-files,
+	doc/gendocs_template, gl/Makefile.am, gl/accept.c, gl/alloca.in.h,
+	gl/arpa_inet.in.h, gl/asnprintf.c, gl/asprintf.c, gl/base64.c,
+	gl/base64.h, gl/bind.c, gl/byteswap.in.h, gl/c-ctype.c,
+	gl/c-ctype.h, gl/close.c, gl/connect.c, gl/dup2.c, gl/errno.in.h,
+	gl/fd-hook.c, gl/fd-hook.h, gl/float+.h, gl/float.c, gl/float.in.h,
+	gl/fseek.c, gl/fseeko.c, gl/fstat.c, gl/ftell.c, gl/ftello.c,
+	gl/gai_strerror.c, gl/getaddrinfo.c, gl/getdelim.c, gl/getline.c,
+	gl/getpass.c, gl/getpass.h, gl/getpeername.c, gl/gettext.h,
+	gl/gettimeofday.c, gl/hash-pjw-bare.c, gl/hash-pjw-bare.h,
+	gl/inet_ntop.c, gl/inet_pton.c, gl/intprops.h, gl/itold.c,
+	gl/listen.c, gl/lseek.c, gl/m4/00gnulib.m4,
+	gl/m4/absolute-header.m4, gl/m4/alloca.m4, gl/m4/arpa_inet_h.m4,
+	gl/m4/base64.m4, gl/m4/byteswap.m4, gl/m4/close.m4,
+	gl/m4/codeset.m4, gl/m4/dup2.m4, gl/m4/errno_h.m4,
+	gl/m4/exponentd.m4, gl/m4/extensions.m4, gl/m4/extern-inline.m4,
+	gl/m4/fcntl-o.m4, gl/m4/fcntl_h.m4, gl/m4/fdopen.m4,
+	gl/m4/float_h.m4, gl/m4/fpieee.m4, gl/m4/fseek.m4, gl/m4/fseeko.m4,
+	gl/m4/fstat.m4, gl/m4/ftell.m4, gl/m4/ftello.m4,
+	gl/m4/ftruncate.m4, gl/m4/func.m4, gl/m4/getaddrinfo.m4,
+	gl/m4/getcwd.m4, gl/m4/getdelim.m4, gl/m4/getdtablesize.m4,
+	gl/m4/getline.m4, gl/m4/getpagesize.m4, gl/m4/getpass.m4,
+	gl/m4/gettext.m4, gl/m4/gettimeofday.m4, gl/m4/glibc2.m4,
+	gl/m4/glibc21.m4, gl/m4/gnulib-cache.m4, gl/m4/gnulib-common.m4,
+	gl/m4/gnulib-comp.m4, gl/m4/gnulib-tool.m4, gl/m4/hostent.m4,
+	gl/m4/iconv.m4, gl/m4/include_next.m4, gl/m4/inet_ntop.m4,
+	gl/m4/inet_pton.m4, gl/m4/intdiv0.m4, gl/m4/intl.m4,
+	gl/m4/intldir.m4, gl/m4/intlmacosx.m4, gl/m4/intmax.m4,
+	gl/m4/intmax_t.m4, gl/m4/inttypes-pri.m4, gl/m4/inttypes.m4,
+	gl/m4/inttypes_h.m4, gl/m4/ioctl.m4, gl/m4/largefile.m4,
+	gl/m4/lcmessage.m4, gl/m4/ld-output-def.m4,
+	gl/m4/ld-version-script.m4, gl/m4/lib-ld.m4, gl/m4/lib-link.m4,
+	gl/m4/lib-prefix.m4, gl/m4/lock.m4, gl/m4/longlong.m4,
+	gl/m4/lseek.m4, gl/m4/lstat.m4, gl/m4/malloc.m4,
+	gl/m4/manywarnings.m4, gl/m4/math_h.m4, gl/m4/memchr.m4,
+	gl/m4/memmem.m4, gl/m4/minmax.m4, gl/m4/mmap-anon.m4,
+	gl/m4/mode_t.m4, gl/m4/msvc-inval.m4, gl/m4/msvc-nothrow.m4,
+	gl/m4/multiarch.m4, gl/m4/netdb_h.m4, gl/m4/netinet_in_h.m4,
+	gl/m4/nls.m4, gl/m4/off_t.m4, gl/m4/open.m4, gl/m4/pathmax.m4,
+	gl/m4/perror.m4, gl/m4/pipe.m4, gl/m4/po.m4, gl/m4/printf-posix.m4,
+	gl/m4/printf.m4, gl/m4/progtest.m4, gl/m4/read-file.m4,
+	gl/m4/realloc.m4, gl/m4/select.m4, gl/m4/servent.m4,
+	gl/m4/signal_h.m4, gl/m4/size_max.m4, gl/m4/snprintf.m4,
+	gl/m4/socketlib.m4, gl/m4/sockets.m4, gl/m4/socklen.m4,
+	gl/m4/sockpfaf.m4, gl/m4/ssize_t.m4, gl/m4/stat.m4,
+	gl/m4/stdalign.m4, gl/m4/stdbool.m4, gl/m4/stddef_h.m4,
+	gl/m4/stdint.m4, gl/m4/stdint_h.m4, gl/m4/stdio_h.m4,
+	gl/m4/stdlib_h.m4, gl/m4/strcase.m4, gl/m4/strdup.m4,
+	gl/m4/strerror.m4, gl/m4/strerror_r.m4, gl/m4/string_h.m4,
+	gl/m4/strings_h.m4, gl/m4/strndup.m4, gl/m4/strnlen.m4,
+	gl/m4/strtok_r.m4, gl/m4/strverscmp.m4, gl/m4/symlink.m4,
+	gl/m4/sys_ioctl_h.m4, gl/m4/sys_select_h.m4, gl/m4/sys_socket_h.m4,
+	gl/m4/sys_stat_h.m4, gl/m4/sys_time_h.m4, gl/m4/sys_types_h.m4,
+	gl/m4/sys_uio_h.m4, gl/m4/threadlib.m4, gl/m4/time_h.m4,
+	gl/m4/time_r.m4, gl/m4/uintmax_t.m4, gl/m4/ungetc.m4,
+	gl/m4/unistd_h.m4, gl/m4/valgrind-tests.m4, gl/m4/vasnprintf.m4,
+	gl/m4/vasprintf.m4, gl/m4/visibility.m4, gl/m4/vsnprintf.m4,
+	gl/m4/warn-on-use.m4, gl/m4/warnings.m4, gl/m4/wchar_h.m4,
+	gl/m4/wchar_t.m4, gl/m4/wint_t.m4, gl/m4/xsize.m4, gl/malloc.c,
+	gl/memchr.c, gl/memmem.c, gl/minmax.h, gl/msvc-inval.c,
+	gl/msvc-inval.h, gl/msvc-nothrow.c, gl/msvc-nothrow.h,
+	gl/netdb.in.h, gl/netinet_in.in.h, gl/printf-args.c,
+	gl/printf-args.h, gl/printf-parse.c, gl/printf-parse.h,
+	gl/read-file.c, gl/read-file.h, gl/realloc.c, gl/recv.c,
+	gl/recvfrom.c, gl/select.c, gl/send.c, gl/sendto.c,
+	gl/setsockopt.c, gl/shutdown.c, gl/signal.in.h, gl/size_max.h,
+	gl/snprintf.c, gl/socket.c, gl/sockets.c, gl/sockets.h,
+	gl/stdalign.in.h, gl/stdbool.in.h, gl/stddef.in.h, gl/stdint.in.h,
+	gl/stdio-impl.h, gl/stdio.in.h, gl/stdlib.in.h, gl/str-two-way.h,
+	gl/strcasecmp.c, gl/strdup.c, gl/strerror-override.c,
+	gl/strerror-override.h, gl/strerror.c, gl/string.in.h,
+	gl/strings.in.h, gl/strncasecmp.c, gl/strndup.c, gl/strnlen.c,
+	gl/strtok_r.c, gl/strverscmp.c, gl/sys_select.in.h,
+	gl/sys_socket.in.h, gl/sys_stat.in.h, gl/sys_time.in.h,
+	gl/sys_types.in.h, gl/sys_uio.in.h, gl/tests/Makefile.am,
+	gl/tests/binary-io.h, gl/tests/dosname.h, gl/tests/fcntl.in.h,
+	gl/tests/fdopen.c, gl/tests/fpucw.h, gl/tests/ftruncate.c,

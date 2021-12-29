@@ -1,0 +1,11 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: libtiff
+Description:  Tag Image File Format (TIFF) library.
+Version: 4.0.4beta
+Libs: -L${libdir} -ltiff
+Libs.private: -llzma -ljpeg -lz 
+Cflags: -I${includedir}

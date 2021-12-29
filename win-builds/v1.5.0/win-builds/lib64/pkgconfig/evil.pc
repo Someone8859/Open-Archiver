@@ -1,0 +1,13 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+winver=Windows XP
+
+Name: evil
+Description: Library that ports on Windows some specific Unix functions.
+Version: 1.11.2
+Libs: -L${libdir} -levil
+Libs.private:
+Cflags: -I${includedir}/efl-1 -I${includedir}/evil-1 -D_WIN32_WINNT=0x0501 -mms-bitfields -D__USE_MINGW_ANSI_STDIO

@@ -1,0 +1,1000 @@
+commit 7f99fdbe909e7fc1c9bc781426eaccd79ef8bd8e
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Fri Oct 10 11:28:04 2014 -0400
+
+    2.24.25
+
+ NEWS         | 22 ++++++++++++++++++++++
+ configure.ac |  4 ++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+
+commit 43ece862f326673639f68dc1fabd860a22f91526
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Fri Oct 10 11:44:54 2014 -0400
+
+    Disable deprecation warnings for tests
+
+    This is a change in newer GLib which breaks make check if we
+    don't disable it.
+
+ gtk/tests/Makefile.am | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 1d0e2d58385bd01fdb753bf40ba2f4c32ccd0cc8
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Mon Sep 29 16:05:57 2014 -0400
+
+    pixbuf engine: Avoid a crash if widget is NULL
+
+    Commit 85f2a721cf introduced an unconditional call to
+    gtk_widget_get_direction(). This does not work for 'foreign'
+    uses of the theme engine, e.g. in Qt, where widget is NULL.
+
+    This was reported as a crash in Fedora here:
+    https://bugzilla.redhat.com/show_bug.cgi?id=924683
+
+ modules/engines/pixbuf/pixbuf-draw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 03c53357f682f26bd94deae28d9e27acb8045c9e
+Author: Jehan <jehan@girinstud.io>
+Date:   Fri Aug 15 18:19:36 2014 +0000
+
+    win32: provide an implementation for gdk_test_simulate_key().
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=734879
+
+ gdk/win32/gdktestutils-win32.c | 79
+ +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 78 insertions(+), 1 deletion(-)
+
+commit fbf38d16bcc26630f0f721d266509f5bc292f606
+Author: Emmanuele Bassi <ebassi@gnome.org>
+Date:   Tue Aug 26 12:07:34 2014 +0100
+
+    threads: Do not release the GDK lock if it hasn't been acquired yet
+
+    Since GLib ≥ 2.41, attempting to release an unlocked mutex will
+    abort(),
+    as it happens on most systems already.
+
+    Given the lack of proper documentation on how to use GDK with threads,
+    there is code in the wild that does:
+
+        gdk_threads_init ();
+        gdk_init ();
+
+        ...
+
+        gtk_main ();
+
+    instead of the idiomatically correct:
+
+        gdk_threads_init ();
+        gdk_threads_enter ();
+
+        gtk_init ();
+
+        ...
+
+        gtk_main ();
+
+        ...
+
+        gdk_threads_leave ();
+
+    Which means that gtk_main() will try to release the GDK lock, and thus
+    trigger an error from GLib.
+
+    we cannot really fix all the wrong code everywhere, and since it does
+    not cost us anything, we can work around the issue inside GDK
+    itself, by
+    trying to acquire the GDK lock inside gdk_threads_leave() with
+    trylock().
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=735428
+
+ gdk/gdk.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+commit d9164e9c6075f95aad11012ec4114d97b26aa7c5
+Author: Sebastian Gerhardt <sebgerhardt@gmx.net>
+Date:   Mon Aug 18 18:40:48 2014 +0200
+
+    gdk_drawable_get_screen() used for mask, which is a pixmap, not
+    a window
+
+    The function gtk_drag_set_icon_pixmap() triggered failing
+    assertions. This was because it called the function
+    gdk_window_get_screen(mask), where "mask" is a pixmap, but not
+    a window.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=735005
+
+ gtk/gtkdnd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit ab3e3b1834ff0e8a98fd689bbb85b84f3cbbc962
+Author: Jehan <jehan@girinstud.io>
+Date:   Thu Oct 24 19:42:44 2013 +1300
+
+    Makefiles: cross-compilation on Linux for Windows failing.
+
+    Missing linking information for some modules.
+
+ modules/engines/ms-windows/Makefile.am | 6 ++++--
+ modules/other/gail/Makefile.am         | 7 +++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+commit 267d004fd9b18168c8bd3b403c80cba068adbe1d
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Sun Aug 10 07:58:05 2014 -0400
+
+    Fix a typo
+
+    $(bindir) starts with a slash, so no need to add an extra one in
+    $(DESTDIR)$(bindir)...
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=734563
+
+ modules/input/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 825e0358336f3d0eea64b6a42343a529d19d5f8c
+Author: John Ralls <jralls@ceridwen.us>
+Date:   Sun May 25 16:58:16 2014 -0700
+
+    Bug 729924 - Crash trying to print in OSX
+
+ modules/printbackends/cups/gtkprintbackendcups.c | 44
+ ++++++++++++++----------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
+
+commit d0c0d657b4c231bd0175142b838938b3780b587c
+Author: Руслан Ижбулатов <lrn1986@gmail.com>
+Date:   Thu Jul 31 16:34:52 2014 +0000
+
+    Embed manifest into gtk-update-icon-cache.exe
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=705054
+
+ gtk/Makefile.am | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+
+commit 3c8f0c44e149f9fc3c20a7a0aba6d4f578a1acf7
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Tue Jul 29 12:23:13 2014 +0200
+
+    GtkEntry: Properly remove the completion timeout
+
+    There were some code paths where we removed the source, but
+    failed to reset the id to zero.
+
+    Pointed out by John Coppens in
+    https://bugzilla.gnome.org/show_bug.cgi?id=733689
+
+ gtk/gtkentry.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit f566f8811eac0eafcddf4d5a233f6a15053f2619
+Author: Michał Górny <mgorny@gentoo.org>
+Date:   Thu Jun 12 17:29:53 2014 +0200
+
+    Use AC_PATH_TOOL to find build tools.
+
+    This improves support for cross-compilation & multilib on Gentoo,
+    where
+    tools proper for target arch/ABI are prefixed with CHOST.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=731582
+
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 0b5b2779a2ec17b633c0c58c8907cc5d0c369c4b
+Author: Andreas Müller <schnitzeltony@googlemail.com>
+Date:   Fri Nov 16 22:07:28 2012 +0100
+
+    GtkButton: do not prelight in touchscreen mode
+
+    Code was copied from GtkToggleButton.
+
+    Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=689138
+
+ gtk/gtkbutton.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+commit 6a6885c5c0bf12d5e11a1a06a6289c7e9f0d205e
+Author: Balázs Úr <urbalazs@gmail.com>
+Date:   Tue Jul 8 15:04:53 2014 +0000
+
+    Updated Hungarian translation
+
+ po/hu.po | 235
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 120 insertions(+), 115 deletions(-)
+
+commit 8e5f8440a69668a70decf3aac8dd9222d44412ab
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:   Tue Jul 1 16:39:32 2014 +0800
+
+    Build: Provide Simple Support for MSVC 2012/2013
+
+    As the Visual Studio 2012/2013 are only slightly different from
+    the Visual
+    Studio 2010 projects, we can provide support for them by using
+    scripts to
+    copy the Visual Studio 2010 projects, and update the specific parts as
+    necessary.  This is being provided to help people still needing
+    GTK+-2.x
+    and also to help them to transition to GTK+-3.x easier.
+
+    Thus, there would be little maintenance overhead for these as only
+    the 2010
+    projects need to be kept up-to-date as a result.  This might change
+    when we
+    do get the stack working with WinRT/Metro, but that's going to
+    be another
+    totally different issue.
+
+ build/Makefile-newvs.am      | 37 +++++++++++++++++++++++++++++++++++++
+ build/win32/Makefile.am      |  8 +++++---
+ build/win32/vs11/Makefile.am | 32 ++++++++++++++++++++++++++++++++
+ build/win32/vs12/Makefile.am | 32 ++++++++++++++++++++++++++++++++
+ configure.ac                 |  2 ++
+ 5 files changed, 108 insertions(+), 3 deletions(-)
+
+commit 6e9781c32b4ee79902b5345b8563f03aca34520a
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:   Tue Jul 1 16:36:26 2014 +0800
+
+    Fix "Installation" for Visual Studio 2010+
+
+    We need to enclose paths containing $(BinDir) with double quotes as it
+    points to something like c:\foo\gtk+-x.yy.zz, which the copy
+    command on
+    Windows does not like "+" in paths unless enclosed in quotes.
+
+ build/win32/vs10/gtk-install.props | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 9de65a11bbf974e62520c18c1d193a5655d02ca3
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Mon Jun 23 10:12:17 2014 -0400
+
+    2.24.24
+
+ NEWS         | 24 ++++++++++++++++++++++++
+ configure.ac |  4 ++--
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+
+commit 72c472287bd2454f7c1837c54a4d9234df5a94cf
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Mon Jun 23 11:05:39 2014 -0400
+
+    Include image data in the builtin icon cache
+
+ gtk/Makefile.am | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit f65298206279a7baf33d7db7406706b06cb39581
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Sun Jun 22 13:05:50 2014 -0400
+
+    Fix a pixmap leak in the ms-windows engine
+
+    This was pointed out in
+    https://bugzilla.gnome.org/show_bug.cgi?id=731967.
+
+ modules/engines/ms-windows/msw_style.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit ff1f1d347df8047c95b30fb808ed85f3ec8524af
+Author: Yosef Or Boczko <yoseforb@src.gnome.org>
+Date:   Wed Jun 18 03:07:21 2014 +0300
+
+    Updated Hebrew translation
+
+ po/he.po | 950
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 490 insertions(+), 460 deletions(-)
+
+commit b79cb3974c73edbc2a0e74c0cf41f15bc7e439d3
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Tue Jun 17 19:29:24 2014 +0200
+
+    Updated Polish translation
+
+ po/pl.po | 234
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 119 insertions(+), 115 deletions(-)
+
+commit 30f24286717a64dac3d0938ebb1d01a5b18254c2
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Sat Jun 14 19:30:17 2014 -0400
+
+    gtk-update-icon-cache: Add an --include-image-data option
+
+    Now that we don't include the image data by default anymore,
+    lets add an option that  does it.
+
+    Conflicts:
+	docs/reference/gtk/gtk-update-icon-cache.xml
+
+ docs/reference/gtk/gtk-update-icon-cache.xml | 13 +++++++++++--
+ gtk/updateiconcache.c			      |  1 +
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
+commit 85fe78ed219487069a0ed7c7933bdd09c9bb5fc3
+Author: Jasper St. Pierre <jstpierre@mecheye.net>
+Date:	Fri Jan 10 12:14:41 2014 -0500
+
+    updateiconcache: Don't include image data by default anymore
+
+    Since large images are in the icon cache, and apps don't tend to
+    use that
+    many icons anymore, simply don't include image data and instead
+    make apps
+    load files from disk. Additionally, since they're stored in GdkPixbuf
+    data,
+    that means that we have to first convert them either to a
+    cairo_surface_t,
+    which requires converting pixel data to be premulitplied, or an OpenGL
+    texture, which requires a whole GPU upload anyway.
+
+    So, even with the icon cache, the goal of icons through zero-copy,
+    mmap()'d
+    data from disk just isn't doable with the icon cache format we
+    have. The
+    icon cache on my disk is nearing 100MB, since we include a bunch of
+    high-resolution application icons, that I doubt would be used by
+    apps at all.
+    Removing this inefficient pixel data makes memory usage for all
+    applications
+    go down, with no speed loss.
+
+    The icon cache also, however, has an index of what icons are in
+    each folder,
+    which prevents a readdir() and allows GTK+ to know what icon is
+    where without
+    having to do a bunch of stat(); calls. Keeping this data is good
+    for GTK+,
+    so we should still keep the index.
+
+    It doesn't make sense to remove any code for mapping pixel data from
+    the icon
+    cache. There's a plan in the works to have a symbolic icon cache
+    that does
+    pixel math on 16x16 icons to prevent slow SVG rendering. 16x16
+    pixels are
+    fairly small, and such images are flat colors, which should compress
+    easily,
+    so the icon cache would be worthwhile here. So let's keep the
+    code around
+    in preparation for that case.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=721895
+
+ gtk/updateiconcache.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit a3d672a415447bc252cb2333bdc0226765f6a198
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:	Mon Jun 9 12:21:23 2014 +0800
+
+    MSVC 2010+ Projects: Update "Installation" Process
+
+    Currently, due to the way that Visual Studio 2010+ projects are
+    handled,
+    the "install" project does not re-build upon changes to the sources,
+    as it
+    does not believe that its dependencies have changed, although
+    the changed
+    sources are automatically recompiled.  This means that if a part
+    or more
+    of the solution does not build, or if the sources need some other
+    fixes
+    or enhancements, the up-to-date build is not copied automatically,
+    which
+    can be misleading.
+
+    Improve on the situation by forcing the "install" project to
+    trigger its
+    rebuild, so that the updated binaries can be copied.  This does
+    trigger an
+    MSBuild warning, but having that warning is way better than not
+    having an
+    up-to-date build, especially during testing and development.
+
+ build/win32/vs10/gtk-install.props | 22 +++++++++++++++++-----
+ build/win32/vs10/install.vcxproj   | 28 ++++++++++++++++------------
+ 2 files changed, 33 insertions(+), 17 deletions(-)
+
+commit 46b0c2938293b0495f65a46fdc632b788532639b
+Author: Kalev Lember <kalevlember@gmail.com>
+Date:	Fri May 23 11:19:53 2014 +0200
+
+    pixbuf-engine: Fix the build with -Werror=format-security
+
+ modules/engines/pixbuf/pixbuf-rc-style.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 7eb1c7701c48e2517b06c12179fdd23725320ef3
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:	Fri May 16 12:07:01 2014 +0800
+
+    gdkselection-win32.c: Declare Variables At Top Of Block
+
+    ...so that builds on Visual C++ can be fixed.
+
+ gdk/win32/gdkselection-win32.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+commit c9da8bddca8f4e75e2ac6d7b362dd90fe7a844bc
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Mon Feb 3 21:00:17 2014 -0500
+
+    GtkMountOperation: Clean up a dangling signal handler
+
+    Based on a patch by Eugene Shatokhin,
+    https://bugzilla.gnome.org/show_bug.cgi?id=723366
+
+ gtk/gtkmountoperation.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
+
+commit fd44b53a3917f817c8d64acf2ebbf2ffbfbcc717
+Author: Marc-André Lureau <marcandre.lureau@gmail.com>
+Date:	Mon Oct 15 18:07:46 2012 +0200
+
+    gdk/win32: VK_SNAPSHOT maps to GDK_Print
+
+    Also, I am not sure the above VK_PRINT -> GDK_Print mapping is
+    correct, but it doesn't hurt yet.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=686170
+
+ gdk/win32/gdkkeys-win32.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit ed081e30b62b4c220381c8275ea5a8f7804ef449
+Author: Marc-André Lureau <marcandre.lureau@gmail.com>
+Date:	Wed Mar 20 23:12:56 2013 +0100
+
+    win32: do not crash on invalid utf8 conversion
+
+    g_utf8_to_utf16() is not guaranteed to succeed. Check the error
+    and return if it failed.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=696232
+
+ gdk/win32/gdkproperty-win32.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+commit 10430feb8dbb397c42ea929dd40e411de7cd446f
+Author: Marc-André Lureau <marcandre.lureau@gmail.com>
+Date:	Wed Nov 6 14:33:19 2013 +0100
+
+    gdk/win32: remove extra allocation for \r removal
+
+    Although I can't find explicit documentation for clipboard pointer, it
+    seems to be possible to modify clibpoard memory without side-effects.
+
+    According to MSDN,
+    http://msdn.microsoft.com/en-us/library/windows/desktop/aa366596%28v=vs.85%29.aspx
+
+    "The global and local functions are supported for porting from 16-bit
+    code, or for maintaining source code compatibility with 16-bit
+    Windows. Starting with 32-bit Windows, the global and local functions
+    are implemented as wrapper functions that call the corresponding heap
+    functions using a handle to the process's default heap."
+
+    "Memory objects allocated by GlobalAlloc and LocalAlloc are in
+    private,
+    committed pages with read/write access that cannot be accessed
+    by other
+    processes. Memory allocated by using GlobalAlloc with GMEM_DDESHARE is
+    not actually shared globally as it is in 16-bit Windows. This
+    value has
+    no effect and is available only for compatibility. "
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=711553
+
+ gdk/win32/gdkselection-win32.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+commit dd37429b51e07a61b309b0620f49e235bfe0a9c7
+Author: Marc-André Lureau <marcandre.lureau@gmail.com>
+Date:	Tue Apr 22 19:47:47 2014 +0200
+
+    win32: add more clipboard data checks to avoid crash
+
+    It may happen that the received clipboard data is empty, but
+    if it's of type image/bmp, gtk+ will crash:
+
+    gdk_property_change: 00030AD4 GDK_SELECTION image/bmp REPLACE
+    8*0 bits:
+    ... delayed rendering
+    gdk_selection_send_notify_for_display: 00030AD4 CLIPBOARD image/bmp
+    GDK_SELECTION (no-op)
+    _gdk_win32_selection_convert_to_dib: 1252003C image/bmp
+
+    Program received signal SIGSEGV, Segmentation fault.
+    0x749a9f40 in msvcrt!memmove () from C:\Windows\syswow64\msvcrt.dll
+
+    Thread 1 (Thread 2248.0x1b34):
+    target=0xc07b) at gdkselection-win32.c:1292
+    at gdkevents-win32.c:3498
+    wparam=8, lparam=0) at gdkevents-win32.c:232
+    message=773, wparam=8, lparam=0)
+	at gdkevents-win32.c:263
+    C:\Windows\syswow64\user32.dll
+    C:\Users\rugoosse\AppData\Local\virt-viewer\bin\libpangocairo-1.0-0.dll
+    wparam=0, lparam=-1687549457)
+	at gdkevents-win32.c:248
+    C:\Users\rugoosse\AppData\Local\virt-viewer\bin\libpangocairo-1.0-0.dll
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=728745
+
+ gdk/win32/gdkproperty-win32.c	| 6 ++++++
+ gdk/win32/gdkselection-win32.c | 2 ++
+ 2 files changed, 8 insertions(+)
+
+commit a533c83e8d44899b59bb915d22ff0d11eb30c0bc
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:	Wed Apr 2 22:05:03 2014 +0800
+
+    Visual Studio 2010 Projects: Revamp the Projects
+
+    As we are likely to have GTK+-2.x around for some time, revamp
+    the Visual
+    Studio 2010 projects like what was done for rest of the GTK+ stack,
+    namely:
+
+    -Split the property sheets, in a way like what was done for the rest
+    of the
+     stack.  Also clean up the resulting property sheets a bit, and
+     update the
+     projects to use these property sheets.
+    -Use UNIX line endings for all projects and property sheets, to
+    ease future
+     application of patches.
+    -Make the copying of config.h.win32 and gdkconfig.h.win32 into
+    custom build
+     rules, so that they may be removed properly and re-copied during
+     change
+     and update.
+    -Add a PlatformToolset tag, so if we want to support building
+    with Visual
+     Studio 2012/2013, the transition can be done quite easily with
+     a script,
+     such as what is now being done for the Visual Studio 2012 projects
+     for
+     GLib.
+
+ build/win32/vs10/Makefile.am		    |  43 +-
+ build/win32/vs10/gailutil.vcxproj	    | 369 ++++++++-------
+ build/win32/vs10/gailutil.vcxproj.filters  |  46 +-
+ build/win32/vs10/gdk-win32.vcxproj	    | 322 ++++++++------
+ build/win32/vs10/gdk-win32.vcxproj.filters | 146 ++----
+ build/win32/vs10/gdk.vcxproj.filtersin     |  60 +--
+ build/win32/vs10/gdk.vcxprojin		    | 384 ++++++++--------
+ build/win32/vs10/gtk+.props		    | 691
+ -----------------------------
+ build/win32/vs10/gtk-build-defines.props   |  50 +++
+ build/win32/vs10/gtk-demo.vcxproj	    | 442 +++++++++---------
+ build/win32/vs10/gtk-demo.vcxproj.filters  | 186 +++-----
+ build/win32/vs10/gtk-gen-srcs.props	    |  42 ++
+ build/win32/vs10/gtk-install.props	    | 586 ++++++++++++++++++++++++
+ build/win32/vs10/gtk-version-paths.props   |  54 +++
+ build/win32/vs10/gtk.vcxproj.filtersin     |  86 ++--
+ build/win32/vs10/gtk.vcxprojin		    | 416 ++++++++---------
+ build/win32/vs10/install.vcxproj	    | 245 +++++-----
+ build/win32/vs10/libwimp.vcxproj	    | 344 +++++++-------
+ build/win32/vs10/libwimp.vcxproj.filters   |  54 +--
+ 19 files changed, 2262 insertions(+), 2304 deletions(-)
+
+commit 8ef1cff3bb36e61c2eccf5e9200a92de85e8e88d
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:	Wed Apr 2 17:57:13 2014 +0800
+
+    Visual Studio 2008 Projects: Revamp the Projects
+
+    As we are likely to have GTK+-2.x around for some time, revamp
+    the Visual
+    Studio 2008 projects like what was done for rest of the GTK+ stack,
+    namely:
+
+    -Split the property sheets, in a way like what was done for the rest
+    of the
+     stack.  Also clean up the resulting property sheets a bit, and
+     update the
+     projects to use these property sheets.
+    -Use UNIX line endings for all projects and property sheets, to
+    ease future
+     application of patches.
+    -Make the copying of config.h.win32 and gdkconfig.h.win32 into
+    custom build
+     rules, so that they may be removed properly and re-copied during
+     change
+     and update.
+
+    Similar updates will be applied for the Visual Studio 2010 projects
+    ASAP.
+
+ build/win32/vs9/Makefile.am		   |  27 +-
+ build/win32/vs9/gailutil.vcproj	   | 366 +++++++++++------------
+ build/win32/vs9/gdk-win32.vcproj	   | 366 +++++++++++++----------
+ build/win32/vs9/gdk.vcprojin		   | 442
+ ++++++++++++++--------------
+ build/win32/vs9/gtk+.vsprops		   | 399 -------------------------
+ build/win32/vs9/gtk-build-defines.vsprops |  45 +++
+ build/win32/vs9/gtk-demo.vcproj	   | 424
+ +++++++++++++--------------
+ build/win32/vs9/gtk-gen-srcs.vsprops	   |  37 +++
+ build/win32/vs9/gtk-install.vsprops	   | 304 +++++++++++++++++++
+ build/win32/vs9/gtk-version-paths.vsprops |  53 ++++
+ build/win32/vs9/gtk.vcprojin		   | 472
+ +++++++++++++++---------------
+ build/win32/vs9/install.vcproj		   | 155 +++++-----
+ build/win32/vs9/libwimp.vcproj		   | 346 +++++++++++-----------
+ 13 files changed, 1769 insertions(+), 1667 deletions(-)
+
+commit 1f8d021d3023830e3701c304859f789dd30bd0d9
+Author: Michael Natterer <mitch@gimp.org>
+Date:	Wed Apr 2 00:04:50 2014 +0200
+
+    treeview: properly remove the timeout in expand_collapse_timeout()
+
+    or it will later warn about removing a source that doesn't exist.
+
+ gtk/gtktreeview.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit 60189143a4097c615f9cda0dbec2cd48b4eca77d
+Author: Mike Gorse <mgorse@suse.com>
+Date:	Wed Oct 30 15:42:09 2013 -0500
+
+    Print to a file in the current directory by default
+
+    When printing to a file, the filename was not being propagated if a
+    directory was not specified.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=711177
+
+ gtk/gtkprinteroptionwidget.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+commit 378ea9029f0ae2897d769a9928adb1d636b6c151
+Author: Marek Kasik <mkasik@redhat.com>
+Date:	Fri Mar 14 16:01:56 2014 +0100
+
+    printing: Fail nicely when /tmp is not writable
+
+    Don't crash when /tmp is not writable when printing to file.
+    Show that getting of printer details failed for CUPS printers.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=693200
+
+ gtk/gtkprintjob.c				  | 2 +-
+ gtk/gtkprintoperation-unix.c			  | 5 +++--
+ gtk/gtkprintunixdialog.c			  | 2 +-
+ modules/printbackends/cups/gtkprintbackendcups.c | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
+
+commit 03014aa9c7b390f6aaf88dda2600710b029ab361
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Mon Mar 17 21:34:01 2014 -0400
+
+    2.24.23
+
+ NEWS | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+commit 82310d48a8c9aedc39acc1b2bf6a89d0bb7de918
+Author: Hans Breuer <hans@breuer.org>
+Date:	Sun Mar 16 13:59:06 2014 +0100
+
+    Bug 634146 - Check
+    g_win32_get_package_installation_directory_of_module() return value
+
+    Remaining part of patch from Joshua Element Green.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=634146
+
+ gtk/gtkmain.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 95985a2181b49a92ec7b8f0eed0dd26052444d86
+Author: Marc-André Lureau <marcandre.lureau@gmail.com>
+Date:	Mon Apr 8 22:45:50 2013 +0200
+
+    win32: free allocated gdi objects in 16bpp
+
+    In 16bpp, Gdk is creating hbitmap with CreateDIBSection() and a
+    hdc with
+    CreateCompatibleDC(). Those 2 objects need to be released when the
+    pixmap is finalized.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=671538
+
+    Signed-off-by: Hans Breuer <hans@breuer.org>
+
+ gdk/win32/gdkpixmap-win32.c | 6 ++++++
+ gdk/win32/gdkpixmap-win32.h | 1 +
+ 2 files changed, 7 insertions(+)
+
+commit 7ff6e601c3300d4adb0aa224ab128ce3f4f56f5f
+Author: Pavel <pavel@pamsoft.cz>
+Date:	Mon Jan 21 20:31:20 2013 +0100
+
+    exstyle changed after the window size adjustment
+
+    Originaly the size of the window based on the client area size has
+    been calculated first and then variables dwStyle and dwExStyle have
+    been changed. Thus the window size has been calculated for different
+    windows type then eventually used when calling CreateWindowEx. This
+    caused for example the Gimp tool windows to have different size than
+    formerly saved in session. The whole code calculating the window size
+    is moved after the last adjustment of dwExStyle variable in this
+    patch.
+
+    Signed-off-by: Hans Breuer <hans@breuer.org>
+
+ gdk/win32/gdkwindow-win32.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+commit 6d329406ae6adf8aca964998fdddf0251aab32b6
+Author: Hans Breuer <hans@breuer.org>
+Date:	Tue Oct 16 22:58:37 2012 +0200
+
+    Bug 665507 - Pixmap via cairo DIB breaks gdk_gc_set_stipple() use
+
+    Only one bitmap can be selected into a device context. Using the
+    DIB created by cairo consumes the one opportunity, so every further
+    SelectObject into the same DC in GDK code will fail.
+
+ gdk/win32/gdkdrawable-win32.c | 39
+ +++++++++++----------------------------
+ 1 file changed, 11 insertions(+), 28 deletions(-)
+
+commit 479bc6e5509f845652b7cd3831d17744b2148ff3
+Author: Hans Breuer <hans@breuer.org>
+Date:	Sat Dec 3 17:42:45 2011 +0100
+
+    win32: restore effect of _gdk_selection_property_delete
+
+    Can not find in the changelog entry why it was disabled at all,
+    see: http://git.gnome.org/browse/gtk+/commit/?id=3f4c73
+
+    The ill effect is somewhat hidden: if you try to copy images
+    via clipboard only the first one is pastable, i.e. Gdk keeps
+    the reference to the first image and provides it for later
+    paste.
+
+ gdk/win32/gdkselection-win32.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit e84bb08ded46bf3c96dd53bfffd372296de047b4
+Author: Marek Kasik <mkasik@redhat.com>
+Date:	Wed Mar 12 10:52:05 2014 +0100
+
+    printing: Don't crash because of missing g_clear_pointer()
+
+    g_clear_pointer() is not available in glib-2.28 which is minimal
+    required version for gtk+-2.24.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=708783
+
+ modules/printbackends/cups/gtkprintbackendcups.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+commit c5561f7e8c197117f964feb58e247f113fb08a7f
+Author: John Ralls <jralls@ceridwen.us>
+Date:	Sun Dec 1 14:02:11 2013 -0800
+
+    Bug 711298 - "Edit Scheduled Transaction" window way too modal
+
+    Put dialogs and utility windows in the same level as normal and
+    toolbar windows so that Gtk can control their stacking instead of
+    forcing them, rather unnaturally, to be on top of all other windows,
+    even other application windows, even when another application has
+    focus.
+
+ gdk/quartz/gdkwindow-quartz.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit ba2dc987605e51933dcbfc7b4620abca94654302
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Mon Jun 11 19:27:25 2012 -0400
+
+    Update docs for GtkEntry::activate
+
+    Remove the 'you shall not connect' message from this signal.
+    While it is a keybinding signal, using it from applications is
+    fine and, in fact, expected.
+
+ gtk/gtkentry.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+commit 8e721922f116df1821361248164f1a5bd06c6c6e
+Author: William Jon McCann <william.jon.mccann@gmail.com>
+Date:	Wed Jan 22 01:08:39 2014 -0500
+
+    docs: Fix gdk_pixmap_new arguments in tutorial
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=708119
+
+ docs/tutorial/gtk-tut.sgml | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+commit b7c6954f6f6d3754dc8a28bed1d3ec099bfe59f8
+Author: Giovanni Campagna <gcampagna@src.gnome.org>
+Date:	Sat Jan 18 16:12:39 2014 +0100
+
+    GtkFileChooser: fix documentation
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=722496
+
+ gtk/gtkfilechooser.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit a0a005def7d2c37e350ad494cd020107548cd248
+Author: Federico Mena Quintero <federico@gnome.org>
+Date:	Mon Jan 6 15:05:44 2014 -0600
+
+    filechooser: Document the settings keys
+
+    This is so people can modify gnome-tweak-tool or whatever without
+    directly diving into
+    the source.
+
+ gtk/gtkfilechooser.c | 91
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+
+commit 4a61ca28b1daeab70d89db6ec2f00511e0db2dd5
+Author: Luis Menina <liberforce@freeside.fr>
+Date:	Sat Dec 21 15:54:29 2013 +0100
+
+    Fixed GtkLabel documentation on links
+
+    An escaped '&lt;' wasn't complete, the 'lt' part was missing.
+
+ docs/reference/gtk/tmpl/gtklabel.sgml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 090159cec92921182f8eeb59762ceba11c1581f4
+Author: Marek Kasik <mkasik@redhat.com>
+Date:	Wed Dec 18 18:28:39 2013 +0100
+
+    gdkwindow: Don't add the same window to "update_windows" twice
+
+    This prevents passing of such window to another GMainLoop.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=711552
+
+ gdk/gdkwindow.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit c212cb8f32c02cf2fe691372b753d334f6e25d69
+Author: Marek Kasik <mkasik@redhat.com>
+Date:	Mon Dec 16 18:04:14 2013 +0100
+
+    gdkwindow: Handle references in "update_windows" list correctly
+
+    Since update_windows list is a static variable in GdkWindow.c which
+    contains pointers to windows which needs to be updated, it can happen
+    that it contains a pointer to a window even after quit from a
+    gtk_main().
+    If another gtk_main() is called in the same process it tries to
+    process
+    windows in the list which leads to a crash.
+    Correct reference count handling of added windows prevents such
+    applications
+    from crash.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=711552
+
+ gdk/gdkwindow.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
+
+commit 2c01e7e78d29011ad086613428933ac8c1ac32d6
+Author: John Ralls <jralls@ceridwen.us>
+Date:	Sat Sep 28 10:55:22 2013 -0700
+
+    Bug 651224 - Potential NULL display ptr from quartz
+    gtk_clipboard_wait_for_contents
+
+ gtk/gtkclipboard-quartz.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit b7ab0ed129026207b37717d565feb932a6219612
+Author: Benjamin Otte <otte@redhat.com>
+Date:	Thu Sep 9 23:09:07 2010 +0200
+
+    iconfactory: Initialize varibale to NULL in failure path
+
+    Otherwise we use random memory and that is not good.
+
+ gtk/gtkiconfactory.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit e048de9cab0a2593e47cac736513213d413702d9
+Author: Carlos Garnacho <carlosg@gnome.org>
+Date:	Fri Jul 26 17:45:19 2013 +0200
+
+    ime: Add builtin handling of dead keys
+
+    The IME input method has been both ignoring keypresses of
+    non-spacing characters (ditching these as non displayable),
+    and not letting IME do anything about those.
+
+    Even though, the sparse documentation on IMM/IME seems to
+    hint that applications can't pipe non-spacing characters to
+    the input method manager, and experimentation shown that
+    those characters are indeed handled differently than how
+    it'd be expected.
+
+    Then, add basic handling of dead keys on the IME input method
+    itself , as it's not mutually exclusive with regular keymaps
+    with dead keys.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=704937
+
+ modules/input/gtkimcontextime.c | 97
+ ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 92 insertions(+), 5 deletions(-)
+
+commit aa8704aa9f5b1c1c47395cd4ff392e8158f0af05
+Author: Jehan <jehan@girinstud.io>
+Date:	Sat Nov 23 18:35:18 2013 +1300
+
+    Bug 712536 - Themes with gap_(start|end)_file but no actual file crash
+
+    Code factorization in commit 34fd123 reintroduced bug fixed in 0d396ab
+    with non-equivalent factorized tests.
+
+ modules/engines/pixbuf/pixbuf-rc-style.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+commit 4f47aa6ef5fe4796635e2c211831c78e76cb2240
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Sun Dec 1 17:13:01 2013 -0500
+
+    GtkFileChooser: avoid a memory leak
+
+    The directory enumeration code was leaking references to
+    GtkFolder objects.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=705367
+
+ gtk/gtkfilesystem.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 9559c707d59c5e5c34596f8f75c7ed0b97b4a196
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Sun Dec 1 17:10:31 2013 -0500
+
+    Avoid a crash in the pixbuf engine
+
+    This is fallout from e4c83bbfdb60fdfe0bae207b1ddae295dc267a23,
+    which removed a necessary check.
+
+ modules/engines/pixbuf/pixbuf-rc-style.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3d0abd5cb00bd8a9c4e11d05936d41c363c78808
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:	Sun Dec 1 16:56:54 2013 -0500
+
+    Remove an unused struct member
+
+    AsyncFuncData.folder was entirely unused. Drop it.
+
+ gtk/gtkfilesystem.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+commit e4c83bbfdb60fdfe0bae207b1ddae295dc267a23
+Author: Emmanuele Bassi <ebassi@gnome.org>

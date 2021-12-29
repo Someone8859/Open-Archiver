@@ -1,0 +1,1000 @@
+commit b69900ed0b2f914fc6c0a180dcb522dbe5b80ea7
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-30 18:02:27 +0300
+
+    Man pages: Use similar syntax for synopsis as in xz.
+    
+    The man pages of lzmainfo, xzmore, and xzdec had similar
+    constructs as the man page of xz had before the commit
+    eb6ca9854b8eb9fbf72497c1cf608d6b19d2d494. Eric S. Raymond
+    didn't mention these man pages in his bug report, but
+    it's nice to be consistent.
+
+ src/lzmainfo/lzmainfo.1 |  4 ++--
+ src/scripts/xzmore.1    |  6 +++---
+ src/xzdec/xzdec.1       | 10 +++++-----
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+commit cf4a1e1879d89be314ef3c064bd2656ea452f87e
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-30 15:55:09 +0300
+
+    Update NEWS for 5.0.5.
+
+ NEWS | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+
+commit cb94bb6d1f34e1e93c2d634ea9c3b7dfb3981d05
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-30 15:54:38 +0300
+
+    Bump version and soname for 5.0.5.
+
+ src/liblzma/Makefile.am        | 2 +-
+ src/liblzma/api/lzma/version.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit b7dee202d5b041ccae028d0c5433b83cecbe9e5d
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-28 23:56:17 +0300
+
+    xz: Fix return value type in io_write_buf().
+    
+    It didn't affect the behavior of the code since -1
+    becomes true anyway.
+
+ src/xz/file_io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 265e7b44d804b47373f10b7da28350db7611cea6
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-28 18:46:13 +0300
+
+    xz: Remove an outdated NetBSD-specific comment.
+    
+    Nowadays errno == EFTYPE is documented in open(2).
+
+ src/xz/file_io.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+commit 78c2f8db902195468b8249c432252a6b281db836
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-28 18:09:47 +0300
+
+    xz: Fix error detection of fcntl(fd, F_SETFL, flags) calls.
+    
+    POSIX says that fcntl(fd, F_SETFL, flags) returns -1 on
+    error and "other than -1" on success. This is how it is
+    documented e.g. on OpenBSD too. On Linux, success with
+    F_SETFL is always 0 (at least accorinding to fcntl(2)
+    from man-pages 3.51).
+
+ src/xz/file_io.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 91750dff8f2c654ff636f12a2acdffe5492374b3
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-28 17:36:47 +0300
+
+    xz: Fix use of wrong variable in a fcntl() call.
+    
+    Due to a wrong variable name, when writing a sparse file
+    to standard output, *all* file status flags were cleared
+    (to the extent the operating system allowed it) instead of
+    only clearing the O_APPEND flag. In practice this worked
+    fine in the common situations on GNU/Linux, but I didn't
+    check how it behaved elsewhere.
+    
+    The original flags were still restored correctly. I still
+    changed the code to use a separate boolean variable to
+    indicate when the flags should be restored instead of
+    relying on a special value in stdout_flags.
+
+ src/xz/file_io.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+commit e11888a79a4a77a69afde60445880d44f63d01aa
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-26 13:30:57 +0300
+
+    xz: Check the value of lzma_stream_flags.version in --list.
+    
+    It is a no-op for now, but if an old xz version is used
+    together with a newer liblzma that supports something new,
+    then this check becomes important and will stop the old xz
+    from trying to parse files that it won't understand.
+
+ src/xz/list.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit f39ddd88f3222219ada88998cf30abfdd3e0e96c
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-26 12:17:00 +0300
+
+    Build: Require Automake 1.12 and use serial-tests option.
+    
+    It should actually still work with Automake 1.10 if
+    the serial-tests option is removed. Automake 1.13 started
+    using parallel tests by default and the option to get
+    the old behavior isn't supported before 1.12.
+    
+    At least for now, parallel tests don't improve anything
+    in XZ Utils but they hide the progress output from
+    test_compress.sh.
+
+ configure.ac | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit cb84e278027a90e9827a6f4d3bb0b4d4744a2fbb
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-23 17:36:47 +0300
+
+    xz: Validate Uncompressed Size from Block Header in list.c.
+    
+    This affects only "xz -lvv". Normal decompression with xz
+    already detected if Block Header and Index had mismatched
+    Uncompressed Size fields. So this just makes "xz -lvv"
+    show such files as corrupt instead of showing the
+    Uncompressed Size from Index.
+
+ src/xz/list.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+commit f01780fce454c7489f7dcbf806299b50da5f51b7
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-26 10:58:58 +0300
+
+    Update THANKS.
+
+ THANKS | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit d98ede7d700b892e32d9c2f46563b6ebc566786d
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-21 22:04:45 +0300
+
+    xz: Make the man page more friendly to doclifter.
+    
+    Thanks to Eric S. Raymond.
+
+ src/xz/xz.1 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit 19b447b64b3f520cd5b11429000b092f7c76709b
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-21 21:54:59 +0300
+
+    xz: A couple of man page fixes.
+    
+    Now the interaction of presets and custom filter chains
+    is described correctly. Earlier it contradicted itself.
+    
+    Thanks to DevHC who reported these issues on IRC to me
+    on 2012-12-14.
+
+ src/xz/xz.1 | 35 +++++++++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 12 deletions(-)
+
+commit 45edf2966fc9a4d2eae8f84b2fa027fb4fa1df8b
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-06-21 21:50:26 +0300
+
+    xz: Fix interaction between preset and custom filter chains.
+    
+    There was somewhat illogical behavior when --extreme was
+    specified and mixed with custom filter chains.
+    
+    Before this commit, "xz -9 --lzma2 -e" was equivalent
+    to "xz --lzma2". After it is equivalent to "xz -6e"
+    (all earlier preset options get forgotten when a custom
+    filter chain is specified and the default preset is 6
+    to which -e is applied). I find this less illogical.
+    
+    This also affects the meaning of "xz -9e --lzma2 -7".
+    Earlier it was equivalent to "xz -7e" (the -e specified
+    before a custom filter chain wasn't forgotten). Now it
+    is "xz -7". Note that "xz -7e" still is the same as "xz -e7".
+    
+    Hopefully very few cared about this in the first place,
+    so pretty much no one should even notice this change.
+    
+    Thanks to Conley Moorhous.
+
+ src/xz/coder.c | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
+
+commit b065984e5a9272eb50bc0c6d3731e6199c0ae8a8
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-04-08 17:53:05 +0300
+
+    xz: Change size_t to uint32_t in a few places.
+
+ src/xz/coder.c | 6 +++---
+ src/xz/coder.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 32be621f52f2e1686db88baa7b01dc1ae338f426
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-04-27 22:07:46 +0300
+
+    Build: Use -Wvla with GCC if supported.
+    
+    Variable-length arrays are mandatory in C99 but optional in C11.
+    The code doesn't currently use any VLAs and it shouldn't in the
+    future either to stay compatible with C11 without requiring any
+    optional C11 features.
+
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit efb07cfba65e9e05984c02cd796c1b0338ce04dc
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-04-15 19:29:09 +0300
+
+    xzdec: Improve the --help message.
+    
+    The options are now ordered in the same order as in xz's help
+    message.
+    
+    Descriptions were added to the options that are ignored.
+    I left them in parenthesis even if it looks a bit weird
+    because I find it easier to spot the ignored vs. non-ignored
+    options from the list that way.
+
+ src/xzdec/xzdec.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit e3c8be13699e2813f5e2879d8187444b46d82d89
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-04-05 19:25:40 +0300
+
+    Update THANKS.
+
+ THANKS | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit ad8282efe483612f6b5544f9a0d2e4914fb2532a
+Author: Jeff Bastian <jbastian@redhat.com>
+Date:   2013-04-03 13:59:17 +0200
+
+    xzgrep: make the '-h' option to be --no-filename equivalent
+    
+    * src/scripts/xzgrep.in: Accept the '-h' option in argument parsing.
+
+ src/scripts/xzgrep.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 9271a3eb0e022b23e8712154be851d0afe4c02e4
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-04-05 19:34:09 +0300
+
+    liblzma: Be less picky in lzma_alone_decoder().
+    
+    To avoid false positives when detecting .lzma files,
+    rare values in dictionary size and uncompressed size fields
+    were rejected. They will still be rejected if .lzma files
+    are decoded with lzma_auto_decoder(), but when using
+    lzma_alone_decoder() directly, such files will now be accepted.
+    Hopefully this is an OK compromise.
+    
+    This doesn't affect xz because xz still has its own file
+    format detection code. This does affect lzmadec though.
+    So after this commit lzmadec will accept files that xz or
+    xz-emulating-lzma doesn't.
+    
+    NOTE: lzma_alone_decoder() still won't decode all .lzma files
+    because liblzma's LZMA decoder doesn't support lc + lp > 4.
+    
+    Reported here:
+    http://sourceforge.net/projects/lzmautils/forums/forum/708858/topic/7068827
+    
+    Conflicts:
+    	src/liblzma/common/alone_decoder.c
+    	src/liblzma/common/alone_decoder.h
+
+ src/liblzma/common/alone_decoder.c | 22 ++++++++++++++--------
+ src/liblzma/common/alone_decoder.h |  5 +++--
+ src/liblzma/common/auto_decoder.c  |  2 +-
+ 3 files changed, 18 insertions(+), 11 deletions(-)
+
+commit 211b931cee58626c1d2e021810cb108cb5cbc10f
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2013-03-05 19:14:50 +0200
+
+    Avoid unneeded use of awk in xzless.
+    
+    Use "read" instead of "awk" in xzless to get the version
+    number of "less". The need for awk was introduced in
+    the commit db5c1817fabf7cbb9e4087b1576eb26f0747338e.
+    
+    Thanks to Ariel P for the patch.
+
+ src/scripts/xzless.in | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit 9f62fd9605eade23b62b07a235d1f02156f7a5c6
+Author: Jonathan Nieder <jrnieder@gmail.com>
+Date:   2012-11-19 00:10:10 -0800
+
+    xzless: Make "less -V" parsing more robust
+    
+    In v4.999.9beta~30 (xzless: Support compressed standard input,
+    2009-08-09), xzless learned to parse ‘less -V’ output to figure out
+    whether less is new enough to handle $LESSOPEN settings starting
+    with “|-”.  That worked well for a while, but the version string from
+    ‘less’ versions 448 (June, 2012) is misparsed, producing a warning:
+    
+    	$ xzless /tmp/test.xz; echo $?
+    	/usr/bin/xzless: line 49: test: 456 (GNU regular expressions): \
+    	integer expression expected
+    	0
+    
+    More precisely, modern ‘less’ lists the regexp implementation along
+    with its version number, and xzless passes the entire version number
+    with attached parenthetical phrase as a number to "test $a -gt $b",
+    producing the above confusing message.
+    
+    	$ less-444 -V | head -1
+    	less 444
+    	$ less -V | head -1
+    	less 456 (no regular expressions)
+    
+    So relax the pattern matched --- instead of expecting "less <number>",
+    look for a line of the form "less <number>[ (extra parenthetical)]".
+    While at it, improve the behavior when no matching line is found ---
+    instead of producing a cryptic message, we can fall back on a LESSPIPE
+    setting that is supported by all versions of ‘less’.
+    
+    The implementation uses "awk" for simplicity.  Hopefully that’s
+    portable enough.
+    
+    Reported-by: Jörg-Volker Peetz <jvpeetz@web.de>
+    Signed-off-by: Jonathan Nieder <jrnieder@gmail.com>
+
+ src/scripts/xzless.in | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 1d05980f5b5c2c94d833001daccacce4a466876e
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-10-03 15:54:24 +0300
+
+    xz: Fix the note about --rsyncable on the man page.
+
+ src/xz/xz.1 | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+commit fb68497333598688d309a92838d91fd560f7e9f0
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-09-28 20:11:09 +0300
+
+    xz: Improve handling of failed realloc in xrealloc.
+    
+    Thanks to Jim Meyering.
+
+ src/xz/util.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+commit 75013db6d4d63c195bd8b8d45729b4be0665a812
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-12-15 20:01:02 +0200
+
+    A few typo fixes to comments and the xz man page.
+    
+    Thanks to Jim Meyering.
+
+ configure.ac               | 2 +-
+ src/liblzma/check/sha256.c | 1 -
+ src/xz/xz.1                | 4 ++--
+ 3 files changed, 3 insertions(+), 4 deletions(-)
+
+commit e44b21839b1dcbac5097be39b87dd2ddb6e114fd
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-08-02 17:13:30 +0300
+
+    Build: Bump gettext version requirement to 0.18.
+    
+    Otherwise too old version of m4/lib-link.m4 gets included
+    when autoreconf -fi is run.
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fd3dbb23ca7e75a7a888d7e897c381dc06308307
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-07-05 07:36:28 +0300
+
+    Tests: Remove tests/test_block.c that had gotten committed accidentally.
+
+ tests/test_block.c | 52 ----------------------------------------------------
+ 1 file changed, 52 deletions(-)
+
+commit 05a735d279d74af437c31f25f69aded4713c1a3d
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-07-05 07:33:35 +0300
+
+    Build: Include macosx/build.sh in the distribution.
+    
+    It has been in the Git repository since 2010 but probably
+    few people have seen it since it hasn't been included in
+    the release tarballs. :-(
+
+ Makefile.am | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 4e6d62793b5e7b87edcc93c7ded072c1ecd94173
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-07-05 07:24:45 +0300
+
+    Docs: Fix the name LZMA Utils -> XZ Utils in debug/README.
+
+ debug/README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit dd95b5e7614baf1f07a1316b5106bd616a9efa79
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-07-05 07:23:17 +0300
+
+    Include debug/translation.bash in the distribution.
+    
+    Also fix the script name mentioned in README.
+
+ README            | 4 ++--
+ debug/Makefile.am | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+commit 20778053a07eb90c159c1377ca8dc05a90fd530b
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-22 14:36:16 +0300
+
+    xz: Update man page date to match the latest update.
+
+ src/xz/xz.1 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2cefa84af676da37d7e9c466d55d46c67ab00c22
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-22 10:25:43 +0300
+
+    Bump version and soname for 5.0.4.
+
+ src/liblzma/Makefile.am        | 2 +-
+ src/liblzma/api/lzma/version.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 433fec191a17e45690809e54146ea7a773f54cff
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-22 10:25:09 +0300
+
+    Update NEWS for 5.0.4.
+
+ NEWS | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
+
+commit 711fa680f552a4003df73b37e6dc4d6e00b47bcd
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-18 21:27:47 +0300
+
+    Docs: Language fix to 01_compress_easy.c.
+    
+    Thanks to Jonathan Nieder.
+
+ doc/examples/01_compress_easy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3d7ab1dc61a75c560828be5df96598388b771456
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-14 20:15:30 +0300
+
+    Fix the top-level Makefile.am for the new example programs.
+
+ Makefile.am | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+commit ef8b8e5f111469b5bc005975f7abb9abbd372b25
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-14 10:52:33 +0300
+
+    Docs: Add new example programs.
+    
+    These have more comments than the old examples and
+    human-readable error messages. More tutorial-like examples
+    are needed but these are a start.
+
+ doc/examples/00_README.txt        |  27 ++++
+ doc/examples/01_compress_easy.c   | 297 ++++++++++++++++++++++++++++++++++++++
+ doc/examples/02_decompress.c      | 287 ++++++++++++++++++++++++++++++++++++
+ doc/examples/03_compress_custom.c | 193 +++++++++++++++++++++++++
+ doc/examples/Makefile             |  23 +++
+ 5 files changed, 827 insertions(+)
+
+commit 75c149bc8045a26f8bc719cb8ed20668dab79091
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-14 10:33:27 +0300
+
+    Docs: Move xz_pipe_comp.c and xz_pipe_decomp.c to doc/examples_old.
+    
+    It is good to keep these around to so that if someone has
+    copied the decompressor bug from xz_pipe_decomp.c he has
+    an example how to easily fix it.
+
+ doc/examples/xz_pipe_comp.c       | 127 --------------------------------------
+ doc/examples/xz_pipe_decomp.c     | 123 ------------------------------------
+ doc/examples_old/xz_pipe_comp.c   | 127 ++++++++++++++++++++++++++++++++++++++
+ doc/examples_old/xz_pipe_decomp.c | 123 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 250 insertions(+), 250 deletions(-)
+
+commit 456307ebf947a5f50bd995d617b99c1215572308
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-06-14 10:33:01 +0300
+
+    Docs: Fix a bug in xz_pipe_decomp.c example program.
+
+ doc/examples/xz_pipe_decomp.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+commit 4c310b8a29bc257e6ccbd2310f12f258678f3fef
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-31 15:53:25 +0300
+
+    Translations: Update the Italian translation.
+    
+    Thanks to Milo Casagrande.
+
+ po/it.po | 311 ++++++++++++++++++++++++++++++---------------------------------
+ 1 file changed, 146 insertions(+), 165 deletions(-)
+
+commit ec32b79366dc47a55ea877589df9e8509ba113a7
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-30 23:15:07 +0300
+
+    Translations: Update the French translation.
+    
+    Thanks to Adrien Nader.
+
+ po/fr.po | 237 +++++++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 118 insertions(+), 119 deletions(-)
+
+commit dd06f40e4dd7649525e4f28d890dc238a3aa37e5
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-29 22:26:27 +0300
+
+    Translations: Update the German translation.
+
+ po/de.po | 169 ++++++++++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 91 insertions(+), 78 deletions(-)
+
+commit c66808d1f55d0149ed57c536cc9b52e9c8b583bc
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-29 22:12:57 +0300
+
+    Translations: Update Polish translation.
+
+ po/pl.po | 150 ++++++++++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 82 insertions(+), 68 deletions(-)
+
+commit 556c22dfed195c1466b298183b850d6c28544900
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-29 13:10:36 +0300
+
+    Preliminary NEWS for 5.0.4.
+
+ NEWS | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+commit dd13b66bf582f49d3aec36e3410ff8541b7506da
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-28 20:42:11 +0300
+
+    liblzma: Fix possibility of incorrect LZMA_BUF_ERROR.
+    
+    lzma_code() could incorrectly return LZMA_BUF_ERROR if
+    all of the following was true:
+    
+      - The caller knows how many bytes of output to expect
+        and only provides that much output space.
+    
+      - When the last output bytes are decoded, the
+        caller-provided input buffer ends right before
+        the LZMA2 end of payload marker. So LZMA2 won't
+        provide more output anymore, but it won't know it
+        yet and thus won't return LZMA_STREAM_END yet.
+    
+      - A BCJ filter is in use and it hasn't left any
+        unfiltered bytes in the temp buffer. This can happen
+        with any BCJ filter, but in practice it's more likely
+        with filters other than the x86 BCJ.
+    
+    Another situation where the bug can be triggered happens
+    if the uncompressed size is zero bytes and no output space
+    is provided. In this case the decompression can fail even
+    if the whole input file is given to lzma_code().
+    
+    A similar bug was fixed in XZ Embedded on 2011-09-19.
+
+ src/liblzma/simple/simple_coder.c |   2 +-
+ tests/Makefile.am                 |   4 +-
+ tests/test_bcj_exact_size.c       | 112 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 116 insertions(+), 2 deletions(-)
+
+commit a0223bf796fdaad51a11ad02c4195c694849cc78
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-28 15:38:32 +0300
+
+    Update THANKS.
+
+ THANKS | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 86e57e4bfefe3fd8e13615c41604165bb2359501
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-28 15:37:43 +0300
+
+    xz: Don't show a huge number in -vv when memory limit is disabled.
+
+ src/xz/message.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+commit 13e44a94da19d1ef14832ff12d3877a6fd2c54c0
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-27 22:30:17 +0300
+
+    xz: Document the "summary" lines of --robot -lvv.
+    
+    This documents only the columns that are in v5.0.
+    The new columns added in the master branch aren't
+    necessarily stable yet.
+
+ src/xz/xz.1 | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+commit 2f90345e13ab8fea4de45a4f1caa73ebc63a62e7
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-27 21:53:20 +0300
+
+    xz: Fix output of verbose --robot --list modes.
+    
+    It printed the filename in "filename (x/y)" format
+    which it obviously shouldn't do in robot mode.
+
+ src/xz/message.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 8d4864f53ffae5d862c691a0b334a6b69bc5366e
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-10 21:15:17 +0300
+
+    Update THANKS.
+
+ THANKS | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 35e9c58abb0ce3993da844aaeaa3e7231cd2be8f
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-10 21:14:16 +0300
+
+    Docs: Cleanup line wrapping a bit.
+
+ README          | 12 ++++++------
+ doc/history.txt | 49 +++++++++++++++++++++++++------------------------
+ 2 files changed, 31 insertions(+), 30 deletions(-)
+
+commit 532b3e4c568a228309b56f95c13435fd078dbe02
+Author: Benno Schulenberg <bensberg@justemail.net>
+Date:   2012-03-13 22:04:04 +0100
+
+    Fix a few typos and add some missing articles in some documents.
+    
+    Also hyphenate several compound adjectives.
+    
+    Signed-off-by: Benno Schulenberg <bensberg@justemail.net>
+
+ AUTHORS         |  6 +++---
+ README          | 42 ++++++++++++++++++++---------------------
+ doc/faq.txt     | 24 ++++++++++++------------
+ doc/history.txt | 58 ++++++++++++++++++++++++++++-----------------------------
+ 4 files changed, 65 insertions(+), 65 deletions(-)
+
+commit afb6ce8c82ffef8f2505a3759da72a733c7b0b8f
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-04-29 11:51:25 +0300
+
+    Windows: Update notes about static linking with MSVC.
+
+ windows/README-Windows.txt | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+commit 7c3ba2ed5c3c878d4a14ca549b46dbff60c6d565
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-04-19 15:25:26 +0300
+
+    liblzma: Remove outdated comments.
+
+ src/liblzma/simple/simple_coder.c   | 3 ---
+ src/liblzma/simple/simple_private.h | 3 +--
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+
+commit f55db9c187651094f43881c49db2b2d9ffee6b80
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-04-19 14:17:52 +0300
+
+    DOS: Link against DJGPP's libemu to support FPU emulation.
+    
+    This way xz should work on 386SX and 486SX. Floating point
+    only is needed for verbose output in xz.
+
+ dos/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 203edff4c761dbd7cac76ea66e4eed501c23e7a3
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-04-19 13:58:55 +0300
+
+    Docs: Update MINIX 3 information in INSTALL.
+
+ INSTALL | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+commit f0a8f95c215628967b7cf9bd9b0a9e4172f50bb4
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-02-22 14:23:13 +0200
+
+    Update THANKS.
+
+ THANKS | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit b7ad23fa78646036c0290cd91eada939c9a31526
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-02-22 14:02:34 +0200
+
+    Fix exit status of xzgrep when grepping binary files.
+    
+    When grepping binary files, grep may exit before it has
+    read all the input. In this case, gzip -q returns 2 (eating
+    SIGPIPE), but xz and bzip2 show SIGPIPE as the exit status
+    (e.g. 141). This causes wrong exit status when grepping
+    xz- or bzip2-compressed binary files.
+    
+    The fix checks for the special exit status that indicates SIGPIPE.
+    It uses kill -l which should be supported everywhere since it
+    is in both SUSv2 (1997) and POSIX.1-2008.
+    
+    Thanks to James Buren for the bug report.
+
+ src/scripts/xzgrep.in | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 4e19fbb04a0035030406482319e264426459eb24
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-02-22 12:08:43 +0200
+
+    Update THANKS.
+
+ THANKS | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit c6fa03a427e3d1320794102cee3ff4f5ae00eb36
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-24 18:47:52 +0300
+
+    Fix compiling with IBM XL C on AIX.
+
+ INSTALL      | 36 ++++++++++++++++++++++--------------
+ configure.ac |  6 +++++-
+ 2 files changed, 27 insertions(+), 15 deletions(-)
+
+commit 7b6ffc98645e1b3b302b6680be0a901d1ebf7358
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-05-24 18:37:08 +0300
+
+    Build: Upgrade m4/acx_pthread.m4 to the latest version.
+    
+    It was renamed to ax_pthread.m4 in Autoconf Archive.
+
+ configure.ac      |   2 +-
+ m4/acx_pthread.m4 | 279 ------------------------------------------------
+ m4/ax_pthread.m4  | 309 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 310 insertions(+), 280 deletions(-)
+
+commit bfac2be5023994fcc53de2844e7dd3af61910dc2
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2012-01-10 17:13:03 +0200
+
+    Tests: Fix a compiler warning with _FORTIFY_SOURCE.
+    
+    Reported here:
+    http://sourceforge.net/projects/lzmautils/forums/forum/708858/topic/4927385
+
+ tests/create_compress_files.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit df85e156716a4eecb7e2978691f03f729444d998
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-12-19 21:21:29 +0200
+
+    Docs: Explain the stable releases better in README.
+
+ README | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+commit d06d32f108c8278c25c24b2e8666bda7b2ec23b5
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-11-04 17:57:16 +0200
+
+    xz: Fix a typo in a comment.
+    
+    Thanks to Bela Lubkin.
+
+ src/xz/args.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 636fdcfbf542f1e84db2c4736004d84be4b12c84
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-11-03 17:08:02 +0200
+
+    Update THANKS.
+
+ THANKS | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 55fd02f83ecd6cbd6925a3e8a3d43b8d4ef2a17c
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-11-03 17:07:22 +0200
+
+    xz: Fix xz on EBCDIC systems.
+    
+    Thanks to Chris Donawa.
+
+ src/xz/coder.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit 4052f36053b931bad847a36aabf1a07d0034e297
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-09-06 12:03:41 +0300
+
+    Build: Fix "make check" on Windows.
+
+ tests/Makefile.am  | 7 +++++--
+ windows/build.bash | 2 ++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+commit 0f25758459c74c366a73f35d47ee12b75890bb79
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-08-09 21:19:13 +0300
+
+    Update THANKS.
+
+ THANKS | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 70f03b51ffcb783646b20de8d97b6986c4280eec
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-08-09 21:16:44 +0300
+
+    Workaround unusual SIZE_MAX on SCO OpenServer.
+
+ src/common/sysdefs.h | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+commit f138bdf76a70029e8360062a0b227936b83b24c9
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-08-06 20:37:28 +0300
+
+    Run the scripts with the correct shell in test_scripts.sh.
+    
+    The scripts are now made executable in the build tree.
+    This way the scripts can be run like programs in
+    test_scripts.sh. Previously test_scripts.sh always
+    used sh but it's not correct if @POSIX_SHELL@ is set
+    to something else by configure.
+    
+    Thanks to Jonathan Nieder for the patch.
+
+ configure.ac          | 8 ++++----
+ tests/test_scripts.sh | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+commit 2c144a0365c84dbf1b6722466746d42f2563a319
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-07-31 11:01:47 +0300
+
+    Fix exit status of "xzdiff foo.xz bar.xz".
+    
+    xzdiff was clobbering the exit status from diff in a case
+    statement used to analyze the exit statuses from "xz" when
+    its operands were two compressed files. Save and restore
+    diff's exit status to fix this.
+    
+    The bug is inherited from zdiff in GNU gzip and was fixed
+    there on 2009-10-09.
+    
+    Thanks to Jonathan Nieder for the patch and
+    to Peter Pallinger for reporting the bug.
+
+ src/scripts/xzdiff.in |  2 ++
+ tests/Makefile.am     |  4 +++-
+ tests/test_scripts.sh | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 59 insertions(+), 1 deletion(-)
+
+commit edf339227a966f24aebe1845fcca9429b8f6e318
+Author: Anders F Bjorklund <afb@users.sourceforge.net>
+Date:   2010-11-05 12:56:11 +0100
+
+    add build script for macosx universal
+
+ macosx/build.sh | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+
+commit 7fcc6334ea8923550ba6b5347ff99dc8432234b0
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-06-16 12:15:29 +0300
+
+    liblzma: Remove unneeded semicolon.
+
+ src/liblzma/lz/lz_encoder_hash.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 631f4d3ae6adfda84d1a110781d9402c12e16cfc
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-28 16:43:26 +0300
+
+    Don't call close(-1) in tuklib_open_stdxxx() on error.
+    
+    Thanks to Jim Meyering.
+
+ src/common/tuklib_open_stdxxx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit c89faf4c9e5970e7f7f8a25521ed9aa62d1a2d9a
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-28 09:47:56 +0300
+
+    Translations: Update Italian translation.
+    
+    Thanks to Milo Casagrande.
+
+ po/it.po | 333 +++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 184 insertions(+), 149 deletions(-)
+
+commit 6fe2fc9b6ab5bf6848140823e9536370834f42fb
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-28 08:46:04 +0300
+
+    Tests: Add a test file for the bug in the previous commit.
+
+ tests/files/README                  |   4 ++++
+ tests/files/bad-1-block_header-6.xz | Bin 0 -> 72 bytes
+ 2 files changed, 4 insertions(+)
+
+commit 6c4d4db2bc8d8b682bd927144d37daa2ab21a6d6
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-27 22:25:44 +0300
+
+    xz: Fix error handling in xz -lvv.
+    
+    It could do an invalid free() and read past the end
+    of the uninitialized filters array.
+
+ src/xz/list.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
+
+commit 844f84fcad9670c543550edf7c7e42630c8f7715
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-27 22:09:49 +0300
+
+    liblzma: Handle allocation failures correctly in lzma_index_init().
+    
+    Thanks to Jim Meyering.
+
+ src/liblzma/common/index.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+commit 240e8b9791df597063a3b68d04ffcb3aa4f2de6a
+Author: Lasse Collin <lasse.collin@tukaani.org>
+Date:   2011-05-23 18:30:30 +0300
+
+    Build: Set GZIP_ENV=-9n in top-level Makefile.am.
+
+ Makefile.am | 3 +++
+ 1 file changed, 3 insertions(+)
+

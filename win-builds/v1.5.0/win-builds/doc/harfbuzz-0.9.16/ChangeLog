@@ -1,0 +1,1000 @@
+commit ac064a2db2b7a010d99527e183145286215aea81
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Wed Nov 21 01:14:19 2012 -0500
+
+    Rename hb_set_population() to hb_set_get_population()
+
+ src/hb-set.cc |    2 +-
+ src/hb-set.h  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 16c914c2a6efeb6999054333985b1f711e33cf94
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Wed Nov 21 01:04:15 2012 -0500
+
+    [Indic] One more try at unbreaking Khmer fonts
+
+    See comments and discussion on the list.
+
+ src/hb-ot-shape-complex-private.hh |   16 ++++++++++------
+ 1 files changed, 10 insertions(+), 6 deletions(-)
+
+commit e8cfdd7fa8d0fb66e0a261f3547e5824897e5131
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 19:07:06 2012 -0800
+
+    Start implementing collect_glyphs() operation
+
+    Not functional yet.
+
+ src/hb-ot-layout-gsub-table.hh       |  185
+ ++++++++++++++++++++++++++++++++++
+ src/hb-ot-layout-gsubgpos-private.hh |   57 +++++++++++
+ src/hb-ot-layout.cc                  |   29 ++++++
+ src/hb-ot-layout.h                   |    4 +-
+ 4 files changed, 272 insertions(+), 3 deletions(-)
+
+commit 7d52e6601f0e695690cd168a288466746cf25300
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 18:49:54 2012 -0800
+
+    Whitespace
+
+ src/hb-coretext.cc                   |   32 ++++------
+ src/hb-icu-le.cc                     |    2 +-
+ src/hb-old.cc                        |   10 ++--
+ src/hb-open-file-private.hh          |    2 +-
+ src/hb-open-type-private.hh          |    2 +-
+ src/hb-ot-head-table.hh              |    2 +-
+ src/hb-ot-hhea-table.hh              |    2 +-
+ src/hb-ot-hmtx-table.hh              |    2 +-
+ src/hb-ot-layout-common-private.hh   |    2 +-
+ src/hb-ot-layout-gdef-table.hh       |    2 +-
+ src/hb-ot-layout-gpos-table.hh       |    2 +-
+ src/hb-ot-layout-gsub-table.hh       |    2 +-
+ src/hb-ot-layout-gsubgpos-private.hh |    2 +-
+ src/hb-ot-maxp-table.hh              |    2 +-
+ src/hb-ot-name-table.hh              |    2 +-
+ src/hb-ot-shape-complex-default.cc   |  109
+ +++++++++++++++++-----------------
+ src/hb-tt-font.cc                    |    2 +-
+ 17 files changed, 87 insertions(+), 92 deletions(-)
+
+commit 51bb498b7b07bff4a447405b72f09b68d07a3e95
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 14:08:05 2012 -0800
+
+    Minor
+
+ src/hb-ot-shape.cc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 89ca8eeb83fedde06727d386369a0a39d410f12b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 13:53:40 2012 -0800
+
+    Implement hb_ot_layout_get_glyphs_in_class()
+
+ src/hb-ot-layout-common-private.hh |   24 ++++++++++++++++++++++++
+ src/hb-ot-layout-gdef-table.hh     |    2 ++
+ src/hb-ot-layout.cc                |    8 ++++++++
+ src/hb-ot-layout.h                 |    5 ++---
+ 4 files changed, 36 insertions(+), 3 deletions(-)
+
+commit 5a08ecf9200a6ac9b4ebb7ec5c13dcb42d8820ce
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 13:34:29 2012 -0800
+
+    Implement hb_ot_layout_get_glyph_class()
+
+ src/hb-ot-layout-gdef-table.hh       |   10 +++++-----
+ src/hb-ot-layout-gpos-table.hh       |    8 ++++----
+ src/hb-ot-layout-gsub-table.hh       |    2 +-
+ src/hb-ot-layout-gsubgpos-private.hh |   10 +++++-----
+ src/hb-ot-layout-private.hh          |   10 +++++++++-
+ src/hb-ot-layout.cc                  |    6 ++++++
+ src/hb-ot-layout.h                   |   14 ++++++--------
+ src/hb-ot-shape.cc                   |    4 ++--
+ 8 files changed, 38 insertions(+), 26 deletions(-)
+
+commit f9edd5d56bd219625f5b16b23eac53b4c4a8b194
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 13:23:37 2012 -0800
+
+    Implement hb_shape_plan_get_shaper()
+
+    Untested.
+
+ src/hb-shape-plan-private.hh |    1 +
+ src/hb-shape-plan.cc         |    7 +++++++
+ src/hb-shape-plan.h          |    4 +---
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+commit 43b653150081a2f9dc6b7481229ac4cd952575dc
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 13:12:35 2012 -0800
+
+    [Indic] Another try to unbreak Sinhala split matras
+
+    Just read the comments...
+
+ src/hb-ot-shape-complex-indic.cc                   |   43
+ ++++++++++++++++----
+ .../indic/script-sinhala/misc/MANIFEST             |    1 +
+ .../indic/script-sinhala/misc/split-matras.txt     |    4 ++
+ 3 files changed, 40 insertions(+), 8 deletions(-)
+
+commit 977f1740ace730dcdff8221a17f2a592c2ec7c74
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 13:10:07 2012 -0800
+
+    Unbreak tests
+
+ src/hb-ot-layout.h  |   14 +++++++-------
+ src/hb-shape-plan.h |    2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+commit eba312c8d1b2bbe8cb9b6414e843e78d2c521aa4
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Fri Nov 16 12:39:23 2012 -0800
+
+    Plumbing to get shape plan and font into complex decompose function
+
+    So we can handle Sinhala split matras smartly...  Coming soon.
+
+ src/hb-ot-shape-complex-default.cc   |    6 ++--
+ src/hb-ot-shape-complex-indic.cc     |   14 ++++----
+ src/hb-ot-shape-complex-private.hh   |   16 +++++-----
+ src/hb-ot-shape-normalize-private.hh |   22 ++++++++++++-
+ src/hb-ot-shape-normalize.cc         |   56
+ +++++++++++++--------------------
+ src/hb-ot-shape.cc                   |    2 +-
+ 6 files changed, 61 insertions(+), 55 deletions(-)
+
+commit 3f82f8ff07a9d16a7c047129658c1bbedfdb5436
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Thu Nov 15 18:45:31 2012 -0800
+
+    Rename hb_buffer_guess_properties() to
+    hb_buffer_guess_segment_properties()
+
+ src/hb-buffer-private.hh |    2 +-
+ src/hb-buffer.cc         |    6 +++---
+ src/hb-buffer.h          |    2 +-
+ src/hb-fallback-shape.cc |    2 +-
+ src/hb-ot-shape.cc       |    2 +-
+ src/hb-shape.cc          |    2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
+
+commit f30641038ba96e83950729b1bd9d86d2e98e46c5
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:   Thu Nov 15 18:39:46 2012 -0800
+
+    Bunch of independent changes (ouch)
+
+    API additions:
+
+	hb_segment_properties_t
+	HB_SEGMENT_PROPERTIES_DEFAULT
+	hb_segment_properties_equal()
+	hb_segment_properties_hash()
+
+	hb_buffer_set_segment_properties()
+	hb_buffer_get_segment_properties()
+
+	hb_ot_layout_glyph_class_t
+
+	hb_shape_plan_t
+	hb_shape_plan_create()
+	hb_shape_plan_create_cached()
+	hb_shape_plan_get_empty()
+	hb_shape_plan_reference()
+	hb_shape_plan_destroy()
+	hb_shape_plan_set_user_data()
+	hb_shape_plan_get_user_data()
+	hb_shape_plan_execute()
+
+	hb_ot_shape_plan_collect_lookups()
+
+    API changes:
+
+	Rename hb_ot_layout_feature_get_lookup_indexes() to
+	hb_ot_layout_feature_get_lookups().
+
+    New header file:
+
+	hb-shape-plan.h
+
+    And a bunch of prototyped but not implemented stuff.  Coming soon.
+    (Tests fail because of the prototypes right now.)
+
+ src/Makefile.am	      |    2 +-
+ src/hb-buffer-private.hh     |   37 --------------
+ src/hb-buffer.cc	      |   45 +++++++++++++++++-
+ src/hb-buffer.h	      |   47 ++++++++++++++++--
+ src/hb-ot-layout-private.hh  |    8 ---
+ src/hb-ot-layout.cc	      |   12 ++--
+ src/hb-ot-layout.h	      |  108
+ +++++++++++++++++++++++++++++++++++++++--
+ src/hb-ot-map-private.hh     |    2 +-
+ src/hb-ot-map.cc	      |   15 +++---
+ src/hb-ot-shape-private.hh   |   11 ++++-
+ src/hb-ot-shape.cc	      |   52 ++++++++++++++------
+ src/hb-ot.h		      |    1 +
+ src/hb-shape-plan-private.hh |    3 +-
+ src/hb-shape-plan.cc	      |   23 +++++++--
+ src/hb-shape-plan.h	      |   50 +++++++++++++-------
+ src/hb-shaper-private.hh     |    2 -
+ src/hb-shaper.cc	      |    2 +-
+ src/hb.h		      |    1 +
+ 18 files changed, 304 insertions(+), 117 deletions(-)
+
+commit 75da37dcb17aacc0be6bb006683a84aa31155938
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 18:39:23 2012 -0800
+
+    Minor
+
+ util/hb-ot-shape-closure.cc |	 24 ++++++++++++------------
+ 1 files changed, 12 insertions(+), 12 deletions(-)
+
+commit e05a999495e6575f7cebd7f35db087d964f11ef6
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 16:23:21 2012 -0800
+
+    Add hb_face_[sg]et_glyph_count()
+
+ src/hb-font-private.hh |    9 +++++++++
+ src/hb-font.cc		|   29 ++++++++++++++++++++++++++++-
+ src/hb-font.h		|    7 +++++++
+ 3 files changed, 44 insertions(+), 1 deletions(-)
+
+commit aec89de5641fbe1c3031d63dd5f40ec99bf2a538
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 16:15:42 2012 -0800
+
+    Add / modify set API a bit
+
+ src/hb-ot-shape.cc	     |	  2 +-
+ src/hb-set-private.hh	     |	 35 ++++++++++++++++-
+ src/hb-set.cc		     |	 86
+ +++++++++++++++++++++++++++++--------------
+ src/hb-set.h		     |	 55 ++++++++++++++++++---------
+ util/hb-ot-shape-closure.cc |	  2 +-
+ 5 files changed, 128 insertions(+), 52 deletions(-)
+
+commit c54599ad269380c7aa28d885fcfd660fc2c10a7b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 16:14:23 2012 -0800
+
+    Minor
+
+ src/hb-buffer.cc |    2 +-
+ src/hb-buffer.h  |    8 +++-----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+commit d1aa143ca434fe272de21d2002768c83387b583b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 15:38:08 2012 -0800
+
+    [Thai] Remove U+0E2C from "AC" consonants
+
+    WinXP doesn't include it.
+
+ src/hb-ot-shape-complex-thai.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 362a990b2246f5448ecb9d600761f710aea7d42d
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 14:57:31 2012 -0800
+
+    Rename hb_ot_layout_would_substitute_lookup() and
+    hb_ot_layout_substitute_closure_lookup()
+
+    To match upcoming API.
+
+ src/hb-ot-layout-private.hh	  |    2 +-
+ src/hb-ot-layout.cc		  |    8 ++++----
+ src/hb-ot-layout.h		  |    4 ++--
+ src/hb-ot-map.cc		  |    2 +-
+ src/hb-ot-shape-complex-indic.cc |    2 +-
+ src/test-would-substitute.cc	  |    2 +-
+ 6 files changed, 10 insertions(+), 10 deletions(-)
+
+commit a4bef84e375b090c1bc7e4221b8e0ee435dfcbba
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 13:29:51 2012 -0800
+
+    [util] Make hb-shape err if output-format is not understood
+
+    And list supported formats.
+
+ util/hb-shape.cc |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit 3cec819d39e45470d03085bb6fa132882cc85943
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 13:15:39 2012 -0800
+
+    Make the OT shaper default, even if CoreText or Uniscribe is enabled
+
+ src/hb-shaper-list.hh |   15 ++++++++-------
+ 1 files changed, 8 insertions(+), 7 deletions(-)
+
+commit 072ae7a982bf640804eee0b41525e7c328806bf5
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 13:14:12 2012 -0800
+
+    Add hb_buffer_serialize_list_formats()
+
+ src/hb-buffer.cc |    6 ++++++
+ src/hb-buffer.h  |    3 +++
+ 2 files changed, 9 insertions(+), 0 deletions(-)
+
+commit f9edf1672511c3bcc3796cc79578ffea43b2bda1
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 12:14:09 2012 -0800
+
+    Add buffer serialization / deserialization API
+
+    Two output formats for now: TEXT, and JSON.  For example:
+
+      hb-shape --output-format=json
+
+    Deserialization API is added, but not implemented yet.
+
+ src/hb-buffer.cc |  222
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/hb-buffer.h  |   42 ++++++++++
+ util/hb-shape.cc |   21 +++++-
+ util/options.cc  |   57 ++++----------
+ util/options.hh  |    7 +-
+ 5 files changed, 304 insertions(+), 45 deletions(-)
+
+commit fd0de881f4fc004da6f36d50a91d0e62f8eb4d8c
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 10:47:14 2012 -0800
+
+    Avoid C++ undefined behavior
+
+    https://bugzilla.mozilla.org/show_bug.cgi?id=810823
+
+ src/hb-open-type-private.hh |	  4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit f41dc2d35b23220d59d38990bb66f1cbd66a55b3
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Thu Nov 15 10:36:43 2012 -0800
+
+    Fix undefined behavior in Indic dottedcircle
+
+    Chromium Issue 158998:	Conditional jump in harfbuzz-ng
+    http://code.google.com/p/chromium/issues/detail?id=158998
+
+ src/hb-ot-shape-complex-indic.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 1eb3e94fe99a072ce422e60ac4d4d89ef489b08a
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 17:25:03 2012 -0800
+
+    [Thai] Implement PUA-based fallback shaping
+
+    As explained here:
+
+      http://linux.thai.net/~thep/th-otf/shaping.html
+
+    Our output now matches Uniscribe for old fonts (eg. XP Tahoma) with no
+    Thai GSUB table.
+
+ src/hb-ot-shape-complex-thai.cc |  217
+ +++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 217 insertions(+), 0 deletions(-)
+
+commit 851784f8372004e0a40b698c0cdc2d7db8629aa2
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 16:24:05 2012 -0800
+
+    Improve shaper selection
+
+ src/hb-ot-map-private.hh	    |	 8 ++++----
+ src/hb-ot-map.cc		    |	 6 ++++--
+ src/hb-ot-shape-complex-indic.cc   |	 2 +-
+ src/hb-ot-shape-complex-private.hh |	13 ++++++++-----
+ src/hb-ot-shape-complex-thai.cc    |	24 ++++++++++++++++++++++--
+ 5 files changed, 39 insertions(+), 14 deletions(-)
+
+commit f3584d3a3a627e38dfd7769975a670db340d2a48
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:55:17 2012 -0800
+
+    Add test cases for Thai PUA shaping
+
+ .../in-tree/shaper-thai/script-thai/misc/MANIFEST  |	 1 +
+ .../shaper-thai/script-thai/misc/pua-shaping.txt   |	11 +++++++++++
+ 2 files changed, 12 insertions(+), 0 deletions(-)
+
+commit 43f04a7456419153cb03e610a825056a47824780
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:51:54 2012 -0800
+
+    Move Thai shaper into a separate file
+
+ src/Makefile.am		    |	 3 +-
+ src/hb-ot-shape-complex-default.cc |  225 ++++++++++++++++++++++++
+ src/hb-ot-shape-complex-misc.cc    |  339
+ ------------------------------------
+ src/hb-ot-shape-complex-thai.cc    |  141 +++++++++++++++
+ 4 files changed, 368 insertions(+), 340 deletions(-)
+
+commit ba82325b7a6311b787ae47f41a56964e2f2cba9f
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:36:53 2012 -0800
+
+    Add note re 'Phags-pa letter U+A872, which is Joining_Type=L
+
+ src/hb-ot-shape-complex-arabic.cc |	1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit d469fadce8290c7dda559c5927dd19df65f91c1a
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:07:36 2012 -0800
+
+    [Indic] Exchange abort() for assert()
+
+ src/hb-ot-shape-complex-indic.cc |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 0f80a89de99293ddbf0b8b815fe360677d057e38
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:05:19 2012 -0800
+
+    Don't route Kharoshthi through the Indic shaper
+
+    It's a simple, right-to-left, script.
+
+ src/hb-ot-shape-complex-private.hh |	 2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit e67072bb179a5c17db04075de74215597fb43c82
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 15:00:53 2012 -0800
+
+    [Indic] Handle overstruck matra position
+
+ src/hb-ot-shape-complex-indic-private.hh |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 7e99e4f0740e47efda5882604954cb7d12700a4b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 14:09:46 2012 -0800
+
+    Reposition Lao marks
+
+    Lao marks are center-aligned, unlike Thai ones.
+
+ src/hb-ot-shape-fallback.cc |	  4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 865745b5b87236651f5663cae3461db9cb505eed
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 13:48:26 2012 -0800
+
+    Don't do fallback positioning for Indic and Thai shapers
+
+ src/hb-ot-shape-complex-arabic.cc  |	 1 +
+ src/hb-ot-shape-complex-indic.cc   |	 1 +
+ src/hb-ot-shape-complex-misc.cc    |	 2 ++
+ src/hb-ot-shape-complex-private.hh |	 1 +
+ src/hb-ot-shape.cc		    |	20 +++++---------------
+ 5 files changed, 10 insertions(+), 15 deletions(-)
+
+commit 981748cb2e9b48b77177b19ec1f972cab7afda89
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 13:38:16 2012 -0800
+
+    [Indic] If Khmer fonts have a 'liga' feature, use generic shaper
+
+    Seems to produce more coherent results than trying the Indic shaper on
+    them.  I'm looking at you, Kh-* fonts...
+
+ src/hb-ot-shape-complex-private.hh |	21 +++++++++++++++++----
+ 1 files changed, 17 insertions(+), 4 deletions(-)
+
+commit 6b19fa48621dbf36d471d5005f6ae20df350954f
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 11:38:50 2012 -0800
+
+    Adjust diff rule for the new hb-shape output format
+
+ test/shaping/hb_test_tools.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit dde5506fd963e3cec27c3389bb1fc092f86d1e06
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 11:37:04 2012 -0800
+
+    [Indic] Don't move virama with left matra
+
+    This is important for the Sinhala U+0DDA split matra since it
+    decomposes
+    to U+0DD9,U+0DCA where U+0DD9 is a left matra and U+0DCA is the
+    virama.
+    We don't want to move the virama with the left matra.
+    TEST: U+0D9A,U+0DDA
+
+    Note that we were already doing this in the Uniscribe bug
+    compatibility
+    mode.  We now do it all the time.
+
+ src/hb-ot-shape-complex-indic.cc |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
+
+commit 82c4d9880a2cd321f6426888511c5f0318f96ad5
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 10:56:02 2012 -0800
+
+    Add Sinhala test case for split matra U+0DDA
+
+ .../indic/script-sinhala/misc/misc.txt		    |	 1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit d04b12853167d756a8cccaf4154f0fd894bce6de
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Wed Nov 14 10:53:10 2012 -0800
+
+    Fix test
+
+ test/api/test-buffer.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 92f9bfed42f720c1fd78e795845542661aaf4f8a
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 16:50:45 2012 -0800
+
+    Minor
+
+ src/hb-buffer.h |   26 ++++++++++++++------------
+ 1 files changed, 14 insertions(+), 12 deletions(-)
+
+commit 66ac2ff32e24f0d5658ca172147613081a133847
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 16:26:32 2012 -0800
+
+    API change: Remove "mask" from hb_buffer_add()
+
+    I don't expect anybody using hb_buffer_add(), so this shouldn't break
+    anyone's code.
+
+ src/hb-buffer-private.hh |    1 -
+ src/hb-buffer.cc	  |    8 +++-----
+ src/hb-buffer.h	  |    1 -
+ 3 files changed, 3 insertions(+), 7 deletions(-)
+
+commit 407f80d62589774f845ef1a6a0a7d841b09d57c6
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 15:33:27 2012 -0800
+
+    [util] Add --bot / --eot / --preserve-default-ignorables
+
+ util/options.cc |    3 +++
+ util/options.hh |   12 ++++++++++++
+ 2 files changed, 15 insertions(+), 0 deletions(-)
+
+commit 78d41d8d69142ae95928b51215c0c0c5e3f5b3f0
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 15:15:09 2012 -0800
+
+    Minor
+
+ util/options.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 321f73c16efa0730c96e001d65268f4927a0f735
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 15:12:24 2012 -0800
+
+    [util] Add --text-before and --text-after to hb-shape / hb-view
+
+    Use with Arabic, for example, to see the effect on joining.
+
+ util/hb-ot-shape-closure.cc |	  4 +++-
+ util/main-font-text.hh      |	  2 +-
+ util/options.cc	     |	  2 ++
+ util/options.hh	     |	 18 ++++++++++++++++--
+ util/shape-consumer.hh      |	  6 ++++--
+ 5 files changed, 26 insertions(+), 6 deletions(-)
+
+commit e13f8d280bafc6a6b6e31e2eee587660b8333c56
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 15:12:06 2012 -0800
+
+    Fix UTF-8 backward iteration
+
+    Ouch!
+
+ src/hb-utf-private.hh |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 5669a6cf418f3a8b9281c36e9d662d843be80433
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 15:11:51 2012 -0800
+
+    [Arabic] Fix post-context handling
+
+    Ouch!
+
+ src/hb-ot-shape-complex-arabic.cc |	2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 0c7df2222862122ebbdc8665a21d6771ef5e0252
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 14:42:35 2012 -0800
+
+    Add buffer flags
+
+    New API:
+
+	hb_buffer_flags_t
+
+	HB_BUFFER_FLAGS_DEFAULT
+	HB_BUFFER_FLAG_BOT
+	HB_BUFFER_FLAG_EOT
+	HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES
+
+	hb_buffer_set_flags()
+	hb_buffer_get_flags()
+
+    We use the BOT flag to decide whether to insert dottedcircle if the
+    first char in the buffer is a combining mark.
+
+    The PRESERVE_DEFAULT_IGNORABLES flag prevents removal of characters
+    like
+    ZWNJ/ZWJ/...
+
+ src/hb-buffer-private.hh	   |	1 +
+ src/hb-buffer.cc		   |   18 ++++++++++++++++
+ src/hb-buffer.h		   |   13 ++++++++++++
+ src/hb-ot-shape-complex-arabic.cc |   40
+ +++++++++++++++++++-----------------
+ src/hb-ot-shape.cc		   |	9 +++++--
+ test/api/test-buffer.c		   |	9 ++++++++
+ 6 files changed, 68 insertions(+), 22 deletions(-)
+
+commit 1c7e55511a870f2689680ca8f977e00879f3b3e3
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 14:42:22 2012 -0800
+
+    Minor fix
+
+    Ouch
+
+ src/hb-shape.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit c8d4f8b0fe56ce909e3ca07f8a30cb4fb940868b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 14:10:19 2012 -0800
+
+    Minor
+
+ test/api/test-object.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 82ecaff736e245e117d70b6ec1497508c6eb08d2
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 13:57:52 2012 -0800
+
+    Add hb_buffer_clear()
+
+    Which is like _reset(), but does NOT clear unicode-funcs.
+
+ src/hb-buffer-private.hh |    1 +
+ src/hb-buffer.cc	  |   15 +++++++++++++++
+ src/hb-buffer.h	  |    4 ++++
+ test/api/test-buffer.c   |   22 +++++++++++++++++++++-
+ 4 files changed, 41 insertions(+), 1 deletions(-)
+
+commit da43a92b04929e93356ae393803ef101154d2267
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 13:48:26 2012 -0800
+
+    0.9.6
+
+ NEWS	      |   28 ++++++++++++++++++++++++++++
+ configure.ac |    2 +-
+ 2 files changed, 29 insertions(+), 1 deletions(-)
+
+commit 0736915b8ed789a209205fec762997af3a8af89c
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 12:35:35 2012 -0800
+
+    [Indic] Decompose Sinhala split matras the way old HarfBuzz /
+    Pango did
+
+    Had to do some refactoring to make this happen...
+
+    Under uniscribe bug compatibility mode, we still plit them
+    Uniscrie-style, but Jonathan and I convinced ourselves that there
+    is no
+    harm doing this the Unicode way.  This change makes that happen, and
+    unbreaks free Sinhala fonts.
+
+ src/hb-ot-shape-complex-arabic.cc    |    2 +
+ src/hb-ot-shape-complex-indic.cc     |   74 +++++++++-
+ src/hb-ot-shape-complex-misc.cc      |  133 ++++++++++++++++-
+ src/hb-ot-shape-complex-private.hh   |   28 +++-
+ src/hb-ot-shape-normalize-private.hh |    6 +-
+ src/hb-ot-shape-normalize.cc	      |  278
+ +++++++++-------------------------
+ src/hb-ot-shape.cc		      |    5 +-
+ 7 files changed, 312 insertions(+), 214 deletions(-)
+
+commit c8149ca85ed97112778590bc9f090f3ee0254100
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Tue Nov 13 11:07:20 2012 -0800
+
+    [hb-shape] Adjust postioning output format
+
+    1. If there is any offset (x or y), print out both x and y offsets.
+
+    2. Always print out the advance in the major direction of the buffer.
+    Ie. even for zero-advance glyphs, print a "+0".  This is more
+    intuitive.
+
+ util/options.cc |   13 +++++++------
+ 1 files changed, 7 insertions(+), 6 deletions(-)
+
+commit 6fd5335622087e87739684f581aa9f88635ff970
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:42:18 2012 -0800
+
+    [Indic] Update auto-generated Indic machine to reflect previous commit
+
+ src/hb-ot-shape-complex-indic-machine.hh | 1126
+ +++++++++++++++---------------
+ 1 files changed, 567 insertions(+), 559 deletions(-)
+
+commit 9cac1338c4bc3e9034cbfa104291ed0329debefe
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:41:22 2012 -0800
+
+    [Indic] Allow Consonant_Medial's after Consonant's
+
+    Mostly affects Myanmar, but also Tai Tham, Javanese, and Cham.  The
+    latter three are untested (no fonts!).
+
+ src/hb-ot-shape-complex-indic-machine.rl |    3 ++-
+ src/hb-ot-shape-complex-indic-private.hh |    7 ++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+commit d187099cbab8e75f870a2bc9c23b6a1cf226905e
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:38:06 2012 -0800
+
+    [Indic] Categorize Myanmar "tone marks" as nuktas
+
+ src/hb-ot-shape-complex-indic-private.hh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 8173f23f3f16972c2e8e0a120724533100acfda2
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:37:20 2012 -0800
+
+    [Indic] Add config for Myanmar
+
+ src/hb-ot-shape-complex-indic.cc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 9e92978c8aa3d3cdab4d20c81698c56adbb3dbdd
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:36:10 2012 -0800
+
+    [Indic] Route "new" Myanmar tag through the Indic shaper
+
+    Windows 8 adds a Myanmar shaper using the 'mym2' tag.  Route that
+    through the Indic shaper.  It's still very broken, but at least this
+    does NOT break old-style Myanmar shaping using the generic shaper.
+
+ src/hb-ot-shape-complex-private.hh |	14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 5ab3855f8106158ee7e68797e8c35e63e9216e5d
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:27:42 2012 -0800
+
+    Choose shaper based on chosen OT script tag
+
+    For Arabic and Indic shapers, if the font doesn't have a script system
+    for the script, use default shaper.
+
+    Make an exception for Arabic script since we have fallback logic for
+    that one.
+
+ src/hb-ot-map-private.hh	    |	 4 ++++
+ src/hb-ot-shape-complex-private.hh |	11 +++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+commit 9b37b4c5800b158f61602d2aba8a01349e24d251
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 18:23:38 2012 -0800
+
+    Make planner available to complex shaper choosing logic
+
+ src/hb-ot-shape-complex-private.hh |	 4 ++--
+ src/hb-ot-shape.cc		    |	 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 6fddf2d7397411bba8a23ac535e8b851495d3105
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 17:57:24 2012 -0800
+
+    Refactoring ot-map building to make chosen script available earlier
+
+ src/hb-ot-map-private.hh   |	13 +++++++---
+ src/hb-ot-map.cc	    |	51
+ +++++++++++++++++++++++++-------------------
+ src/hb-ot-shape-private.hh |	 4 +-
+ 3 files changed, 40 insertions(+), 28 deletions(-)
+
+commit f17ed8116e7b6429af3fa60bb43d5f4fac66eae3
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 17:48:26 2012 -0800
+
+    Minor TODO
+
+ TODO |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit de796a6fb98f4deda276caa82266b7c830978e0b
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 17:27:51 2012 -0800
+
+    Add "new" Myanmar OT Script tag
+
+    Windows 8 added support for Myanmar shaping using the "mym2"
+    script tag,
+    even though Windows never supported the old "mymr" tag.
+
+ src/hb-ot-tag.cc	|    2 ++
+ test/api/test-ot-tag.c |    1 +
+ 2 files changed, 3 insertions(+), 0 deletions(-)
+
+commit 27f52dc3f6bbb97594a44f27b180aed73d9e5608
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 16:54:03 2012 -0800
+
+    Add Myanmar tests from UTN#11
+
+ .../south-east-asian/script-myanmar/misc/MANIFEST  |	 1 +
+ .../south-east-asian/script-myanmar/misc/utn11.txt |	34
+ ++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 0 deletions(-)
+
+commit e9334ce97bb7f1de87fb211bb5a8168033629b14
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 14:57:02 2012 -0800
+
+    Break build when ragel is needed and missing
+
+ src/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit dba186711e3f5e723f917b7104e849c4c525d3b8
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 14:48:33 2012 -0800
+
+    [Indic] Make more room in the table
+
+    To be used in upcoming commits.
+
+ src/hb-ot-shape-complex-indic-private.hh |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
+commit c4be9917438c45b972ec76dc68409014110f0837
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 14:27:33 2012 -0800
+
+    Typo
+
+ src/hb-ot-shape-complex-indic.cc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 56be677781736bbedc80df6f6aaa2b5f0bc4041c
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 14:09:40 2012 -0800
+
+    [Indic] Port 'pref' logic to look into font tables
+
+    ...instead of using a hardcoded list of Ra characters.
+
+ src/hb-ot-shape-complex-indic.cc |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
+
+commit f2c0f59043c93c225274fc0c8177077d16c89d61
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 14:02:02 2012 -0800
+
+    [Indic] Port reph handling logic to look into font features
+
+    ...instead of using a hardcoded list of Ra characters.
+
+ src/hb-ot-shape-complex-indic.cc |   48
+ +++++++++++++++++++++++--------------
+ 1 files changed, 30 insertions(+), 18 deletions(-)
+
+commit 43149afbc0007ea075a7017c0e56056c3c0f3614
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 13:34:17 2012 -0800
+
+    Route MEETEI_MAYEK through the Indic shaper
+
+    Since it has a couple of left-"matras".
+
+ src/hb-ot-shape-complex-private.hh |	 5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+commit d0905c3400085f9c0901c558ba1b81b5039510e4
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 13:02:20 2012 -0800
+
+    Minor
+
+ src/hb-ot-head-table.hh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 365f27ab5ba025bf1be6a882ed213c695cbfed7e
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 11:16:57 2012 -0800
+
+    Work around older compilers
+
+    As reported on the list:
+
+    I am seeing a similar problem building harfbuzz 0.9.5 with Apple gcc
+    4.0.1 on OS X 10.5 Leopard:
+
+    hb-ot-layout-common-private.hh:406: error: 'struct
+    OT::CoverageFormat1::Iter' is private
+    hb-ot-layout-common-private.hh:646: error: within this context
+    hb-ot-layout-common-private.hh:500: error: 'struct
+    OT::CoverageFormat2::Iter' is private
+    hb-ot-layout-common-private.hh:647: error: within this context
+    make[4]: *** [libharfbuzz_la-hb-ot-layout.lo] Error 1
+
+    Also reported as happening with MSVC 2005.
+
+ src/hb-ot-layout-common-private.hh |	 6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit 6b389ddc3623d042ded4731f4d62dc354002fdd0
+Author: Behdad Esfahbod <behdad@behdad.org>
+Date:	Mon Nov 12 11:02:56 2012 -0800
+
+    [Indic] Don't apply 'liga'
+
+    Uniscribe doesn't.	And some fonts abuse this feature to get Indic
+    shaping working in non-complex applications like Adobe's apps.
+
+    No change in numbers:
+
+    BENGALI: 353897 out of 354188 tests passed. 291 failed (0.0821598%)
+    DEVANAGARI: 707337 out of 707394 tests passed. 57 failed (0.00805774%)
+    GUJARATI: 366440 out of 366457 tests passed. 17 failed (0.00463902%)
+    GURMUKHI: 60704 out of 60747 tests passed. 43 failed (0.0707854%)
+    KANNADA: 951046 out of 951913 tests passed. 867 failed (0.0910798%)
+    KHMER: 299074 out of 299124 tests passed. 50 failed (0.0167155%)
+    LAO: 53611 out of 53644 tests passed. 33 failed (0.0615167%)
+    MALAYALAM: 1048011 out of 1048334 tests passed. 323 failed
+    (0.0308108%)
+    ORIYA: 42320 out of 42329 tests passed. 9 failed (0.021262%)
+    SINHALA: 271666 out of 271847 tests passed. 181 failed (0.0665816%)
+    TAMIL: 1091754 out of 1091754 tests passed. 0 failed (0%)
+    TELUGU: 970557 out of 970573 tests passed. 16 failed (0.00164851%)
+    TIBETAN: 208469 out of 208469 tests passed. 0 failed (0%)
+
+ src/hb-ot-shape-complex-indic.cc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit d05ac7dc3f2949e85f1fe996315b31b7aae370fe
+Author: Behdad Esfahbod <behdad@behdad.org>

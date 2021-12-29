@@ -1,0 +1,13 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir = /opt/windows_64/lib64
+includedir = ${prefix}/include
+
+Name: ddjvuapi
+Description: DjVu decoding api.
+Version: 3.5.25
+Requires:
+Conflicts:
+Libs: -L${libdir} -ldjvulibre 
+Libs.private: -ljpeg  -lm 
+Cflags: -I${includedir}  

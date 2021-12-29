@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include/qt5
+
+
+Name: Qt5 Test
+Description: Qt Test module
+Version: 5.3.1
+Libs: -L${libdir} -lQt5Testd 
+Libs.private: -L/opt/windows_64/lib64 -lQt5Cored   
+Cflags: -I${includedir}/QtTest -I${includedir}
+Requires: Qt5Core
+

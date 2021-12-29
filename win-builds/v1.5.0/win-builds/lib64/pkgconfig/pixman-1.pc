@@ -1,0 +1,11 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: Pixman
+Description: The pixman library (version 1)
+Version: 0.32.6
+Cflags: -I${includedir}/pixman-1
+Libs: -L${libdir} -lpixman-1
+

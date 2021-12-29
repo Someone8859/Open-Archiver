@@ -1,0 +1,15 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include/qt5
+
+host_bins=${prefix}/bin
+qt_config=minimal-config small-config medium-config large-config full-config libpng c++11 accessibility opengl shared qpa reduce_relocations clock-gettime clock-monotonic getaddrinfo system-jpeg system-png png no-freetype system-harfbuzz system-zlib dbus openssl icu concurrent audio-backend release
+
+Name: Qt5 Core
+Description: Qt Core module
+Version: 5.3.1
+Libs: -L${libdir} -lQt5Cored 
+Libs.private: -lole32 -luuid -lws2_32 -ladvapi32 -lshell32 -luser32 -lkernel32 -lz -licuin -licuuc -licudt -lpcre16  
+Cflags: -I${includedir}/QtCore -I${includedir}
+

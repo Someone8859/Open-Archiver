@@ -1,0 +1,17 @@
+# Pango Modules file
+# Automatically generated file, do not edit
+#
+# ModulesPath = C:\win-builds\lib64\pango\1.8.0\modules
+#
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-arabic-lang.dll" ArabicScriptEngineLang PangoEngineLang PangoRenderNone arabic:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-basic-win32.dll" BasicScriptEngineWin32 PangoEngineShape PangoRenderWin32 common:
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" devaIndicScriptEngineLang PangoEngineLang PangoRenderNone devanagari:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" bengIndicScriptEngineLang PangoEngineLang PangoRenderNone bengali:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" guruIndicScriptEngineLang PangoEngineLang PangoRenderNone gurmukhi:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" gujrIndicScriptEngineLang PangoEngineLang PangoRenderNone gujarati:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" oryaIndicScriptEngineLang PangoEngineLang PangoRenderNone oriya:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" tamlIndicScriptEngineLang PangoEngineLang PangoRenderNone tamil:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" teluIndicScriptEngineLang PangoEngineLang PangoRenderNone telugu:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" kndaIndicScriptEngineLang PangoEngineLang PangoRenderNone kannada:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" mlymIndicScriptEngineLang PangoEngineLang PangoRenderNone malayalam:*
+"C:\\win-builds\\lib64\\pango\\1.8.0\\modules\\pango-indic-lang.dll" sinhIndicScriptEngineLang PangoEngineLang PangoRenderNone sinhala:*

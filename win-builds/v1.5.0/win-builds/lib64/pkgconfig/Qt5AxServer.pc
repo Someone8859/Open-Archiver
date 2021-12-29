@@ -1,0 +1,14 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include/qt5
+
+
+Name: Qt5 AxServer
+Description: Qt AxServer module
+Version: 5.3.1
+Libs: -L${libdir} -lQt5AxServerd 
+Libs.private: -L/opt/windows_64/lib64 -lQt5AxBased -lglu32 -lopengl32 -L/opt/windows_64/lib64 -lole32 -loleaut32 -luser32 -lgdi32 -ladvapi32 -luuid -lQt5Widgetsd -lQt5Guid -lQt5Cored   
+Cflags: -I${includedir}/QtAxServer -I${includedir}
+Requires: Qt5Core Qt5Gui Qt5Widgets Qt5AxBase
+

@@ -1,0 +1,10 @@
+prefix=/opt/windows_64
+exec_prefix=${prefix}
+libdir=/opt/windows_64/lib64
+includedir=${prefix}/include
+
+Name: lcms
+Description: LCMS Color Management Library
+Version: 1.19
+Libs: -L${libdir} -llcms
+Cflags: -I${includedir}

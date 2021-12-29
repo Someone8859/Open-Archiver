@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.enlightenment.Ethumb
+Exec=/opt/windows_64/bin/ethumbd
+# SystemdService=ethumb.service

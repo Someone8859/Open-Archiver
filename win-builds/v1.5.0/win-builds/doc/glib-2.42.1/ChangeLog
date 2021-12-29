@@ -1,0 +1,1000 @@
+commit cc23284e6994bc7f8eda96487417e64b258882e1
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Sun Nov 9 18:18:12 2014 -0500
+
+    2.42.1
+
+ NEWS         | 21 +++++++++++++++++++++
+ configure.ac |  4 ++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+
+commit 27d35c332954e7f50cbccd3d1e14e02a8823cbdd
+Author: Krasimir Chonov <mk2616@abv.bg>
+Date:   Sat Oct 11 08:17:10 2014 +0300
+
+    Updated Bulgarian translation
+
+ po/bg.po | 2241
+ ++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 1231 insertions(+), 1010 deletions(-)
+
+commit 68b2b63e12500736cb6ec3194b8d3ec72b4699b3
+Author: Benjamin Gilbert <bgilbert@backtick.net>
+Date:   Thu Oct 9 00:07:36 2014 -0400
+
+    Fix g_cond_timed_wait() timeout with !CLOCK_MONOTONIC
+
+    g_get_monotonic_time() and g_get_real_time() now always use different
+    clocks, so we cannot avoid correcting for their offset.  Fixes failure
+    to time out on Mac OS X.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=738197
+
+ glib/deprecated/gthread-deprecated.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+commit bf44b592c8c6d33b35c03015ac6ff56c1992222b
+Author: Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed Oct 8 20:37:42 2014 +0200
+
+    garray: initialize allocated size in g_byte_array_new_take()
+
+    Internal allocation size (array->alloc) was being kept to 0 when a new
+    GByteArray was created from an already existing heap-allocated buffer.
+
+    Among other things, this was making g_byte_array_set_size() fully
+    clear all
+    the buffer contents (not just the newly allocated memory) when
+    G_DEBUG=gc-friendly was being used...
+
+      if (G_UNLIKELY (g_mem_gc_friendly))
+        memset (array->data + array->alloc, 0, want_alloc - array->alloc);
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=738170
+
+ glib/garray.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit af0a8911bc3a0d8c7aa30d612be0d7705d147b49
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Mon Oct 6 22:41:06 2014 -0400
+
+    Add advice on g_cancellable_reset
+
+    Don't use it at home.
+
+ gio/gcancellable.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit d6dc0de8bfe425ee9278225eb0efaf376f3aae54
+Author: Milo Casagrande <milo@ubuntu.com>
+Date:   Sun Oct 5 13:05:56 2014 +0000
+
+    Updated Italian translation
+
+ po/it.po | 686
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 349 insertions(+), 337 deletions(-)
+
+commit a75c8880508de0266512c0a5ede63d79157cd714
+Author: Kjartan Maraas <kmaraas@gnome.org>
+Date:   Fri Oct 3 21:51:22 2014 +0200
+
+    Updated Norwegian bokmål translation.
+
+ po/nb.po | 192
+ +++++++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 96 insertions(+), 96 deletions(-)
+
+commit 677fd208a08aad1653544bda87a1056f23d1aaa2
+Author: Ting-Wei Lan <lantw@src.gnome.org>
+Date:   Mon Sep 29 23:25:11 2014 +0800
+
+    GCredentials: Fix ABI break when adding NetBSD support
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=728256
+
+ gio/gioenums.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit b12bd1c3dcfbb398d2462dcf584a1f6d5173ca9a
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Thu Sep 25 17:18:22 2014 -0400
+
+    properties: disable default deprecation warnings
+
+    Disable the deprecation warnings on GObject properties by default.
+    This
+    change is only being made on the stable branch, and maybe only
+    for this
+    one stable series -- the warnings will remain enabled by default
+    on the
+    unstable releases.
+
+ gobject/gobject.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 42d0dc363e3597d36136051d53e25c09ebff253f
+Author: Sweta Kothari <swkothar@redhat.com>
+Date:   Wed Sep 24 23:09:32 2014 +0530
+
+    Updated gujarati translations
+
+ po/gu.po | 2135
+ +++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1198 insertions(+), 937 deletions(-)
+
+commit 0ab9d66b058ad2fadf0194578739a2aece607b6f
+Author: Krishnababu Krothapalli <k.meetme@gmail.com>
+Date:   Tue Sep 23 14:28:34 2014 +0000
+
+    Updated Telugu translation
+
+ po/te.po | 2161
+ +++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1212 insertions(+), 949 deletions(-)
+
+commit e1b84e3296c1ab0cba29ce2114505ae9f5002cae
+Author: Hib Eris <hib@hiberis.nl>
+Date:   Mon Sep 22 22:37:43 2014 +0200
+
+    Include <stdint.h> in glib/valgrind.h
+
+    This ensures the uintptr_t type is defined on mingw-w64.
+
+    Fixes compile error:
+
+    make[4]: Entering directory
+    `/home/abuild/rpmbuild/BUILD/glib-2.42.0/gobject'
+      CC       libgobject_2_0_la-gtype.lo
+    In file included from gtype.c:24:0:
+    ../glib/valgrind.h: In function 'VALGRIND_PRINTF':
+    ../glib/valgrind.h:5601:4: error: unknown type name 'uintptr_t'
+        uintptr_t _qzz_res;
+        ^
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=737143
+
+ glib/valgrind.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit f5ed7d2d3e26d7b06c5aac4ef38f5eb995289a59
+Author: Saibal Ray <sray@redhat.com>
+Date:   Tue Sep 23 11:27:44 2014 +0000
+
+    Updated Bengali (India) translation
+
+ po/bn_IN.po | 6452
+ ++++++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 3675 insertions(+), 2777 deletions(-)
+
+commit f41ebebd3476e3e6887f11ed26672a39513c4f98
+Author: Philip Withnall <philip.withnall@collabora.co.uk>
+Date:   Fri Sep 19 08:54:33 2014 +0100
+
+    gtask: Ignore errors from g_thread_pool_push()
+
+    g_thread_pool_push() only returns an error if it fails to spawn a new
+    thread. However, it unconditionally adds the task to its worker queue,
+    so:
+     • if _any_ threads exist in the pool, the task will eventually be
+       handled; and
+     • if _no_ threads exist in the pool, the task will be handled
+     if one
+       is eventually successfully spawned.
+    If no more threads are ever spawned, the process probably has bigger
+    problems than a single GTask which is taking forever to complete.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736806
+
+ gio/gtask.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+commit 925913d8dd8f4f283265fb7b2e17fc3da4d06b3e
+Author: Philip Withnall <philip.withnall@collabora.co.uk>
+Date:   Wed Sep 17 17:20:46 2014 +0100
+
+    gtask: Document signal handler reference counting
+
+    Explain why the signal handler holds a reference to the GTask, even
+    though that causes a reference loop at first glance.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736806
+
+ gio/gtask.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit c6838ffaa1dd5ff9d2b44f7eaffcd8ecf9886f2a
+Author: Philip Withnall <philip.withnall@collabora.co.uk>
+Date:   Wed Sep 17 15:07:25 2014 +0100
+
+    gtask: Fix a signed/unsigned integer comparison
+
+    The GSource times assigned to creation_time are always signed.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736806
+
+ gio/gtask.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 26a240fd1004c76500c6be104364a3a12bf9a279
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Mon Sep 22 13:15:02 2014 -0400
+
+    GLib 2.42.0
+
+ NEWS         | 36 ++++++++++++++++++++++++++++++++++++
+ configure.ac |  4 ++--
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+
+commit c8d884da433696b3cc8f19ce83ff3b86b4978472
+Author: A S Alam <aalam@users.sf.net>
+Date:   Sun Sep 21 08:52:43 2014 -0500
+
+    update Punjabi Translation for 3.14 release
+
+ po/pa.po | 694
+ ++++++++++++++++++++++++++++++---------------------------------
+ 1 file changed, 335 insertions(+), 359 deletions(-)
+
+commit db41a84239a0adda496f2577a85303f0c679482d
+Author: Rajesh Ranjan <rajeshkajha@yahoo.com>
+Date:   Sun Sep 21 04:14:06 2014 +0000
+
+    Updated Hindi translation
+
+ po/hi.po | 2269
+ +++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1268 insertions(+), 1001 deletions(-)
+
+commit d3c65dcbba2e23c55a15bb09106b045e5d860b2d
+Author: YunQiang Su <yqsu@src.gnome.org>
+Date:   Sun Sep 21 10:58:01 2014 +0800
+
+    Revert "update zh_CN translation"
+
+    Add wrong po file
+    This reverts commit ee3d55573ff3731b2f92deb5e35decc316d53475.
+
+ po/zh_CN.po | 5039
+ +++++++++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 4378 insertions(+), 661 deletions(-)
+
+commit ee3d55573ff3731b2f92deb5e35decc316d53475
+Author: YunQiang Su <yqsu@src.gnome.org>
+Date:   Sun Sep 21 10:30:53 2014 +0800
+
+    update zh_CN translation
+
+ po/zh_CN.po | 5039
+ ++++++++---------------------------------------------------
+ 1 file changed, 661 insertions(+), 4378 deletions(-)
+
+commit f550be0c6ab978ded5c9e94d98858a26b2682dca
+Author: Tong Hui <tonghuix@gmail.com>
+Date:   Sun Sep 21 10:24:22 2014 +0800
+
+    update zh_CN translation
+
+ po/zh_CN.po | 657
+ ++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 334 insertions(+), 323 deletions(-)
+
+commit a2d4a612c67951a0c9090b4225ccd1774af414df
+Author: Ask H. Larsen <asklarsen@gmail.com>
+Date:   Sat Sep 20 17:19:18 2014 +0200
+
+    Updated Danish translation
+
+ po/da.po | 654
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 334 insertions(+), 320 deletions(-)
+
+commit dceff8fc2c354b994793d8792455bee7ed195169
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Tue Sep 16 19:48:06 2014 -0400
+
+    gmain: improve g_source_set_name thread safety
+
+    Step up thread safety on g_source_set_name() to the same standard
+    as all
+    other GSource functions: after we are attached to a main context, this
+    function should be threadsafe.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736683
+
+ glib/gmain.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+commit 1cbdbef77209fe82239bd10f062425491cf256ae
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Tue Sep 16 19:40:30 2014 -0400
+
+    gsource: clarify restrictions on non-existant IDs
+
+    Document that one must not use the "by id" source APIs with
+    non-existent
+    IDs.  The real justification behind this restriction is that the reuse
+    of source ids makes it unsafe to call these functions unless you're
+    absolutely sure that the source exists and it belongs to you.  If you
+    call one of these functions on a source that may already have been
+    removed then you run the risk of finding someone else's source (with
+    your reused id).
+
+    This also bails us out of a slightly tricky situation with respect to
+    the threadsafety of g_main_context_find_source_by_id().  The fact that
+    this function doesn't return a reference implies that its return value
+    cannot be safely accessed unless we already know for sure that a
+    reference is being held elsewhere (by example, by the main context
+    itself if we know that the source has not been removed).  The function
+    itself, however, performs an access to the value, which could
+    result in
+    a crash.
+
+    If we mandate that it is only valid to call this function on
+    known-to-exist source IDs then we dodge this problem.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736683
+
+ glib/gmain.c | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
+
+commit 7db1baf59078c667ac1ae43f839b2b1866e65a87
+Author: Simon McVittie <simon.mcvittie@collabora.co.uk>
+Date:   Fri Sep 19 15:05:04 2014 +0100
+
+    GVariant: say that serialized form needs an out-of-band length
+
+    This confused me for a while, because it isn't the same as D-Bus.
+    Like GVariant, the D-Bus serialization needs an out-of-band
+    endianness and type indicator, but unlike GVariant, serialized
+    D-Bus objects encapsulate their own length (often by starting with
+    a byte-count). This does come at some redundancy cost, so I can see
+    why the more efficient GVariant format does this the way it does;
+    but it's a difference between D-Bus and GVariant that seems worth
+    calling out.
+
+    It's also relevant for the designers of file or message-framing
+    formats: with D-Bus serialization it would be feasible to say
+    "the file
+    starts with a little-endian D-Bus variant, followed by...",
+    but in GVariant you wouldn't be able to deserialize the variant
+    unless you either assume that it extends to end-of-file, or have
+    an explicit length.
+
+    Bug: https://bugzilla.gnome.org/show_bug.cgi?id=736975
+    Reviewed-by: Ryan Lortie
+
+ glib/gvariant.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+commit 174ebaefcc2b1b94f4a628e60f150b7209230dbf
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Thu Sep 18 15:26:36 2014 -0400
+
+    gresource: Make extract work better
+
+    When no section is specified, look for the resource to extract
+    in all sections - previously, we would stop after the first
+    section.
+
+ gio/gresource-tool.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+commit 5c951e5b042d80ae2dcb1e17ec07fa8008e07085
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Thu Sep 18 14:51:09 2014 -0400
+
+    gresource: Use GError in more places
+
+    The API gives us an error message, lets use it.
+
+ gio/gresource-tool.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+commit dfaaf37338533b2412800c61b342b296fff7c6cf
+Author: Sébastien Wilmet <swilmet@gnome.org>
+Date:   Thu Sep 18 20:31:52 2014 +0200
+
+    Update URLs library.gnome.org -> developer.gnome.org
+
+ INSTALL.in                              | 4 ++--
+ docs/reference/gio/gio-docs.xml         | 2 +-
+ docs/reference/glib/glib-docs.xml       | 2 +-
+ docs/reference/gobject/gobject-docs.xml | 2 +-
+ docs/reference/gobject/tut_tools.xml    | 4 ++--
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 4fb9421528777e80beeae1e85eafb46e44f5b408
+Author: Мирослав Николић <miroslavnikolic@rocketmail.com>
+Date:   Wed Sep 17 21:11:50 2014 +0200
+
+    Updated Serbian translation
+
+ po/sr.po       | 694
+ +++++++++++++++++++++++++++------------------------------
+ po/sr@latin.po | 694
+ +++++++++++++++++++++++++++------------------------------
+ 2 files changed, 668 insertions(+), 720 deletions(-)
+
+commit 5486481fab3fc149aa41a440cfe63bcfa8567926
+Author: Sandeep Sheshrao Shedmake <sshedmak@redhat.com>
+Date:   Fri Sep 12 19:01:35 2014 +0530
+
+    Updated Marathi Translations
+
+ po/mr.po | 2134
+ +++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1197 insertions(+), 937 deletions(-)
+
+commit 38a061422532b3d7b8bce0988f3767806ac28f8f
+Author: Jasper St. Pierre <jstpierre@mecheye.net>
+Date:   Tue Sep 16 15:41:58 2014 -0600
+
+    GApplication:handle-local-options: document return value
+
+    The return value for this signal was documented in the prose, but not
+    properly in a Returns: stanza.  Fix that.
+
+ gio/gapplication.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 8061694c496094015bfd3959cbece7ab158ef6ef
+Author: Jasper St. Pierre <jstpierre@mecheye.net>
+Date:   Tue Sep 16 15:39:59 2014 -0600
+
+    goption: Add G_OPTION_FLAG_NONE
+
+    This is helpful to better document code, as G_OPTION_FLAG_NONE is more
+    readable than 0.
+
+ glib/goption.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 84ec6b4d78928d4b51d64f17b4bde56314e75b1b
+Author: Jasper St. Pierre <jstpierre@mecheye.net>
+Date:   Tue Sep 16 15:39:41 2014 -0600
+
+    g_application_add_main_option: fix type signature
+
+    The flags argument is a GOptionFlags so use that type instead of
+    'int'.
+
+ gio/gapplication.c | 2 +-
+ gio/gapplication.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 4482977238ae80f64c2fe318d1500f4662c73980
+Author: Jasper St. Pierre <jstpierre@mecheye.net>
+Date:   Tue Sep 16 14:45:34 2014 -0600
+
+    Fix some introspection warnings
+
+ gio/gapplication.c    | 2 +-
+ gio/gapplication.h    | 2 +-
+ gio/gdesktopappinfo.c | 3 +++
+ gio/gmenumodel.h      | 2 +-
+ 4 files changed, 6 insertions(+), 3 deletions(-)
+
+commit 0177cece40ab8a31bf8994706ac4cac8d80f8755
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Mon Sep 15 14:43:42 2014 -0400
+
+    2.41.5
+
+ NEWS         | 23 +++++++++++++++++++++++
+ configure.ac |  2 +-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+
+commit bb6a77afa328f16568a41b26de75f255dcfc9daf
+Author: Sebastian Dröge <sebastian@centricular.com>
+Date:   Sat Sep 13 16:31:03 2014 +0300
+
+    grand: Only use rand_s() when targetting Visual Studio >= 2005
+
+    It did not exist before. Fall back to the current time plus
+    process id on older targets. This makes GLib work again on
+    Windows XP.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736458
+
+ glib/grand.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit f2b5edb6527e5bdde6f9e9c6771556308d0ea027
+Author: Shantha kumar <shantha.thamizh@gmail.com>
+Date:   Mon Sep 15 13:39:11 2014 +0000
+
+    Updated Tamil translation
+
+ po/ta.po | 1798
+ ++++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 914 insertions(+), 884 deletions(-)
+
+commit 27405ae878ebabb4361d38ed22be11b6891fd866
+Author: Matej Urbančič <mateju@svn.gnome.org>
+Date:   Sun Sep 14 22:18:09 2014 +0200
+
+    Updated Slovenian translation
+
+ po/sl.po | 643
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 328 insertions(+), 315 deletions(-)
+
+commit 25990eb2b6da94e1d03631eab8a952ef84cb9986
+Author: Sébastien Wilmet <swilmet@gnome.org>
+Date:   Tue Sep 9 21:20:34 2014 +0200
+
+    docs: various small fixes
+
+    For the GPtrArray example, several variables declared on the same line
+    is harder to read and to work with (to move, remove or comment
+    a single
+    variable declaration).
+
+ gio/gfileinfo.c | 2 +-
+ glib/garray.c   | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+commit fdc5b8f7443ccc0778c8163f47370be1ff65d86d
+Author: Shankar Prasad <prasad.mvs@gmail.com>
+Date:   Fri Sep 12 12:58:11 2014 +0000
+
+    Updated Kannada translation
+
+ po/kn.po | 3003
+ +++++++++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 1584 insertions(+), 1419 deletions(-)
+
+commit d2f3e1190719d655a0f75a6a08ed6185ea558032
+Author: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date:   Fri Sep 12 15:51:49 2014 +0800
+
+    MSVC Builds: Update "Installation"
+
+    This updates the glib-install.[props|vsprops] so that the headers to
+    "install" for the build are kept up-to-date.  Note that this has been
+    generated by a script, so that this hopefully means that the header
+    "installation" can be maintained along with the autotools files
+    for most
+    uses, to simplify maintenance.
+
+ build/win32/vs10/glib-install.props  | 750
+ +++++++++++------------------------
+ build/win32/vs9/glib-install.vsprops | 473 +++++++++++-----------
+ 2 files changed, 473 insertions(+), 750 deletions(-)
+
+commit 0c5ed58342917d79ff3f6811e6b9a9a6d6a4b675
+Author: Balázs Úr <urbalazs@gmail.com>
+Date:   Thu Sep 11 16:40:14 2014 +0000
+
+    Updated Hungarian translation
+
+ po/hu.po | 701
+ ++++++++++++++++++++++++++++++---------------------------------
+ 1 file changed, 339 insertions(+), 362 deletions(-)
+
+commit bebfd422af0a2fef422489d04f3b1d87bebd8b92
+Author: Sebastian Dröge <sebastian@centricular.com>
+Date:   Tue Sep 9 20:18:20 2014 +0200
+
+    gutils: Don't use issetugid() on Android
+
+    Android had it in older versions but the new 64 bit ABI does not
+    have it anymore, and some versions of the 32 bit ABI neither.
+
+    https://code.google.com/p/android-developer-preview/issues/detail?id=168
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736351
+
+ glib/gutils.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+commit 3b8bc8bacf1fe31cda44fb5293711e87989388ea
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Tue Sep 9 13:58:38 2014 -0400
+
+    GDesktopAppInfo: avoid inotify on missing dirs
+
+    Some desktop file directories, like /usr/local/share/applications
+    may be
+    missing on some systems.
+
+    When we try to inotify on these directories, this will result in a
+    every-4-seconds poll being setup which is quite bad.
+
+    This is an issue that should be fixed in inotify itself but the
+    problem
+    is much larger there.  For now, we can work around it in
+    GDesktopAppInfo
+    by refusing to monitor missing directories.
+
+    We may get some spurious notifications of changes in the case that
+    /usr/local/share or /usr/local/share/applications is created without
+    actually adding desktop files, but spurious changes can already be
+    reported in other cases, so that's OK.  We won't get (user-visible)
+    notification for a simple case of a completely unrelated file being
+    created (however we cannot avoid the wakeup in this case due to how
+    inotify works).  That's probably pretty theoretical, though,
+    since files
+    in /usr don't change much and for the home directory we're likely to
+    have at least ~/.config and ~/.local existing.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736350
+
+ gio/gdesktopappinfo.c | 88
+ +++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 85 insertions(+), 3 deletions(-)
+
+commit 2f55c66c64d77de9fa7d5524468d424071aecc44
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Tue Sep 9 13:58:18 2014 -0400
+
+    apps test: add new "monitor" subcommand
+
+    Waits until something modifies a desktop directory, then exits.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=736350
+
+ gio/tests/apps.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+commit 9ac7d51a8086dece5994da4899fb07b223bd2ff7
+Author: Yuri Myasoedov <ymyasoedov@yandex.ru>
+Date:   Tue Sep 9 17:04:40 2014 +0400
+
+    Updated Russian translation
+
+ po/ru.po | 790
+ +++++++++++++++++++++++++++------------------------------------
+ 1 file changed, 335 insertions(+), 455 deletions(-)
+
+commit 8df2cca08a5c06286303b39a34121c7e6925bf15
+Author: Paolo Borelli <pborelli@gnome.org>
+Date:   Sun Sep 7 18:34:26 2014 +0200
+
+    Fix minor mem leak in test case
+
+ gio/tests/simple-proxy.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 5bb62d077b7882a105ac2468f4d152bc5e557d7d
+Author: Paolo Borelli <pborelli@gnome.org>
+Date:   Wed Sep 3 08:12:01 2014 +0200
+
+    GThreadPool: expand g_thread_pool_new docs
+
+ glib/gthreadpool.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+commit aef0e4b7f3c7a33cd9d6c370fdad2b6f7d725f15
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Sun Sep 7 22:50:36 2014 -0400
+
+    Fix docs to talk about --enable-coverage
+
+    The configure options to turn on coverage testing got renamed
+    at some point, but the docs were not updated. Fix that.
+
+    https://bugzilla.gnome.org//show_bug.cgi?id=735915
+
+ docs/reference/glib/building.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 281fdd372ea65af230074fe95c8dd5d664809f05
+Author: Rūdolfs Mazurs <rudolfsm@src.gnome.org>
+Date:   Sun Sep 7 12:55:20 2014 +0300
+
+    Updated Latvian translation
+
+ po/lv.po | 693
+ ++++++++++++++++++++++++++++++---------------------------------
+ 1 file changed, 334 insertions(+), 359 deletions(-)
+
+commit 09979125d816ac726641c93cb735f73ece35cbf5
+Author: Fran Diéguez <fran.dieguez@mabishu.com>
+Date:   Thu Sep 4 21:35:07 2014 +0200
+
+    Updated Galician translations
+
+ po/gl.po | 261
+ +++++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 135 insertions(+), 126 deletions(-)
+
+commit 08efbda7333cf1d349719e699bbcbb63b8ef09e4
+Author: Ryan Lortie <desrt@desrt.ca>
+Date:   Thu Sep 4 13:17:27 2014 -0400
+
+    GDesktopAppInfo: fix default app logic
+
+    We use "tweaks" structures to track how a particular directory impacts
+    the list of added, removed and default applications.  We maintain this
+    set of tweaks for each directory, in a hash table, keyed by unaliased
+    mime type name, in order to facilitate fast lookups.
+
+    A typo in the logic for creating and maintaining the uniqueness
+    of these
+    structures was causing the default app to be selected incorrectly from
+    time to time.  Fix that.
+
+ gio/gdesktopappinfo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e763d93456881cb45a28a4c5c566d53128633aaa
+Author: Patrick Welche <prlw1@cam.ac.uk>
+Date:   Mon Sep 1 18:42:43 2014 +0200
+
+    GCredentials: credentials messages are not correctly supported
+    on NetBSD
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=735819
+
+ gio/gcredentialsprivate.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 7dd3397820f5dcbcd523432aadf5897b58f6eeb8
+Author: Andika Triwidada <andika@gmail.com>
+Date:   Wed Sep 3 13:49:48 2014 +0000
+
+    Updated Indonesian translation
+
+ po/id.po | 682
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 348 insertions(+), 334 deletions(-)
+
+commit 0ba39c1c7a447930009935101e97ada0cc93cb5c
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Wed Sep 3 03:10:27 2014 +0200
+
+    Updated Polish translation
+
+ po/pl.po | 654
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 334 insertions(+), 320 deletions(-)
+
+commit d73886675ec391caa46f2b8004286b1342d1e6f3
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Tue Sep 2 11:36:32 2014 -0400
+
+    2.41.4
+
+ NEWS         | 29 +++++++++++++++++++++++++++++
+ configure.ac |  2 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+
+commit 5fe65ec2719ef842ccb4389d5ed0744965c21220
+Author: Changwoo Ryu <cwryu@debian.org>
+Date:   Tue Sep 2 13:05:58 2014 +0900
+
+    Updated Korean translation
+
+ po/ko.po | 713
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 364 insertions(+), 349 deletions(-)
+
+commit 62f0d6143a3ae9203638e5650ab2f6656222d7ce
+Author: Claude Paroz <claude@2xlibre.net>
+Date:   Mon Sep 1 09:30:32 2014 +0200
+
+    Updated French translation
+
+ po/fr.po | 657
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 336 insertions(+), 321 deletions(-)
+
+commit d4298e5ed12afbc4966d3ec61a34eb5f31431729
+Author: Christian Kirbach <Christian.Kirbach@gmail.com>
+Date:   Sun Aug 31 22:00:45 2014 +0000
+
+    Updated German translation
+
+ po/de.po | 2101
+ ++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 1158 insertions(+), 943 deletions(-)
+
+commit a78443a1e48409d32eb2b24b52dad03ae2231e10
+Author: Matthias Clasen <mclasen@redhat.com>
+Date:   Fri Aug 29 15:12:31 2014 -0400
+
+    Don't mark GThread struct as deprecated
+
+    Having a definition of struct _GThread inside a deprecation
+    ifdef confuses gtk-doc into marking it as deprecated. Avoid this.
+
+    https://bugzilla.gnome.org//show_bug.cgi?id=735297
+
+ glib/deprecated/gthread.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 325ffb376c971ab86b709144f35eab5cea1cf482
+Author: Maria  Mavridou <mavridou@gmail.com>
+Date:   Thu Aug 28 21:25:31 2014 +0000
+
+    Updated Greek translation
+
+ po/el.po | 705
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 361 insertions(+), 344 deletions(-)
+
+commit 0a37264fd1953845cc386bb4ff207294e691fee8
+Author: Yosef Or Boczko <yoseforb@src.gnome.org>
+Date:   Thu Aug 28 18:11:06 2014 +0300
+
+    Updated Hebrew translation
+
+ po/he.po | 477
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 243 insertions(+), 234 deletions(-)
+
+commit f16d7f887e48ec3e9eacd6cae6aaa694beaeecad
+Author: Manoj Kumar Giri <mgiri@redhat.com>
+Date:   Wed Aug 27 13:34:53 2014 +0000
+
+    Updated Oriya translation
+
+ po/or.po | 2152
+ +++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1211 insertions(+), 941 deletions(-)
+
+commit 369c8bd566ba76d0c87a92cdb6a1c8abe2599c61
+Author: Patrick Welche <prlw1@cam.ac.uk>
+Date:   Tue Aug 26 17:27:23 2014 +0100
+
+    GUnixMounts: Improve efficiency in polling case
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=583330
+
+ gio/gunixmounts.c | 42 +++++++++++++++---------------------------
+ 1 file changed, 15 insertions(+), 27 deletions(-)
+
+commit 35eaf037bdfca985abf5d349e7355f1d2ed9c77b
+Author: Thomas Haller <thaller@redhat.com>
+Date:   Fri Aug 1 16:59:36 2014 +0200
+
+    gmacros.h: add G_GNUC_*_IGNORE_DEPRECATIONS macros for clang
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=734126
+
+    Signed-off-by: Thomas Haller <thaller@redhat.com>
+
+ glib/gmacros.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit cb320cb5feb78a5a06651d3223914d9099a6f212
+Author: Philip Withnall <philip.withnall@collabora.co.uk>
+Date:   Thu Aug 21 19:00:13 2014 +0100
+
+    gsocketclient: Handle cancellation between CONNECTING and CONNECTED
+
+    If a g_socket_client_connect_async() operation is cancelled between
+    the
+    CONNECTING and CONNECTED events (i.e. while in the
+    g_socket_connection_connect_async() call), the code in
+    g_socket_client_connected_callback() would previously unconditionally
+    loop round and try the next socket address from the address enumerator
+    (by calling enumerator_next_async()). This would correctly handle the
+    cancellation and return from the overall task — but not before
+    emitting
+    a spurious RESOLVING event.
+
+    Avoid emitting the spurious RESOLVING event by explicitly handling
+    cancellation at the beginning of g_socket_client_connected_callback().
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=735179
+
+ gio/gsocketclient.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 607d5a785891729889f1606e8d38edcc7332dfa1
+Author: Marek Černocký <marek@manet.cz>
+Date:   Fri Aug 22 08:08:51 2014 +0200
+
+    Updated Czech translation
+
+ po/cs.po | 413
+ ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 211 insertions(+), 202 deletions(-)
+
+commit c74af7369fb32791973e94bcd3c5f45ddd3f5d0b
+Author: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>
+Date:   Thu Aug 21 17:06:03 2014 +0800
+
+    Updated Traditional Chinese translation(Hong Kong and Taiwan)
+
+ po/zh_HK.po | 890
+ ++++++++++++++++++++++-------------------------------------
+ po/zh_TW.po | 891
+ ++++++++++++++++++++++--------------------------------------
+ 2 files changed, 663 insertions(+), 1118 deletions(-)
+
+commit bf9c8625048d2adc5cbc5893fa27e7e9a3a9ba3e
+Author: Jonas Danielsson <jonas@threetimestwo.org>
+Date:   Wed Aug 13 07:06:36 2014 -0400
+
+    GApplication: Add g_application_add_main_option
+
+    This function adds a single main option entry to be handeled by
+    GApplication. The option entry has it arg_data field set to NULL
+    and will be added to the applications packed_options.
+
+    The rationale for this is that bindings will be able to add
+    command line options even when they can't use the un-boxed struct
+    GOptionEntry.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=727455
+
+ docs/reference/gio/gio-sections.txt |  1 +
+ gio/gapplication.c                  | 67
+ +++++++++++++++++++++++++++++++++++--
+ gio/gapplication.h                  |  9 +++++
+ 3 files changed, 75 insertions(+), 2 deletions(-)
+
+commit 4f775b7b7ff38581b110ce1664451381ca3d88b6
+Author: Patrick Welche <prlw1@cam.ac.uk>
+Date:   Mon Aug 18 21:48:28 2014 +0100
+
+    GUnixMounts: Fall back to polling on systems without mtab
+
+    This is necessary for many of the BSD family at least.
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=583330
+
+ gio/gunixmounts.c | 103
+ ++++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 89 insertions(+), 14 deletions(-)
+
+commit d964c7d6863758fca1e2e5ed18553d0cd76ea3bc
+Author: ngoswami <ngoswami@redhat.com>
+Date:   Mon Aug 18 15:44:42 2014 +0000
+
+    Updated Assamese translation
+
+ po/as.po | 1845
+ +++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 937 insertions(+), 908 deletions(-)
+
+commit e0e52b60ea4c65d1f3660ff6b8c547c82665036b
+Author: Rico Tzschichholz <ricotz@ubuntu.com>
+Date:   Mon Aug 18 14:08:41 2014 +0200
+
+    docs: Fix broken gtk-doc formatting
+
+ gio/fen/fen-kernel.c                 |  6 ++---
+ gio/gdbusprivate.c                   |  4 ++--
+ gio/gfileattribute.c                 | 44
+ ++++++++++++++++++------------------
+ gio/gresource.c                      |  2 +-
+ gio/gunixmounts.c                    |  6 ++---
+ gio/gwin32mount.c                    |  2 +-
+ gio/gwin32volumemonitor.c            |  2 +-
+ gio/kqueue/kqueue-thread.c           | 12 +++++-----
+ gio/tests/gdbus-threading.c          |  2 +-
+ gio/tests/test-io-stream.c           |  2 +-
+ gio/tests/test-pipe-unix.c           |  4 ++--
+ gio/win32/gwinhttpfile.c             |  2 +-
+ gio/win32/gwinhttpfileinputstream.c  |  2 +-
+ gio/win32/gwinhttpfileoutputstream.c |  2 +-
+ gio/win32/gwinhttpvfs.c              |  2 +-
+ 15 files changed, 47 insertions(+), 47 deletions(-)
+
+commit 4c8480e6fa9e7e0971bc800fee8a5f0aba67dd9a
+Author: Rico Tzschichholz <ricotz@ubuntu.com>
+Date:   Sun Aug 17 22:54:22 2014 +0200
+
+    docs: Add index for 2.42 api
+
+ docs/reference/glib/glib-docs.xml       | 4 ++++
+ docs/reference/gobject/gobject-docs.xml | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+commit 96af008bdfe53be2ea4ef719b8c8f2121c76a504
+Author: Carles Ferrando <carles.ferrando@gmail.com>
+Date:   Sun Aug 17 13:19:46 2014 +0200
+
+    [l10n] Updated Catalan (Valencian) translation
+
+ po/ca@valencia.po | 2479
+ ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 1215 insertions(+), 1264 deletions(-)
+
+commit 7585cc49c7d8e016da99d9686af1ebdbe061b989
