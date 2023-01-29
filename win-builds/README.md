@@ -8,7 +8,7 @@ The latest version of win-builds is 1.5.0 released in 2015. We do not recommend 
 
 # Win-builds is stopped
 
-In the 2021 December, I've checked out win-builds (I usually install it instead of MSYS2 because msys2 come with unnecessary packages. ) and then I see that the project has stopped, in their website. The website is still keeping, however, for references only.
+In the 2021 December, I've checked out win-builds (I usually install it instead of MSYS2 because msys2 come with unnecessary packages (because I'm dumb that time). ) and then I see that the project has stopped, in their website. The website is still keeping, however, for references only.
 
 This GitHub repo is keeping for people who still wants to install Win-builds on Windows, or testing, or debugging purpose. All of them are entirely free software without warranty.
 
